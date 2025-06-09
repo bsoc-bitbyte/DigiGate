@@ -61,14 +61,14 @@ To work locally:
 
 ```bash
 # Fork the repository on GitHub, then:
-git clone https://github.com/YOUR-USERNAME/Nudj.git
-cd Nudj
-git remote add upstream https://github.com/bsoc-bitbyte/Nudj.git
+git clone https://github.com/YOUR-USERNAME/DigiGate.git
+cd DigiGate
+git remote add upstream https://github.com/bsoc-bitbyte/DigiGate.git
 git remote -v
 ```
 
 * `origin` points to your fork
-* `upstream` points to the original Nudj repo
+* `upstream` points to the original DigiGate repo
 
 ---
 
