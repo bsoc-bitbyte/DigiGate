@@ -1,7 +1,5 @@
 package com.tpc.digigate.ui.components
-
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -14,7 +12,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -38,7 +35,7 @@ fun AppPasswordField() {
         OutlinedTextField(
             value = password,
             onValueChange = { password = it },
-            label = { Text(text = "Enter Your Password") },
+            label = { Text(text = "Password") },
             shape = RoundedCornerShape(9.dp),
             modifier = Modifier
                 .fillMaxWidth()

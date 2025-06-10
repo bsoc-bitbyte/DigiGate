@@ -1,10 +1,8 @@
 package com.tpc.digigate.ui.components
-import android.R.attr.singleLine
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -19,10 +17,6 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.ui.graphics.Color
 @Composable
 fun AppTextField(
     label: String,
@@ -47,7 +41,7 @@ fun AppTextField(
 
         OutlinedTextField(modifier = Modifier.fillMaxWidth().padding(16.dp),shape = RoundedCornerShape(9.dp)
             ,value = email, onValueChange = {email = it}, label = {
-                Text(text="Enter Your Email")
+                Text(text="Email")
 
             },
                     singleLine = true
