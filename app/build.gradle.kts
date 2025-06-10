@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "com.tpc.digigate"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.tpc.digigate"
