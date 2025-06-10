@@ -1,5 +1,7 @@
 package com.tpc.digigate.ui.screens.homeScreen
 
+import android.graphics.drawable.Icon
+import android.widget.Space
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
@@ -27,11 +29,18 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -41,6 +50,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
@@ -51,6 +61,7 @@ import com.tpc.digigate.ui.theme.DigiGateTheme
 
 
 data class OptionItem(
+    val id: String,
     @StringRes val title: Int,
     @DrawableRes val images: Int,
 )
@@ -63,10 +74,8 @@ fun HomeScreenLayout() {
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
-            .statusBarsPadding()
             .navigationBarsPadding(),
         verticalArrangement = Arrangement.Center,
-
         ) {
         OptionsGrid(onOptionsClicked = {})
         Spacer(modifier = Modifier.height(24.dp))
@@ -85,13 +94,13 @@ fun HomeScreenLayout() {
 
 @Composable
 fun OptionsGrid(
-    onOptionsClicked: () -> Unit
+    onOptionsClicked: (String) -> Unit
 ) {
     val options = listOf(
-        OptionItem(R.string.leave_form, R.drawable.leave_image),
-        OptionItem(R.string.mess_rebate, R.drawable.mess_rebate_image),
-        OptionItem(R.string.library_entry, R.drawable.library_image),
-        OptionItem(R.string.sac_entry, R.drawable.sac_image)
+        OptionItem("leave_form", R.string.leave_form, R.drawable.leave_image),
+        OptionItem("mess_rebate", R.string.mess_rebate, R.drawable.mess_rebate_image),
+        OptionItem("library_entry", R.string.library_entry, R.drawable.library_image),
+        OptionItem("sac_entry", R.string.sac_entry, R.drawable.sac_image)
     )
 
     LazyVerticalGrid(
@@ -117,7 +126,7 @@ fun OptionsGrid(
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .clickable(onClick = onOptionsClicked),
+                        .clickable { onOptionsClicked(item.id) },
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
@@ -169,6 +178,50 @@ fun PastRequests(
                 )
             }
         }
+    }
+}
+
+@Composable
+fun TopBar(
+    onSettingsClicked: (String) -> Unit
+) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(58.dp)
+            .background(MaterialTheme.colorScheme.background),
+    ) {
+        Text(
+            text = stringResource(R.string.app_name),
+            style = MaterialTheme.typography.displaySmall,
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.onBackground,
+            fontFamily = FontFamily(Font(R.font.afacad_regular)),
+            modifier = Modifier.align(Alignment.Center)
+        )
+
+        IconButton(
+            onClick = { onSettingsClicked("settings") },
+            modifier = Modifier
+                .align(Alignment.CenterEnd)
+                .padding(end = 10.dp)
+        ) {
+            Icon(
+                imageVector = Icons.Default.Settings,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onBackground,
+                modifier = Modifier.size(40.dp)
+            )
+        }
+    }
+}
+
+
+@Preview
+@Composable
+fun TopBarPreview() {
+    DigiGateTheme(darkTheme = false) {
+        TopBar(onSettingsClicked = {})
     }
 }
 
