@@ -11,6 +11,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.tpc.digigate.ui.components.AppPasswordField
+import com.tpc.digigate.ui.components.AppTextField
 import com.tpc.digigate.ui.theme.DigiGateTheme
 
 class MainActivity : ComponentActivity() {
@@ -19,12 +21,8 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             DigiGateTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+               AppTextField(label = "Email", value = "", onValueChange = {})
+                AppPasswordField()
             }
         }
     }
