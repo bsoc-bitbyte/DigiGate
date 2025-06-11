@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">DigiGate</string>
+    <string name="leave_form">Leave Form</string>
+    <string name="mess_rebate">Mess Rebate Form</string>
+    <string name="library_entry">Library Entry</string>
+    <string name="sac_entry">SAC Entry</string>
 </resources>
