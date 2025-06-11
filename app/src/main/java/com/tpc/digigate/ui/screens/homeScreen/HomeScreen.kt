@@ -8,7 +8,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,12 +16,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -33,35 +28,25 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.tpc.digigate.R
 import com.tpc.digigate.ui.theme.DigiGateTheme
 
 
 data class OptionItem(
-    val id: String,
+    val id: Int,
     @StringRes val title: Int,
     @DrawableRes val images: Int,
 )
@@ -73,18 +58,16 @@ fun HomeScreenLayout() {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
-            .navigationBarsPadding(),
-        verticalArrangement = Arrangement.Center,
-        ) {
+            .background(MaterialTheme.colorScheme.background),
+    ) {
+        TopBar(onSettingsClicked = {})
+        Spacer(modifier = Modifier.height(30.dp))
         OptionsGrid(onOptionsClicked = {})
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(30.dp))
         Text(
             text = "Past requests:",
             color = MaterialTheme.colorScheme.onBackground,
-            fontSize = 24.sp,
             style = MaterialTheme.typography.headlineMedium,
-            fontFamily = FontFamily(Font(R.font.inter_regular)),
             modifier = Modifier.padding(start = 28.dp)
         )
         Spacer(modifier = Modifier.height(16.dp))
@@ -94,13 +77,13 @@ fun HomeScreenLayout() {
 
 @Composable
 fun OptionsGrid(
-    onOptionsClicked: (String) -> Unit
+    onOptionsClicked: (Int) -> Unit
 ) {
     val options = listOf(
-        OptionItem("leave_form", R.string.leave_form, R.drawable.leave_image),
-        OptionItem("mess_rebate", R.string.mess_rebate, R.drawable.mess_rebate_image),
-        OptionItem("library_entry", R.string.library_entry, R.drawable.library_image),
-        OptionItem("sac_entry", R.string.sac_entry, R.drawable.sac_image)
+        OptionItem(1, R.string.leave_form, R.drawable.leave_image),
+        OptionItem(2, R.string.mess_rebate, R.drawable.mess_rebate_image),
+        OptionItem(3, R.string.library_entry, R.drawable.library_image),
+        OptionItem(4, R.string.sac_entry, R.drawable.sac_image)
     )
 
     LazyVerticalGrid(
@@ -139,8 +122,9 @@ fun OptionsGrid(
                     Text(
                         text = stringResource(item.title),
                         color = Color.Black,
-                        style = MaterialTheme.typography.bodyMedium,
-                        fontFamily = FontFamily(Font(R.font.inter_bold))
+                        style = MaterialTheme.typography.labelLarge.copy(
+                            fontWeight = FontWeight.Bold
+                        ),
                     )
                 }
             }
@@ -169,13 +153,18 @@ fun PastRequests(
                     containerColor = MaterialTheme.colorScheme.surface
                 ),
             ) {
-                Text(
-                    text = request,
-                    fontSize = 20.sp,
+                Box(
                     modifier = Modifier
-                        .padding(start = 6.dp, top = 10.dp)
-                        .align(Alignment.Start)
-                )
+                        .fillMaxSize()
+                        .padding(start = 10.dp),
+                    contentAlignment = Alignment.CenterStart
+                ) {
+                    Text(
+                        text = request,
+                        style = MaterialTheme.typography.titleLarge,
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                }
             }
         }
     }
@@ -183,7 +172,7 @@ fun PastRequests(
 
 @Composable
 fun TopBar(
-    onSettingsClicked: (String) -> Unit
+    onSettingsClicked: () -> Unit
 ) {
     Box(
         modifier = Modifier
@@ -193,15 +182,15 @@ fun TopBar(
     ) {
         Text(
             text = stringResource(R.string.app_name),
-            style = MaterialTheme.typography.displaySmall,
-            fontWeight = FontWeight.Bold,
+            style = MaterialTheme.typography.displaySmall.copy(
+                fontWeight = FontWeight.Bold
+            ),
             color = MaterialTheme.colorScheme.onBackground,
-            fontFamily = FontFamily(Font(R.font.afacad_regular)),
             modifier = Modifier.align(Alignment.Center)
         )
 
         IconButton(
-            onClick = { onSettingsClicked("settings") },
+            onClick = { onSettingsClicked },
             modifier = Modifier
                 .align(Alignment.CenterEnd)
                 .padding(end = 10.dp)
@@ -210,20 +199,12 @@ fun TopBar(
                 imageVector = Icons.Default.Settings,
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.onBackground,
-                modifier = Modifier.size(40.dp)
+                modifier = Modifier.size(35.dp)
             )
         }
     }
 }
 
-
-@Preview
-@Composable
-fun TopBarPreview() {
-    DigiGateTheme(darkTheme = false) {
-        TopBar(onSettingsClicked = {})
-    }
-}
 
 @Preview
 @Composable
