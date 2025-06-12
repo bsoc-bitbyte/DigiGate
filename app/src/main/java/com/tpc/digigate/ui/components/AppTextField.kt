@@ -11,12 +11,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.tpc.digigate.ui.theme.PureWhite
 
 @Composable
@@ -27,31 +25,41 @@ fun AppTextField(
     modifier: Modifier = Modifier,
     placeholder: String = "",
     errorMessage: String? = null,
+    isError: Boolean = false,
     isSingleLine: Boolean = true,
     keyboardType: KeyboardType = KeyboardType.Text,
     imeAction: ImeAction = ImeAction.Done,
     onImeAction: () -> Unit = {},
     leadingIcon: (@Composable (() -> Unit))? = null,
-    trailingIcon: (@Composable (() -> Unit))? = null
+    trailingIcon: (@Composable (() -> Unit))? = null,
+    enabled: Boolean = true
 ) {
-    val isError = !errorMessage.isNullOrEmpty()
+    val showError = isError && !errorMessage.isNullOrEmpty()
 
     Column(modifier = modifier.fillMaxWidth()) {
         TextField(
             value = value,
             onValueChange = onValueChange,
-            isError = isError,
+            isError = showError,
+            enabled = enabled,
             modifier = Modifier
                 .fillMaxWidth()
                 .background(PureWhite, RoundedCornerShape(9.dp))
                 .border(
-                    width = 0.6.dp,
-                    color = if (isError) Color.Red else Color.Transparent,
+                    width = 1.dp,
+                    color = if (showError) Color.Transparent else Color.Transparent,
                     shape = RoundedCornerShape(9.dp)
-                ),
+                )
+                .padding(vertical = 2.dp),
             shape = RoundedCornerShape(9.dp),
-            label = { Text(text = label) },
-            placeholder = { Text(text = placeholder, modifier = Modifier, Color.LightGray) },
+            label = { Text(text = label, style = MaterialTheme.typography.bodySmall) },
+            placeholder = {
+                Text(
+                    text = placeholder,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = Color.Gray
+                )
+            },
             singleLine = isSingleLine,
             keyboardOptions = KeyboardOptions(
                 keyboardType = keyboardType,
@@ -69,36 +77,38 @@ fun AppTextField(
 
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
-                errorIndicatorColor = Color.Red,
+                errorIndicatorColor = Color.Transparent,
 
-                focusedLabelColor = if (isError) Color.Red else MaterialTheme.colorScheme.primary,
-                unfocusedLabelColor = if (isError) Color.Red else Color.Gray,
+                focusedLabelColor = if (showError) Color.Red else MaterialTheme.colorScheme.primary,
+                unfocusedLabelColor = if (showError) Color.Red else Color.Gray,
                 errorLabelColor = Color.Red,
 
-                focusedTextColor = Color.LightGray,
+                focusedTextColor = MaterialTheme.colorScheme.onSurface,
                 unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
                 errorTextColor = MaterialTheme.colorScheme.onSurface,
 
                 focusedPlaceholderColor = Color.Gray,
                 unfocusedPlaceholderColor = Color.Gray,
-                errorPlaceholderColor = Color.Red,
+                errorPlaceholderColor = Color.Gray,
 
                 cursorColor = MaterialTheme.colorScheme.primary,
-                errorCursorColor = Color.Red
-            )
+                errorCursorColor = MaterialTheme.colorScheme.primary,
 
+                errorTrailingIconColor = MaterialTheme.colorScheme.onSurfaceVariant
+            )
         )
 
-        if (isError) {
+        if (showError) {
             Text(
                 text = errorMessage,
                 color = Color.Red,
-                style = MaterialTheme.typography.labelLarge,
-                modifier = Modifier.padding(8.dp), fontSize = 15.sp
+                style = MaterialTheme.typography.bodySmall,
+                modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp)
             )
         }
     }
 }
+
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable

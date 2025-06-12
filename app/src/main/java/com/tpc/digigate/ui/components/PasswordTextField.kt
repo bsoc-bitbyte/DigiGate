@@ -33,6 +33,7 @@ fun AppPasswordField(
     modifier: Modifier = Modifier,
     placeholder: String = "",
     errorMessage: String? = null,
+    isError: Boolean = false,
     isSingleLine: Boolean = true,
     keyboardType: KeyboardType = KeyboardType.Password,
     imeAction: ImeAction = ImeAction.Done,
@@ -42,11 +43,11 @@ fun AppPasswordField(
     leadingIcon: (@Composable (() -> Unit))? = null,
     trailingIcon: (@Composable (() -> Unit))? = null
 ) {
-    val isError = !errorMessage.isNullOrEmpty()
+    val showError = isError && !errorMessage.isNullOrEmpty()
 
     val finalTrailingIcon: @Composable (() -> Unit)? = if (onTogglePasswordVisibility != null) {
         {
-            val image = if (isPasswordVisible) Icons.Filled.Visibility else Icons.Filled.VisibilityOff
+            val image = if (isPasswordVisible) Icons.Filled.VisibilityOff else Icons.Filled.Visibility
             val description = if (isPasswordVisible) "Hide password" else "Show password"
             IconButton(onClick = onTogglePasswordVisibility) {
                 Icon(imageVector = image, contentDescription = description)
@@ -60,58 +61,74 @@ fun AppPasswordField(
         TextField(
             value = value,
             onValueChange = onValueChange,
-            isError = isError,
+            isError = showError,
             modifier = Modifier
                 .fillMaxWidth()
                 .background(PureWhite, RoundedCornerShape(12.dp))
                 .border(
                     width = 1.dp,
-                    color = if (isError) Color.Red else Color.Transparent,
+                    color = if (showError) Color.Transparent else Color.Transparent,
                     shape = RoundedCornerShape(12.dp)
-                ),
+                )
+                .padding(vertical = 2.dp), // Reduced vertical padding
             shape = RoundedCornerShape(12.dp),
-            label = { Text(text = label) },
-            placeholder = { Text(text = placeholder) },
+            label = { Text(text = label, style = MaterialTheme.typography.bodySmall) },
+            placeholder = {
+                Text(
+                    text = placeholder,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = Color.Gray
+                )
+            },
             singleLine = isSingleLine,
             keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Password,
+                keyboardType = keyboardType,
                 imeAction = imeAction
             ),
             keyboardActions = KeyboardActions(
                 onAny = { onImeAction() }
             ),
-            visualTransformation = if (isPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+            visualTransformation = if (isPasswordVisible)
+                VisualTransformation.None
+            else
+                PasswordVisualTransformation(mask = '*'),
             leadingIcon = leadingIcon,
             trailingIcon = finalTrailingIcon,
             colors = TextFieldDefaults.colors(
                 focusedContainerColor = PureWhite,
                 unfocusedContainerColor = PureWhite,
                 errorContainerColor = PureWhite,
+
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
-                errorIndicatorColor = Color.Red,
-                focusedLabelColor = if (isError) Color.Red else MaterialTheme.colorScheme.onSurfaceVariant,
-                unfocusedLabelColor = if (isError) Color.Red else MaterialTheme.colorScheme.onSurfaceVariant,
+                errorIndicatorColor = Color.Transparent,
+
+                focusedLabelColor = if (showError) Color.Red else MaterialTheme.colorScheme.onSurfaceVariant,
+                unfocusedLabelColor = if (showError) Color.Red else MaterialTheme.colorScheme.onSurfaceVariant,
                 errorLabelColor = Color.Red,
+
                 focusedTextColor = MaterialTheme.colorScheme.onSurface,
                 unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
                 errorTextColor = MaterialTheme.colorScheme.onSurface,
+
                 focusedPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant,
                 unfocusedPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                errorPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                errorPlaceholderColor = Color.Gray,
+
                 cursorColor = MaterialTheme.colorScheme.primary,
-                errorCursorColor = Color.Red,
+                errorCursorColor = MaterialTheme.colorScheme.primary,
+
                 focusedTrailingIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
                 unfocusedTrailingIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                errorTrailingIconColor = Color.Red
+                errorTrailingIconColor = MaterialTheme.colorScheme.onSurfaceVariant
             )
         )
 
-        if (isError) {
+        if (showError) {
             Text(
                 text = errorMessage,
                 color = Color.Red,
-                style = MaterialTheme.typography.labelMedium,
+                style = MaterialTheme.typography.bodySmall,
                 modifier = Modifier.padding(start = 5.dp, top = 4.dp)
             )
         }
