@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import com.tpc.digigate.ui.theme.PureWhite
 import androidx.compose.ui.Alignment
 
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun AppPasswordField(
     label: String,
@@ -60,6 +61,7 @@ fun AppPasswordField(
     Column(modifier = modifier.fillMaxWidth()) {
         TextField(
             value = value,
+            textStyle = MaterialTheme.typography.bodyLargeEmphasized,
             onValueChange = onValueChange,
             isError = showError,
             modifier = Modifier
@@ -70,13 +72,13 @@ fun AppPasswordField(
                     color = if (showError) Color.Transparent else Color.Transparent,
                     shape = RoundedCornerShape(12.dp)
                 )
-                .padding(vertical = 2.dp), // Reduced vertical padding
+                .padding(vertical = 2.dp),
             shape = RoundedCornerShape(12.dp),
-            label = { Text(text = label, style = MaterialTheme.typography.bodySmall) },
+            label = { Text(text = label, style = MaterialTheme.typography.bodyMedium) },
             placeholder = {
                 Text(
                     text = placeholder,
-                    style = MaterialTheme.typography.bodySmall,
+                    style = MaterialTheme.typography.bodyLarge,
                     color = Color.Gray
                 )
             },
@@ -129,7 +131,7 @@ fun AppPasswordField(
                 text = errorMessage,
                 color = Color.Red,
                 style = MaterialTheme.typography.bodySmall,
-                modifier = Modifier.padding(start = 5.dp, top = 4.dp)
+                modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp)
             )
         }
     }

@@ -17,6 +17,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.tpc.digigate.ui.theme.PureWhite
 
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun AppTextField(
     label: String,
@@ -39,6 +40,7 @@ fun AppTextField(
     Column(modifier = modifier.fillMaxWidth()) {
         TextField(
             value = value,
+            textStyle = MaterialTheme.typography.bodyLargeEmphasized,
             onValueChange = onValueChange,
             isError = showError,
             enabled = enabled,
@@ -52,11 +54,11 @@ fun AppTextField(
                 )
                 .padding(vertical = 2.dp),
             shape = RoundedCornerShape(9.dp),
-            label = { Text(text = label, style = MaterialTheme.typography.bodySmall) },
+            label = { Text(text = label, style = MaterialTheme.typography.bodyMedium) },
             placeholder = {
                 Text(
                     text = placeholder,
-                    style = MaterialTheme.typography.bodySmall,
+                    style = MaterialTheme.typography.bodyLarge,
                     color = Color.Gray
                 )
             },
