@@ -33,6 +33,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.History
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.outlined.History
+import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -52,11 +55,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
-enum class Destinations (val title: String, val icon: ImageVector){
-    Home("Home", Icons.Filled.Home),
-    Settings("Settings", Icons.Filled.Settings),
-    History("History", Icons.Filled.History)
+enum class Destinations (val title: String, val iconFilled: ImageVector, val iconOut: ImageVector){
+    Home("Home", Icons.Filled.Home, Icons.Outlined.Home),
+    Settings("Settings", Icons.Filled.Settings, Icons.Outlined.Settings),
+    History("History", Icons.Filled.History, Icons.Outlined.History)
 }
 
 @Preview(showBackground = true)
@@ -140,20 +144,17 @@ fun BottomNavigation() {
                                 ) {
                                     Icon(
 
-                                        imageVector = dest.icon,
+                                        imageVector = if (isSelected) dest.iconFilled else dest.iconOut,
                                         contentDescription = dest.title,
                                         modifier = Modifier.size(iconSize)
 
                                     )
-                                    AnimatedVisibility(
-                                        visible = isSelected,
-                                        enter = fadeIn(animationSpec = tween(durationMillis = 200)) + slideInHorizontally(animationSpec = tween(durationMillis = 200)),
-                                        exit = fadeOut(animationSpec = tween(durationMillis = 200)) + slideOutHorizontally(animationSpec = tween(durationMillis = 20))
-                                    ) {
+                                    AnimatedVisibility(visible = isSelected) {
                                         Spacer(Modifier.width(4.dp))
 
                                         Text(text = dest.title,
-                                            textAlign = TextAlign.Center)
+                                            textAlign = TextAlign.Center,
+                                            fontSize = 15.sp)
                                     }
 
                                 }
