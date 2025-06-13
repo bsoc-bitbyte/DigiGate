@@ -1,16 +1,16 @@
 ---
 name: New Feature Request
 about: Suggest or specify a new feature to be added to DigiGate
-title: "[FEATURE]"
+title: ''
 labels: BSoC'25
 assignees: ''
 
 ---
 
-**Task**
+# Task
 
-**Behavior**
+# Behavior
 
-**Technical Requirements**
+# Technical Requirements
 
-**Additional Info**
+# Additional Info
