@@ -26,28 +26,30 @@ fun OnboardingPageContent(page: OnboardingModel) {
             painter = painterResource(id = page.image),
             contentDescription = page.title,
             modifier = Modifier
-                .fillMaxWidth(0.75f)
-                .aspectRatio(1f)
+                .fillMaxWidth(0.85f)
+                .aspectRatio(1.1f)
         )
 
-        Spacer(modifier = Modifier.height(40.dp))
+        Spacer(modifier = Modifier.height(48.dp))
 
         Text(
             text = page.title,
             style = MaterialTheme.typography.titleLarge.copy(
                 fontWeight = FontWeight.Bold,
-                lineHeight = 35.sp
+                fontSize = 28.sp,
+                lineHeight = 40.sp
             ),
             textAlign = TextAlign.Center,
             color = MaterialTheme.colorScheme.onBackground
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(20.dp))
 
         Text(
             text = page.description,
-            style = MaterialTheme.typography.bodyMedium.copy(
-                lineHeight = 22.sp
+            style = MaterialTheme.typography.bodyLarge.copy(
+                fontSize = 18.sp,
+                lineHeight = 26.sp
             ),
             textAlign = TextAlign.Center,
             color = MaterialTheme.colorScheme.onSurface

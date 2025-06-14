@@ -4,27 +4,23 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.tpc.digigate.ui.theme.PrimaryText
-import com.tpc.digigate.ui.theme.SageLight
 
 @Composable
 fun ButtonUi(
     text: String = "Next",
-    backgroundColor: Color = SageLight,
-    textColor: Color = PrimaryText,
-    textStyle: TextStyle = MaterialTheme.typography.titleMedium,
+    textStyle: androidx.compose.ui.text.TextStyle = MaterialTheme.typography.titleMedium,
     fontSize: Int = 16,
     onClick: () -> Unit
 ) {
+    val colorScheme = MaterialTheme.colorScheme
+
     Button(
         onClick = onClick,
         colors = ButtonDefaults.buttonColors(
-            containerColor = backgroundColor,
-            contentColor = textColor
+            containerColor = colorScheme.primary,
+            contentColor = colorScheme.onPrimary
         ),
         shape = MaterialTheme.shapes.medium,
         modifier = Modifier
@@ -32,6 +28,10 @@ fun ButtonUi(
             .padding(horizontal = 24.dp)
             .height(52.dp)
     ) {
-        Text(text = text, fontSize = fontSize.sp, style = textStyle)
+        Text(
+            text = text,
+            fontSize = fontSize.sp,
+            style = textStyle
+        )
     }
 }
