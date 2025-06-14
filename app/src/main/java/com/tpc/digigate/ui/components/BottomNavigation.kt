@@ -1,32 +1,10 @@
 package com.tpc.digigate.ui.components
 
-import android.graphics.Paint
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxWithConstraints
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.asPaddingValues
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.navigationBars
-import androidx.compose.foundation.layout.navigationBarsPadding
-import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -36,14 +14,8 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.outlined.History
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Settings
-import androidx.compose.material3.Icon
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.NavigationBarItemDefaults
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -56,43 +28,46 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.tpc.digigate.ui.navigation.Screen
 
-enum class Destinations (val title: String, val iconFilled: ImageVector, val iconOut: ImageVector){
+enum class Destinations(
+    val title: String,
+    val iconFilled: ImageVector,
+    val iconOut: ImageVector
+) {
     Home("Home", Icons.Filled.Home, Icons.Outlined.Home),
     Settings("Settings", Icons.Filled.Settings, Icons.Outlined.Settings),
     History("History", Icons.Filled.History, Icons.Outlined.History)
 }
 
-@Preview(showBackground = true)
 @Composable
-fun BottomNavigation() {
-    val destinationList = listOf<Destinations>(
+fun BottomNavigationBar(
+    modifier: Modifier = Modifier,
+    onDestinationClicked: (String) -> Unit
+) {
+    val destinationList = listOf(
         Destinations.History,
         Destinations.Home,
         Destinations.Settings
     )
 
-    val selectedIndex = rememberSaveable {
-        mutableStateOf(1)
-    }
+    val selectedIndex = rememberSaveable { mutableStateOf(1) }
 
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(
                 bottom = WindowInsets.navigationBars.asPaddingValues()
                     .calculateBottomPadding() + 16.dp
             ),
         contentAlignment = Alignment.Center
-    ){
+    ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
-            modifier = Modifier
-                .navigationBarsPadding()
+            modifier = Modifier.navigationBarsPadding()
         ) {
             BoxWithConstraints(
-
                 modifier = Modifier
                     .fillMaxWidth(0.9f)
                     .height(60.dp)
@@ -100,10 +75,9 @@ fun BottomNavigation() {
                 val itemWidth = this.maxWidth / destinationList.size
                 val animatedPosition by animateDpAsState(
                     targetValue = ((selectedIndex.value - 1) * (itemWidth.value + 2)).dp,
-                    animationSpec = tween(
-                        durationMillis = 200
-                    )
+                    animationSpec = tween(durationMillis = 200), label = ""
                 )
+
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -122,7 +96,7 @@ fun BottomNavigation() {
                         .shadow(8.dp, shape = CircleShape)
                         .clip(RoundedCornerShape(20.dp))
                         .background(Color(0xFFEEF5EE))
-                ) {}
+                )
 
                 NavigationBar(
                     modifier = Modifier.fillMaxSize(),
@@ -131,51 +105,54 @@ fun BottomNavigation() {
                     destinationList.forEachIndexed { index, dest ->
                         val isSelected = selectedIndex.value == index
                         val iconSize: Dp by animateDpAsState(
-                            targetValue = if (isSelected) 35.dp else 35.dp,
-                            animationSpec = tween(
-                                durationMillis = 500
-                            )
+                            targetValue = 35.dp,
+                            animationSpec = tween(500), label = ""
                         )
 
                         NavigationBarItem(
                             icon = {
-                                Row(
-                                    verticalAlignment = Alignment.CenterVertically
-                                ) {
+                                Row(verticalAlignment = Alignment.CenterVertically) {
                                     Icon(
-
                                         imageVector = if (isSelected) dest.iconFilled else dest.iconOut,
                                         contentDescription = dest.title,
                                         modifier = Modifier.size(iconSize)
-
                                     )
                                     AnimatedVisibility(visible = isSelected) {
                                         Spacer(Modifier.width(4.dp))
-
-                                        Text(text = dest.title,
+                                        Text(
+                                            text = dest.title,
                                             textAlign = TextAlign.Center,
-                                            fontSize = 15.sp)
+                                            fontSize = 15.sp
+                                        )
                                     }
-
                                 }
-
-
                             },
                             alwaysShowLabel = false,
-
                             label = null,
-                            selected = selectedIndex.value == index, onClick = {
+                            selected = isSelected,
+                            onClick = {
                                 selectedIndex.value = index
+                                onDestinationClicked(
+                                    when (dest) {
+                                        Destinations.Home -> Screen.Home.route
+                                        Destinations.Settings -> Screen.Settings.route
+                                        Destinations.History -> Screen.History.route
+                                    }
+                                )
                             },
-                            colors = NavigationBarItemDefaults.colors(
-                                indicatorColor = Color.Transparent
-                            )
+                            colors = NavigationBarItemDefaults.colors(indicatorColor = Color.Transparent)
                         )
                     }
                 }
             }
         }
-
     }
+}
 
+@Preview(showBackground = true)
+@Composable
+fun BottomNavigationBarPreview() {
+    BottomNavigationBar(
+        onDestinationClicked = { }
+    )
 }
