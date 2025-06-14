@@ -31,6 +31,7 @@ import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -44,10 +45,6 @@ import com.tpc.digigate.ui.theme.PureWhite
 
 @Composable
 fun LoginScreenLayout(
-    email: String,
-    password: String,
-    onEmailInput: (String) -> Unit,
-    onPasswordInput: (String) -> Unit,
     onLoginClicked: () -> Unit,
     onGoogleClicked: () -> Unit,
     onCreateAccount: () -> Unit
@@ -58,29 +55,27 @@ fun LoginScreenLayout(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
-            .padding(horizontal = 16.dp, vertical = 24.dp),
-        verticalArrangement = Arrangement.Bottom,
+            .padding(horizontal = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
             painter = painterResource(R.drawable.tablet_login_cuate_2),
-            contentDescription = "Login Image",
+            contentDescription = stringResource(R.string.login_image),
             modifier = Modifier.aspectRatio(1.3f)
         )
         Spacer(modifier = Modifier.height(30.dp))
         Surface(
             modifier = Modifier
-                .fillMaxWidth()
-                .height(418.dp),
+                .fillMaxWidth(),
             color = MaterialTheme.colorScheme.primary,
             shape = RoundedCornerShape(30.dp)
         ) {
             Column(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier,
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Text(
-                    text = "Login",
+                    text = stringResource(R.string.login),
                     color = Color.Black,
                     style = MaterialTheme.typography.headlineLarge.copy(
                         fontWeight = FontWeight.Bold
@@ -91,8 +86,8 @@ fun LoginScreenLayout(
                 AppTextField(
                     label = "Email",
                     placeholder = "Enter your Email Id",
-                    value = email,
-                    onValueChange = onEmailInput,
+                    value = "",
+                    onValueChange = {  },
                     keyboardType = KeyboardType.Email,
                     imeAction = ImeAction.Next,
                     onImeAction = { focusManager.moveFocus(focusDirection = FocusDirection.Down) },
@@ -103,8 +98,8 @@ fun LoginScreenLayout(
                 AppPasswordField(
                     label = "Password",
                     placeholder = "Enter your Password",
-                    value = password,
-                    onValueChange = onPasswordInput,
+                    value = "",
+                    onValueChange = {},
                     isPasswordVisible = isPasswordVisible,
                     onTogglePasswordVisibility = { isPasswordVisible = !isPasswordVisible },
                     keyboardType = KeyboardType.Password,
@@ -125,7 +120,7 @@ fun LoginScreenLayout(
                     )
                 ) {
                     Text(
-                        text = "Login",
+                        text = stringResource(R.string.login),
                         color = Color.White,
                         style = MaterialTheme.typography.titleMedium
                     )
@@ -149,7 +144,7 @@ fun LoginScreenLayout(
                     ) {
                         Icon(
                             painter = painterResource(R.drawable.google_icon),
-                            contentDescription = "Google",
+                            contentDescription = stringResource(R.string.google),
                             tint = Color.Gray,
                             modifier = Modifier.aspectRatio(0.6f)
                         )
@@ -161,6 +156,7 @@ fun LoginScreenLayout(
                         )
                     }
                 }
+                Spacer(modifier = Modifier.padding(16.dp))
             }
         }
         Spacer(modifier = Modifier.padding(12.dp))
@@ -174,7 +170,7 @@ fun LoginScreenLayout(
             )
             Spacer(modifier = Modifier.padding(horizontal = 2.dp))
             Text(
-                text = "Register",
+                text  = stringResource(R.string.register),
                 style = MaterialTheme.typography.labelLarge.copy(
                     fontWeight = FontWeight.Bold
                 ),
@@ -193,10 +189,6 @@ fun LoginScreenLayout(
 fun LoginScreenPreview() {
     DigiGateTheme {
         LoginScreenLayout(
-            email = "",
-            password = "",
-            onEmailInput = {},
-            onPasswordInput = {},
             onLoginClicked = {},
             onCreateAccount = {},
             onGoogleClicked = {}
