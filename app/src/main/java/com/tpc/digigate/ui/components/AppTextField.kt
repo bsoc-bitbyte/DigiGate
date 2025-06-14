@@ -15,6 +15,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.tpc.digigate.ui.theme.PrimaryText
 import com.tpc.digigate.ui.theme.PureWhite
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
@@ -85,9 +86,9 @@ fun AppTextField(
                 unfocusedLabelColor = if (showError) Color.Red else Color.Gray,
                 errorLabelColor = Color.Red,
 
-                focusedTextColor = MaterialTheme.colorScheme.onSurface,
-                unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
-                errorTextColor = MaterialTheme.colorScheme.onSurface,
+                focusedTextColor = PrimaryText,
+                unfocusedTextColor = PrimaryText,
+                errorTextColor = PrimaryText,
 
                 focusedPlaceholderColor = Color.Gray,
                 unfocusedPlaceholderColor = Color.Gray,

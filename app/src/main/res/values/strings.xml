@@ -4,4 +4,9 @@
     <string name="mess_rebate">Mess Rebate Form</string>
     <string name="library_entry">Library Entry</string>
     <string name="sac_entry">SAC Entry</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="google">Google</string>
+    <string name="login_image">Login Image</string>
+    <string name="register_image">Register Image</string>
 </resources>

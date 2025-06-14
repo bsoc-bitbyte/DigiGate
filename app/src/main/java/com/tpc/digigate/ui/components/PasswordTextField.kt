@@ -24,6 +24,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.tpc.digigate.ui.theme.PureWhite
 import androidx.compose.ui.Alignment
+import com.tpc.digigate.ui.theme.PrimaryText
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -105,16 +106,16 @@ fun AppPasswordField(
                 unfocusedIndicatorColor = Color.Transparent,
                 errorIndicatorColor = Color.Transparent,
 
-                focusedLabelColor = if (showError) Color.Red else MaterialTheme.colorScheme.onSurfaceVariant,
-                unfocusedLabelColor = if (showError) Color.Red else MaterialTheme.colorScheme.onSurfaceVariant,
+                focusedLabelColor = if (showError) Color.Red else MaterialTheme.colorScheme.primary,
+                unfocusedLabelColor = if (showError) Color.Red else Color.Gray,
                 errorLabelColor = Color.Red,
 
-                focusedTextColor = MaterialTheme.colorScheme.onSurface,
-                unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
-                errorTextColor = MaterialTheme.colorScheme.onSurface,
+                focusedTextColor =PrimaryText,
+                unfocusedTextColor = PrimaryText,
+                errorTextColor = PrimaryText,
 
-                focusedPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                unfocusedPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                focusedPlaceholderColor = Color.Gray,
+                unfocusedPlaceholderColor = Color.Gray,
                 errorPlaceholderColor = Color.Gray,
 
                 cursorColor = MaterialTheme.colorScheme.primary,
