@@ -1,11 +1,17 @@
 package com.tpc.digigate.ui.navigation
 
-sealed class Screen(val route: String) {
+import androidx.navigation3.runtime.NavKey
+import kotlinx.serialization.Serializable
 
-    object Home : Screen("home")
+sealed class Screen: NavKey {
 
-    object Settings : Screen("settings")
+    @Serializable
+    data object Home: Screen()
 
-    object History : Screen("history")
+    @Serializable
+    data object History: Screen()
 
+    @Serializable
+    data object Profile: Screen()
+    // data objects go here
 }

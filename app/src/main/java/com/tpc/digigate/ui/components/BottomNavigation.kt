@@ -10,13 +10,16 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.History
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.outlined.History
 import androidx.compose.material.icons.outlined.Home
-import androidx.compose.material.icons.outlined.Settings
+import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material3.*
-import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -28,33 +31,27 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.tpc.digigate.ui.navigation.Screen
 
-enum class Destinations(
-    val title: String,
-    val iconFilled: ImageVector,
-    val iconOut: ImageVector
-) {
+enum class Destinations(val title: String, val iconFilled: ImageVector, val iconOut: ImageVector) {
+    History("History", Icons.Filled.History, Icons.Outlined.History),
     Home("Home", Icons.Filled.Home, Icons.Outlined.Home),
-    Settings("Settings", Icons.Filled.Settings, Icons.Outlined.Settings),
-    History("History", Icons.Filled.History, Icons.Outlined.History)
+    Profile("Profile", Icons.Filled.Person, Icons.Outlined.Person)
 }
 
 @Composable
 fun BottomNavigationBar(
-    modifier: Modifier = Modifier,
-    onDestinationClicked: (String) -> Unit
+    selected: Destinations,
+    onItemClick: (Destinations) -> Unit
 ) {
-    val destinationList = listOf(
+    val destinations = listOf(
         Destinations.History,
         Destinations.Home,
-        Destinations.Settings
+        Destinations.Profile
     )
-
-    val selectedIndex = rememberSaveable { mutableStateOf(1) }
+    val selectedIndex = destinations.indexOf(selected) - 1
 
     Box(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxWidth()
             .padding(
                 bottom = WindowInsets.navigationBars.asPaddingValues()
@@ -72,19 +69,19 @@ fun BottomNavigationBar(
                     .fillMaxWidth(0.9f)
                     .height(60.dp)
             ) {
-                val itemWidth = this.maxWidth / destinationList.size
+                val itemWidth = this.maxWidth / destinations.size
+
                 val animatedPosition by animateDpAsState(
-                    targetValue = ((selectedIndex.value - 1) * (itemWidth.value + 2)).dp,
-                    animationSpec = tween(durationMillis = 200), label = ""
+                    targetValue = (selectedIndex * itemWidth.value).dp,
+                    animationSpec = tween(durationMillis = 200)
                 )
 
                 Box(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .align(Alignment.Center)
                         .fillMaxSize()
                         .clip(RoundedCornerShape(10.dp))
                         .background(Color(0xFFB8CECA))
+                        .align(Alignment.Center)
                 )
 
                 Box(
@@ -100,27 +97,31 @@ fun BottomNavigationBar(
 
                 NavigationBar(
                     modifier = Modifier.fillMaxSize(),
-                    containerColor = Color.Transparent,
+                    containerColor = Color.Transparent
                 ) {
-                    destinationList.forEachIndexed { index, dest ->
-                        val isSelected = selectedIndex.value == index
+                    destinations.forEachIndexed { index, destination ->
+                        val isSelected = index - 1 == selectedIndex
                         val iconSize: Dp by animateDpAsState(
-                            targetValue = 35.dp,
-                            animationSpec = tween(500), label = ""
+                            targetValue = if (isSelected) 35.dp else 35.dp,
+                            animationSpec = tween(durationMillis = 500)
                         )
 
                         NavigationBarItem(
+                            selected = isSelected,
+                            onClick = { onItemClick(destination) },
                             icon = {
-                                Row(verticalAlignment = Alignment.CenterVertically) {
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
                                     Icon(
-                                        imageVector = if (isSelected) dest.iconFilled else dest.iconOut,
-                                        contentDescription = dest.title,
+                                        imageVector = if (isSelected) destination.iconFilled else destination.iconOut,
+                                        contentDescription = destination.title,
                                         modifier = Modifier.size(iconSize)
                                     )
                                     AnimatedVisibility(visible = isSelected) {
                                         Spacer(Modifier.width(4.dp))
                                         Text(
-                                            text = dest.title,
+                                            text = destination.title,
                                             textAlign = TextAlign.Center,
                                             fontSize = 15.sp
                                         )
@@ -128,19 +129,9 @@ fun BottomNavigationBar(
                                 }
                             },
                             alwaysShowLabel = false,
-                            label = null,
-                            selected = isSelected,
-                            onClick = {
-                                selectedIndex.value = index
-                                onDestinationClicked(
-                                    when (dest) {
-                                        Destinations.Home -> Screen.Home.route
-                                        Destinations.Settings -> Screen.Settings.route
-                                        Destinations.History -> Screen.History.route
-                                    }
-                                )
-                            },
-                            colors = NavigationBarItemDefaults.colors(indicatorColor = Color.Transparent)
+                            colors = NavigationBarItemDefaults.colors(
+                                indicatorColor = Color.Transparent
+                            )
                         )
                     }
                 }
@@ -149,10 +140,16 @@ fun BottomNavigationBar(
     }
 }
 
-@Preview(showBackground = true)
+@Preview
 @Composable
 fun BottomNavigationBarPreview() {
-    BottomNavigationBar(
-        onDestinationClicked = { }
-    )
+    var selected by remember { mutableStateOf(Destinations.Home) }
+
+    Surface {
+        BottomNavigationBar(
+            selected = selected,
+            onItemClick = { selected = it }
+        )
+    }
 }
+
