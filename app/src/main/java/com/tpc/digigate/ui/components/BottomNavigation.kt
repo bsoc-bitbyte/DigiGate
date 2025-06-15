@@ -1,5 +1,6 @@
 package com.tpc.digigate.ui.components
 
+import android.content.res.Configuration
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
@@ -15,11 +16,7 @@ import androidx.compose.material.icons.outlined.History
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -31,6 +28,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.tpc.digigate.ui.theme.DigiGateTheme
 
 enum class Destinations(val title: String, val iconFilled: ImageVector, val iconOut: ImageVector) {
     History("History", Icons.Filled.History, Icons.Outlined.History),
@@ -49,6 +47,8 @@ fun BottomNavigationBar(
         Destinations.Profile
     )
     val selectedIndex = destinations.indexOf(selected) - 1
+
+    val colorScheme = MaterialTheme.colorScheme
 
     Box(
         modifier = Modifier
@@ -80,7 +80,7 @@ fun BottomNavigationBar(
                     modifier = Modifier
                         .fillMaxSize()
                         .clip(RoundedCornerShape(10.dp))
-                        .background(Color(0xFFB8CECA))
+                        .background(colorScheme.surfaceVariant)
                         .align(Alignment.Center)
                 )
 
@@ -92,7 +92,7 @@ fun BottomNavigationBar(
                         .width(100.dp)
                         .shadow(8.dp, shape = CircleShape)
                         .clip(RoundedCornerShape(20.dp))
-                        .background(Color(0xFFEEF5EE))
+                        .background(colorScheme.surface)
                 )
 
                 NavigationBar(
@@ -102,7 +102,7 @@ fun BottomNavigationBar(
                     destinations.forEachIndexed { index, destination ->
                         val isSelected = index - 1 == selectedIndex
                         val iconSize: Dp by animateDpAsState(
-                            targetValue = if (isSelected) 35.dp else 35.dp,
+                            targetValue = 35.dp,
                             animationSpec = tween(durationMillis = 500)
                         )
 
@@ -130,6 +130,10 @@ fun BottomNavigationBar(
                             },
                             alwaysShowLabel = false,
                             colors = NavigationBarItemDefaults.colors(
+                                selectedIconColor = MaterialTheme.colorScheme.onSurface,
+                                unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                                selectedTextColor = MaterialTheme.colorScheme.onSurface,
+                                unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
                                 indicatorColor = Color.Transparent
                             )
                         )
@@ -140,16 +144,18 @@ fun BottomNavigationBar(
     }
 }
 
-@Preview
+@Preview(showBackground = true)
+@Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 fun BottomNavigationBarPreview() {
-    var selected by remember { mutableStateOf(Destinations.Home) }
+    var selected by remember {
+        mutableStateOf(Destinations.Home)
+    }
 
-    Surface {
+    DigiGateTheme {
         BottomNavigationBar(
             selected = selected,
             onItemClick = { selected = it }
         )
     }
 }
-
