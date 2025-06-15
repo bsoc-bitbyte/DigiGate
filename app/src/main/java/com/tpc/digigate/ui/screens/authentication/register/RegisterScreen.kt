@@ -1,4 +1,4 @@
-package com.tpc.digigate.ui.screens.homeScreen
+package com.tpc.digigate.ui.screens.authentication.register
 
 import android.content.res.Configuration
 import androidx.compose.foundation.Image

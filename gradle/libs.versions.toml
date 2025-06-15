@@ -27,6 +27,7 @@ material3AdaptiveNav3 = "1.2.0-alpha06"
 lifecycleViewmodelNav3 = "1.0.0-alpha01"
 kotlinSerialization = "2.1.21"
 kotlinxSerializationCore = "1.8.1"
+ksp = "2.1.10-1.0.31"
 
 [libraries]
 androidx-adaptive = { module = "androidx.compose.material3.adaptive:adaptive-navigation", version.ref = "material3AdaptiveNav3" }
@@ -68,3 +69,5 @@ kotlinx-serialization-core = { module = "org.jetbrains.kotlinx:kotlinx-serializa
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+ksp = {id = "com.google.devtools.ksp", version.ref = "ksp"}
+hilt = {id = "com.google.dagger.hilt.android", version.ref = "hiltAndroid"}
