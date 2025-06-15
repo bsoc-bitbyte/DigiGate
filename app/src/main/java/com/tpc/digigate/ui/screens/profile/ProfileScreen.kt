@@ -1,5 +1,6 @@
 package com.tpc.digigate.ui.screens.profile
 
+import android.provider.Settings.Global.getString
 import androidx.compose.foundation.Image
 
 import androidx.compose.foundation.background
@@ -37,6 +38,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -102,7 +104,7 @@ fun ProfileScreen(modifier: Modifier = Modifier){
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = "Personal Information",
+                text = stringResource(R.string.profile_info_header),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSecondary
             )
@@ -114,7 +116,7 @@ fun ProfileScreen(modifier: Modifier = Modifier){
                     tint = Color.Gray
                 )
                 Text(
-                    text = "Edit",
+                    text = stringResource(R.string.edit),
                     style = MaterialTheme.typography.bodyMedium,
                     color = Color.Gray
                 )
@@ -134,17 +136,17 @@ fun ProfileScreen(modifier: Modifier = Modifier){
                     .fillMaxWidth()
 
             ) {
-                DataRow(R.drawable.email, "Email", SampleStudent.email)
+                DataRow(R.drawable.email, stringResource(R.string.email), SampleStudent.email)
 
                 HorizontalDivider(color = MaterialTheme.colorScheme.background)
 
-                DataRow(R.drawable.hostel, "Hostel", SampleStudent.hostel)
+                DataRow(R.drawable.hostel, stringResource(R.string.hostel), SampleStudent.hostel)
                 HorizontalDivider(color = MaterialTheme.colorScheme.background)
 
-                DataRow(R.drawable.phone, "Phone", SampleStudent.phone)
+                DataRow(R.drawable.phone, stringResource(R.string.phone), SampleStudent.phone)
                 HorizontalDivider(color = MaterialTheme.colorScheme.background)
 
-                DataRow(R.drawable.branch, "Branch", SampleStudent.branch)
+                DataRow(R.drawable.branch, stringResource(R.string.branch), SampleStudent.branch)
             }
 
 
@@ -152,7 +154,7 @@ fun ProfileScreen(modifier: Modifier = Modifier){
         Text(
             modifier = Modifier.fillMaxWidth()
                 .padding(horizontal = 16.dp, vertical = 10.dp),
-            text = "Utilities",
+            text = stringResource(R.string.utilities),
             color = MaterialTheme.colorScheme.onSecondary,
             textAlign = TextAlign.Start,
             style = MaterialTheme.typography.bodyMedium
@@ -184,7 +186,7 @@ fun ProfileScreen(modifier: Modifier = Modifier){
                         tint = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                     Spacer(Modifier.width(16.dp))
-                    Text(text = "View ID Card",
+                    Text(text = stringResource(R.string.view_id_card),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant)
                 }

@@ -9,4 +9,12 @@
     <string name="google">Google</string>
     <string name="login_image">Login Image</string>
     <string name="register_image">Register Image</string>
+    <string name="profile_info_header">Personal Information</string>
+    <string name="edit">Edit</string>
+    <string name="email">Email</string>
+    <string name="hostel">Hostel</string>
+    <string name="phone">Phone</string>
+    <string name="branch">Branch</string>
+    <string name="utilities">Utilities</string>
+    <string name="view_id_card">View ID Card</string>
 </resources>
