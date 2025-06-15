@@ -11,6 +11,9 @@ val PureWhite = Color(0xFFFFFFFF)
 val MutedText = Color(0xFF6D6D6D)
 val ErrorRed = Color(0xFFFF6B6B)
 val BlackButton = Color(0xFF1A1A1A)
+val LighterSage = Color(0x75B2CFCA)
+val TextTypeLight = Color(0xCC000000)
+val TextTypeDark = Color(0xCCFFFFFF)
 
 // Additional semantic colors
 val BackgroundDefault = PureWhite
