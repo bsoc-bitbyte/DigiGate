@@ -1,7 +1,5 @@
 package com.tpc.digigate.ui.navigation
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -22,11 +20,7 @@ fun AppNavDisplay() {
 
     val backStack = remember { mutableStateListOf<Screen>(Screen.Home) }
 
-    if(backStack.isEmpty()) {
-        backStack.add(Screen.Home)
-    }
-
-    val currentScreen = backStack.lastOrNull() ?: Screen.Home
+    val currentScreen = backStack.last()
 
     Scaffold(
         bottomBar = {
@@ -40,33 +34,28 @@ fun AppNavDisplay() {
             )
         }
     ) { paddingValues ->
-        Box(modifier = Modifier
-            .fillMaxSize()
-            .padding(paddingValues)
-        ) {
-            NavDisplay(
-                backStack = backStack,
-                onBack = {
-                    backStack.removeLastOrNull()
-                         },
-                entryProvider = entryProvider {
+        NavDisplay(
+            backStack = backStack,
+            onBack = {
+                backStack.removeLastOrNull()
+            },
+            entryProvider = entryProvider {
 
-                    entry<Screen.Home> {
-                        HomeScreenLayout()
-                    }
+                entry<Screen.Home> {
+                    HomeScreenLayout()
+                }
 
-                    entry<Screen.History> {
-                        HistoryScreen()
-                    }
+                entry<Screen.History> {
+                    HistoryScreen()
+                }
 
-                    entry<Screen.Profile> {
-                        ProfileScreen()
-                    }
+                entry<Screen.Profile> {
+                    ProfileScreen()
+                }
 
-                },
-                modifier = Modifier.padding(paddingValues)
-            )
-        }
+            },
+            modifier = Modifier.padding(paddingValues)
+        )
     }
 }
 
