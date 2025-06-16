@@ -28,25 +28,27 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.tpc.digigate.ui.navigation.Screen
 import com.tpc.digigate.ui.theme.DigiGateTheme
 
-enum class Destinations(val title: String, val iconFilled: ImageVector, val iconOut: ImageVector) {
-    History("History", Icons.Filled.History, Icons.Outlined.History),
-    Home("Home", Icons.Filled.Home, Icons.Outlined.Home),
-    Profile("Profile", Icons.Filled.Person, Icons.Outlined.Person)
-}
+//enum class Destinations(val title: String, val iconFilled: ImageVector, val iconOut: ImageVector) {
+//    History("History", Icons.Filled.History, Icons.Outlined.History),
+//    Home("Home", Icons.Filled.Home, Icons.Outlined.Home),
+//    Profile("Profile", Icons.Filled.Person, Icons.Outlined.Person)
+//}
 
 @Composable
 fun BottomNavigationBar(
-    selected: Destinations,
-    onItemClick: (Destinations) -> Unit
+    selected: Screen,
+    onItemClick: (Screen) -> Unit
 ) {
-    val destinations = listOf(
-        Destinations.History,
-        Destinations.Home,
-        Destinations.Profile
-    )
-    val selectedIndex = destinations.indexOf(selected) - 1
+//    val destinations = listOf(
+//        Destinations.History,
+//        Destinations.Home,
+//        Destinations.Profile
+//    )
+//    val selectedIndex = destinations.indexOf(selected) - 1
+    val selectedIndex = Screen.items.indexOf(selected)
 
     val colorScheme = MaterialTheme.colorScheme
 
@@ -69,7 +71,7 @@ fun BottomNavigationBar(
                     .fillMaxWidth(0.9f)
                     .height(60.dp)
             ) {
-                val itemWidth = this.maxWidth / destinations.size
+                val itemWidth = this.maxWidth / Screen.items.size
 
                 val animatedPosition by animateDpAsState(
                     targetValue = (selectedIndex * itemWidth.value).dp,
@@ -99,8 +101,8 @@ fun BottomNavigationBar(
                     modifier = Modifier.fillMaxSize(),
                     containerColor = Color.Transparent
                 ) {
-                    destinations.forEachIndexed { index, destination ->
-                        val isSelected = index - 1 == selectedIndex
+                    Screen.items.forEachIndexed { index, screen ->
+                        val isSelected = index == selectedIndex
                         val iconSize: Dp by animateDpAsState(
                             targetValue = 35.dp,
                             animationSpec = tween(durationMillis = 500)
@@ -108,20 +110,20 @@ fun BottomNavigationBar(
 
                         NavigationBarItem(
                             selected = isSelected,
-                            onClick = { onItemClick(destination) },
+                            onClick = { onItemClick(screen) },
                             icon = {
                                 Row(
                                     verticalAlignment = Alignment.CenterVertically
                                 ) {
                                     Icon(
-                                        imageVector = if (isSelected) destination.iconFilled else destination.iconOut,
-                                        contentDescription = destination.title,
+                                        imageVector = if (isSelected) screen.iconFilled else screen.iconOut,
+                                        contentDescription = screen.title,
                                         modifier = Modifier.size(iconSize)
                                     )
                                     AnimatedVisibility(visible = isSelected) {
                                         Spacer(Modifier.width(4.dp))
                                         Text(
-                                            text = destination.title,
+                                            text = screen.title,
                                             textAlign = TextAlign.Center,
                                             fontSize = 15.sp
                                         )
@@ -144,12 +146,13 @@ fun BottomNavigationBar(
     }
 }
 
+
 @Preview(showBackground = true)
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 fun BottomNavigationBarPreview() {
     var selected by remember {
-        mutableStateOf(Destinations.Home)
+        mutableStateOf<Screen>(Screen.Home)
     }
 
     DigiGateTheme {
