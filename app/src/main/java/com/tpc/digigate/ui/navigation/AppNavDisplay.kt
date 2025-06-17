@@ -1,10 +1,19 @@
 package com.tpc.digigate.ui.navigation
 
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.togetherWith
+import androidx.compose.animation.with
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation3.runtime.entry
@@ -20,14 +29,15 @@ fun AppNavDisplay() {
 
     val backStack = remember { mutableStateListOf<Screen>(Screen.Home) }
 
-    val currentScreen = backStack.last()
-
+    var previousScreen by remember { mutableStateOf<Screen?>(null) }
     Scaffold(
         bottomBar = {
             BottomNavigationBar(
-                selected = currentScreen,
+                selected = backStack.last(),
                 onItemClick = {
-                    if (it != currentScreen) {
+                    previousScreen = backStack.lastOrNull()
+                    if (it != previousScreen) {
+                        if (backStack.size > 1) backStack.removeLastOrNull()
                         backStack.add(it)
                     }
                 }
@@ -36,6 +46,25 @@ fun AppNavDisplay() {
     ) { paddingValues ->
         NavDisplay(
             backStack = backStack,
+            transitionSpec = {
+                val from = previousScreen
+                val to = backStack.lastOrNull()
+
+                val forward = when {
+                    from == Screen.Home && to == Screen.Profile -> true
+                    from == Screen.History && to == Screen.Home -> true
+                    from == Screen.History && to == Screen.Profile -> true
+                    else -> false
+                }
+
+                if (forward) {
+                    slideInHorizontally { it } + fadeIn() togetherWith
+                            slideOutHorizontally { -it } + fadeOut()
+                } else {
+                    slideInHorizontally { -it } + fadeIn() togetherWith
+                            slideOutHorizontally { it } + fadeOut()
+                }
+            },
             onBack = {
                 backStack.removeLastOrNull()
             },

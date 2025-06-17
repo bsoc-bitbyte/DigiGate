@@ -73,7 +73,7 @@ branch = "Design")
 fun ProfileScreen(modifier: Modifier = Modifier){
     Column(modifier = Modifier.fillMaxSize()
         .background(color = MaterialTheme.colorScheme.background)
-        .padding(top = WindowInsets.statusBars.asPaddingValues().calculateTopPadding() + 30.dp),
+       ,
         horizontalAlignment = Alignment.CenterHorizontally,
 
     ) {
