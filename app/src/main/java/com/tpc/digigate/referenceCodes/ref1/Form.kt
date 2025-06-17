@@ -1,4 +1,4 @@
-package com.tpc.digigate.referenceCodes
+package com.tpc.digigate.referenceCodes.ref1
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.compose.runtime.getValue
+import com.tpc.digigate.referenceCodes.ref1.FormViewModel
 
 @Composable
 fun Form(viewModel: FormViewModel = hiltViewModel()) {

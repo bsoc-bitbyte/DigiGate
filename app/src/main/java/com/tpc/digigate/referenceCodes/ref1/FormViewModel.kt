@@ -1,4 +1,4 @@
-package com.tpc.digigate.referenceCodes
+package com.tpc.digigate.referenceCodes.ref1
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
