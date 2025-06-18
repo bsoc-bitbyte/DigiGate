@@ -1,10 +1,12 @@
 package com.tpc.digigate.ui.screens.authentication.register
 
 import android.content.res.Configuration
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -13,14 +15,19 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -29,6 +36,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -37,6 +45,8 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.tpc.digigate.ui.theme.DigiGateTheme
 import com.tpc.digigate.R
 import com.tpc.digigate.ui.components.AppPasswordField
@@ -47,10 +57,24 @@ import com.tpc.digigate.ui.theme.PureWhite
 fun RegisterScreenLayout(
     onRegisterClicked: () -> Unit,
     onGoogleClicked: () -> Unit,
-    onHaveAccount: () -> Unit
+    onHaveAccount: () -> Unit,
+    viewModel: RegisterViewModel = hiltViewModel()
 ) {
+    val context = LocalContext.current
+    val uiState by viewModel.registerUiState.collectAsState()
+
     var isPasswordVisible by remember { mutableStateOf(false) }
     val focusManager = LocalFocusManager.current
+
+    LaunchedEffect(uiState.toastMessage) {
+        if (uiState.toastMessage?.isNotBlank() == true) {
+            Toast.makeText(context, uiState.toastMessage, Toast.LENGTH_SHORT).show()
+            viewModel.toastMessageShown()
+        }
+
+    }
+
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -86,8 +110,10 @@ fun RegisterScreenLayout(
                 AppTextField(
                     label = "Email",
                     placeholder = "Enter your Email Id",
-                    value = "",
-                    onValueChange = {  },
+                    value = uiState.email,
+                    onValueChange = {
+                        viewModel.emailInput(it)
+                    },
                     keyboardType = KeyboardType.Email,
                     imeAction = ImeAction.Next,
                     onImeAction = { focusManager.moveFocus(focusDirection = FocusDirection.Down) },
@@ -98,9 +124,11 @@ fun RegisterScreenLayout(
                 AppPasswordField(
                     label = "Password",
                     placeholder = "Enter your Password",
-                    value = "",
-                    onValueChange = {  },
-                    errorMessage = if ("".length < 8) "Password too short (min 8 chars)" else null,
+                    value = uiState.password,
+                    onValueChange = {
+                        viewModel.passwordInput(it)
+                    },
+                    errorMessage = if (uiState.password.length < 6) "Password too short (min 6 chars)" else null,
                     isPasswordVisible = isPasswordVisible,
                     onTogglePasswordVisibility = { isPasswordVisible = !isPasswordVisible },
                     keyboardType = KeyboardType.Password,
@@ -110,7 +138,7 @@ fun RegisterScreenLayout(
                 )
                 Spacer(modifier = Modifier.height(35.dp))
                 Button(
-                    onClick = onRegisterClicked,
+                    onClick = { viewModel.onClickRegister() },
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 20.dp)
@@ -118,7 +146,8 @@ fun RegisterScreenLayout(
                     shape = RoundedCornerShape(10.dp),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = Color.Black
-                    )
+                    ),
+                    enabled = viewModel.isEnabled()
                 ) {
                     Text(
                         text = stringResource(R.string.register),
@@ -182,6 +211,29 @@ fun RegisterScreenLayout(
             )
         }
     }
+    if (uiState.isLoading){
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color(0x11FFFFFF)),
+            contentAlignment = Alignment.Center
+        ) {
+            Card(
+                shape = RoundedCornerShape(20),
+                modifier = Modifier.size(200.dp),
+
+                ) {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ){
+                    CircularProgressIndicator(
+                        Modifier.size(60.dp)
+                    )
+                }
+            }
+        }
+    }
 }
 
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
@@ -189,10 +241,12 @@ fun RegisterScreenLayout(
 @Composable
 fun RegisterScreenPreview() {
     DigiGateTheme {
+        val viewModel = viewModel<RegisterViewModel>()
         RegisterScreenLayout(
-            onRegisterClicked = {},
+            onRegisterClicked = {viewModel.onClickRegister()},
             onHaveAccount = {},
-            onGoogleClicked = {}
+            onGoogleClicked = {},
+            viewModel = viewModel
         )
     }
 }
