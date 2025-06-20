@@ -1,6 +1,7 @@
 package com.tpc.digigate.ui.screens.authentication.register
 
 import androidx.lifecycle.ViewModel
+import com.tpc.digigate.utils.Validator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -40,12 +41,7 @@ class RegisterViewModel @Inject constructor(): ViewModel() {
             return true
     }
 
-    fun checkEmail(secondPart: String) : Boolean {
-        if (secondPart == "iiitdmj.ac.in") {
-            return true
-        }
-        return false
-    }
+
 
     fun toastMessageShown() {
         _registerUiState.update {
@@ -57,28 +53,9 @@ class RegisterViewModel @Inject constructor(): ViewModel() {
     fun onClickRegister() {
         val email = _registerUiState.value.email
         val password = _registerUiState.value.password
-        val emailSplit = email.split('@')
-        var emailValid: Boolean = true
-        var isInstituteEmail = true
-        if (emailSplit.size < 2 || emailSplit[1].isBlank()) {
-            emailValid = false
-        }
-        else {
-            val domain = emailSplit[1]
-
-            isInstituteEmail = checkEmail(domain)
-        }
 
         val passwordValid: Boolean = password.length >= 6
-        if (emailValid && passwordValid && isInstituteEmail)
-        {
-            _registerUiState.update {
-                it.copy(
-                    isLoading = true,
-                    toastMessage = null
-                )
-            }
-        }
+
         if (!passwordValid) {
             _registerUiState.update {
                 it.copy(
@@ -86,25 +63,23 @@ class RegisterViewModel @Inject constructor(): ViewModel() {
                 )
             }
         }
-        if (!emailValid) {
-            if (emailSplit.size < 2){
+
+        Validator.isValidEmail(email,onSuccess= {message->
+            if (passwordValid){
                 _registerUiState.update {
-                it.copy(
-                    toastMessage = "Invalid Email ID"
+                    it.copy(
+                        toastMessage = message,
+                        isLoading = true
                     )
                 }
             }
-        }
-        else if (!isInstituteEmail)
-        {
-            _registerUiState.update {
-                it.copy(
-                    toastMessage = "Enter Institute Email ID only."
-                )
+        }, onFailure = {error->
+                _registerUiState.update {
+                    it.copy(
+                        toastMessage = error
+                    )
+                }
             }
-        }
-
-
+        )
     }
-
 }
