@@ -48,13 +48,6 @@ import com.tpc.digigate.ui.theme.DigiGateTheme
 @Composable
 fun HistoryScreen(viewModel: HistoryViewModel = hiltViewModel()) {
     val uiState = viewModel.historyUiState.collectAsState().value
-    val MonthData = uiState.historyItems
-        .sortedWith(
-            compareBy(
-                { MonthOrder.indexOf(it.month.uppercase()) },
-                { it.monthData.first().date.toInt() }
-            )
-        )
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -73,53 +66,67 @@ fun HistoryScreen(viewModel: HistoryViewModel = hiltViewModel()) {
         )
         Spacer(modifier = Modifier.height(20.dp))
         LazyColumn(
-            modifier = Modifier,
+            modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            MonthData.forEachIndexed { index, data ->
-                item {
-                    Box(
-                        modifier = Modifier.fillMaxWidth(0.9f),
-                    ) {
-                        Text(
-                            text = data.month,
-                            style = MaterialTheme.typography.headlineMedium.copy(
-                                fontWeight = FontWeight.Bold
-                            ),
-                            color = MaterialTheme.colorScheme.onBackground,
-                            modifier = Modifier.padding(start = 12.dp)
-                        )
-                        if (index == 0) {
-                            Icon(
-                                imageVector = Icons.Outlined.CalendarToday,
-                                contentDescription = stringResource(R.string.calender_today),
-                                tint = MaterialTheme.colorScheme.onBackground,
-                                modifier = Modifier
-                                    .align(Alignment.CenterEnd)
-                                    .padding(end = 10.dp)
-                                    .clickable(onClick = {})
-                            )
-                        }
+            var firstMonth = false
+            item {
+                uiState.yearData
+                    .sortedByDescending { it.year }
+                    .forEach { year ->
+                        year.monthData
+                            .sortedByDescending { it.month }
+                            .forEach { month ->
+                                Box(
+                                    modifier = Modifier.fillMaxSize(0.8f),
+                                ) {
+                                    Text(
+                                        text = MonthOrder[month.month].toString(),
+                                        style = MaterialTheme.typography.headlineMedium.copy(
+                                            fontWeight = FontWeight.Bold
+                                        ),
+                                        color = MaterialTheme.colorScheme.onBackground,
+                                        modifier = Modifier
+                                    )
+                                    if (!firstMonth) {
+                                        Icon(
+                                            imageVector = Icons.Outlined.CalendarToday,
+                                            contentDescription = stringResource(R.string.calender_today),
+                                            tint = MaterialTheme.colorScheme.onBackground,
+                                            modifier = Modifier
+                                                .align(Alignment.CenterEnd)
+                                                .clickable(onClick = {})
+                                        )
+                                        firstMonth = true
+                                    }
+                                }
+                                Spacer(modifier = Modifier.height(8.dp))
+                                month.dayEntries
+                                    .sortedWith(compareBy { it.day })
+                                    .forEach { data ->
+                                        EntryCard(
+                                            year = year.year,
+                                            month = month.month,
+                                            info = data
+                                        )
+                                        Spacer(modifier = Modifier.height(20.dp))
+                                    }
+                            }
                     }
-                    Spacer(modifier = Modifier.height(8.dp))
-                }
-                items(data.monthData) { item ->
-                    EntryCard(
-                        month = data.month,
-                        info = item
-                    )
-                    Spacer(modifier = Modifier.height(20.dp))
-                }
             }
         }
+
     }
 }
 
 @Composable
 fun EntryCard(
-    month: String,
-    info: HistoryMonthUiState,
+    year: Int,
+    month: Int,
+    info: DayEntry,
 ) {
+    val cardMonth = MonthOrder[month].toString().take(3).uppercase()
+    val cardYear = year.toString().takeLast(2)
     Card(
         modifier = Modifier
             .fillMaxWidth(0.9f)
@@ -142,7 +149,7 @@ fun EntryCard(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = info.date,
+                    text = info.day.toString(),
                     color = Color.Black,
                     style = MaterialTheme.typography.displayMedium.copy(
                         fontWeight = FontWeight.Bold,
@@ -150,7 +157,7 @@ fun EntryCard(
                     ),
                 )
                 Text(
-                    text = "${month.toString().uppercase()} '${info.year}",
+                    text = "${cardMonth.uppercase()} '${cardYear}",
                     color = Color.Black,
                     style = MaterialTheme.typography.titleMedium.copy(
                         fontWeight = FontWeight.Bold
@@ -171,18 +178,14 @@ fun EntryCard(
                 ) {
                     TimeData(
                         label = stringResource(R.string.out_time),
-                        hour = info.OutTimeHour,
-                        minute = info.OutTimeMinute,
-                        period = info.OutTimePeriod,
-                        isVerified = info.isVerified,
+                        time = info.OutTime,
+                        isVerified = info.isOutVerified,
                     )
                     Spacer(modifier = Modifier.height(6.dp))
                     TimeData(
                         label = stringResource(R.string.in_time),
-                        hour = info.InTimeHour,
-                        minute = info.InTimeMinute,
-                        period = info.InTimePeriod,
-                        isVerified = info.isVerified
+                        time = info.InTime,
+                        isVerified = info.isInVerified
                     )
                 }
             }
@@ -194,11 +197,10 @@ fun EntryCard(
 @Composable
 fun TimeData(
     label: String,
-    hour: Int,
-    minute: Int,
-    period: String,
+    time: String,
     isVerified: Boolean
 ) {
+    val (timeValue, period) = time.split(" ")
     Column {
         Text(
             buildAnnotatedString {
@@ -209,7 +211,7 @@ fun TimeData(
                         fontWeight = FontWeight.ExtraBold
                     )
                 ) {
-                    append("${label}: ${hour}:${minute}")
+                    append("${label}: ${timeValue}")
                 }
                 withStyle(
                     style = SpanStyle(
@@ -269,21 +271,19 @@ fun EntryCardPreview() {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(140.dp)
+                .height(130.dp),
+            contentAlignment = Alignment.Center
         ) {
             EntryCard(
-                month = "June",
-                info = HistoryMonthUiState(
-                    date = "09",
-                    OutTimeHour = 7,
-                    OutTimeMinute = 15,
-                    OutTimePeriod = "AM",
-                    InTimeHour = 6,
-                    InTimeMinute = 30,
-                    InTimePeriod = "PM",
-                    isVerified = true,
-                    year = 2025
-                )
+                year = 2025,
+                month = 6,
+                info = DayEntry(
+                    day = 9,
+                    OutTime = "7:15 AM",
+                    InTime = "6:30 PM",
+                    isInVerified = true,
+                    isOutVerified = true,
+                ),
             )
         }
     }

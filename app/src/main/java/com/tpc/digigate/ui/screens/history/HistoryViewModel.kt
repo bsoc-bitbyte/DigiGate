@@ -16,61 +16,100 @@ class HistoryViewModel @Inject constructor() : ViewModel() {
 
     init {
         _historyUiState.update {
-            val month1 = Month(
-                month = "June",
+            val year1 = Year(
+                year = 2025,
                 monthData = listOf(
-                    HistoryMonthUiState(
-                    year = 25,
-                    date = "15",
-                    OutTimeHour = 8,
-                    OutTimeMinute = 30,
-                    OutTimePeriod = "AM",
-                    InTimeHour = 10,
-                    InTimeMinute = 40,
-                    InTimePeriod = "PM",
-                    isVerified = true,
+                    Month(
+                        month = 8,
+                        dayEntries = listOf(
+                            DayEntry(
+                                day = 9,
+                                OutTime = "7:15 AM",
+                                InTime = "6:30 PM",
+                                isInVerified = true,
+                                isOutVerified = true,
+                            ),
+                            DayEntry(
+                                day = 25,
+                                OutTime = "11:35 AM",
+                                InTime = "8:15 PM",
+                                isInVerified = false,
+                                isOutVerified = true,
+                            ),
+                        )
                     ),
-                    HistoryMonthUiState(
-                        year = 25,
-                        date = "13",
-                        OutTimeHour = 10,
-                        OutTimeMinute = 30,
-                        OutTimePeriod = "AM",
-                        InTimeHour = 8,
-                        InTimeMinute = 40,
-                        InTimePeriod = "PM",
-                        isVerified = false,
+                    Month(
+                        month = 6,
+                        dayEntries = listOf(
+                            DayEntry(
+                                day = 15,
+                                OutTime = "8:30 AM",
+                                InTime = "10:40 PM",
+                                isInVerified = true,
+                                isOutVerified = true,
+                            ),
+                            DayEntry(
+                                day = 13,
+                                OutTime = "10:30 AM",
+                                InTime = "8:40 PM",
+                                isInVerified = true,
+                                isOutVerified = false,
+                            ),
+                            DayEntry(
+                                day = 20,
+                                OutTime = "9:00 AM",
+                                InTime = "7:30 PM",
+                                isInVerified = false,
+                                isOutVerified = false,
+                            ),
+                        )
                     ),
                 )
             )
-            val month2 = Month(
-                month = "May",
+            val year2 = Year(
+                year = 2024,
                 monthData = listOf(
-                    HistoryMonthUiState(
-                        year = 25,
-                        date = "09",
-                        OutTimeHour = 7,
-                        OutTimeMinute = 15,
-                        OutTimePeriod = "AM",
-                        InTimeHour = 6,
-                        InTimeMinute = 30,
-                        InTimePeriod = "PM",
-                        isVerified = true,
+                    Month(
+                        month = 1,
+                        dayEntries = listOf(
+                            DayEntry(
+                                day = 9,
+                                OutTime = "7:15 AM",
+                                InTime = "6:30 PM",
+                                isInVerified = true,
+                                isOutVerified = true,
+                            ),
+                            DayEntry(
+                                day = 25,
+                                OutTime = "11:35 AM",
+                                InTime = "8:15 PM",
+                                isInVerified = false,
+                                isOutVerified = true,
+                            ),
+                        )
                     ),
-                    HistoryMonthUiState(
-                        year = 25,
-                        date = "25",
-                        OutTimeHour = 11,
-                        OutTimeMinute = 35,
-                        OutTimePeriod = "AM",
-                        InTimeHour = 8,
-                        InTimeMinute = 15,
-                        InTimePeriod = "PM",
-                        isVerified = false,
-                    ),
+                    Month(
+                        month = 10,
+                        dayEntries = listOf(
+                            DayEntry(
+                                day = 15,
+                                OutTime = "8:30 AM",
+                                InTime = "10:40 PM",
+                                isInVerified = true,
+                                isOutVerified = true,
+                            ),
+                            DayEntry(
+                                day = 13,
+                                OutTime = "10:30 AM",
+                                InTime = "8:40 PM",
+                                isInVerified = true,
+                                isOutVerified = false,
+                            ),
+                        )
+                    )
                 )
             )
-            it.copy(historyItems = listOf(month1,month2))
+            it.copy(yearData = listOf(year1,year2))
         }
     }
 }

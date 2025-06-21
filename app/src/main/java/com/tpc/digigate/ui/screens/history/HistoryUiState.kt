@@ -1,37 +1,39 @@
 package com.tpc.digigate.ui.screens.history
 
 data class HistoryUiState(
-    val historyItems: List<Month> = emptyList<Month>()
+    val isLoading:Boolean = false,
+    val yearData: List<Year> = emptyList<Year>()
+)
+
+data class Year(
+    val year: Int,
+    val monthData: List<Month> = emptyList<Month>()
 )
 
 data class Month(
-    val month:String = "",
-    val monthData: List<HistoryMonthUiState> = emptyList<HistoryMonthUiState>()
+    val month: Int,
+    val dayEntries: List<DayEntry> = emptyList<DayEntry>()
 )
 
-data class HistoryMonthUiState(
-    val date: String,
-    val OutTimeHour: Int,
-    val OutTimeMinute: Int,
-    val OutTimePeriod: String,
-    val InTimeHour: Int,
-    val InTimeMinute: Int,
-    val InTimePeriod: String,
-    val isVerified: Boolean,
-    val year: Int,
+data class DayEntry(
+    val day: Int,
+    val InTime: String = "",
+    val OutTime: String = "",
+    val isInVerified: Boolean = false,
+    val isOutVerified: Boolean = false
 )
 
-val MonthOrder = listOf(
-    "DECEMBER",
-    "NOVEMBER",
-    "OCTOBER",
-    "SEPTEMBER",
-    "AUGUST",
-    "JULY",
-    "JUNE",
-    "MAY",
-    "APRIL",
-    "MARCH",
-    "FEBRUARY",
-    "JANUARY"
+val MonthOrder = mapOf(
+    1 to "January",
+    2 to "February",
+    3 to "March",
+    4 to "April",
+    5 to "May",
+    6 to "June",
+    7 to "July",
+    8 to "August",
+    9 to "September",
+    10 to "October",
+    11 to "November",
+    12 to "December",
 )
