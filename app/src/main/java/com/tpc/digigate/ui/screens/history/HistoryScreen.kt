@@ -28,6 +28,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -40,95 +41,20 @@ import androidx.compose.ui.text.style.BaselineShift
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.tpc.digigate.ui.theme.DigiGateTheme
 
 
-data class HistoryCardUiState(
-    val month: String,
-    val date: String,
-    val OutTimeHour: Int,
-    val OutTimeMinute: Int,
-    val OutTimePeriod: String,
-    val InTimeHour: Int,
-    val InTimeMinute: Int,
-    val InTimePeriod: String,
-    val isVerified: Boolean,
-    val year: Int,
-)
-
-val MonthOrder = listOf(
-    "DECEMBER",
-    "NOVEMBER",
-    "OCTOBER",
-    "SEPTEMBER",
-    "AUGUST",
-    "JULY",
-    "JUNE",
-    "MAY",
-    "APRIL",
-    "MARCH",
-    "FEBRUARY",
-    "JANUARY"
-)
-
 @Composable
-fun HistoryScreen(modifier: Modifier = Modifier) {
-    val HistoryItems = remember {
-        listOf(
-            HistoryCardUiState(
-                month = "June",
-                year = 25,
-                date = "15",
-                OutTimeHour = 8,
-                OutTimeMinute = 30,
-                OutTimePeriod = "AM",
-                InTimeHour = 10,
-                InTimeMinute = 40,
-                InTimePeriod = "PM",
-                isVerified = true,
-            ),
-            HistoryCardUiState(
-                month = "June",
-                year = 25,
-                date = "13",
-                OutTimeHour = 10,
-                OutTimeMinute = 30,
-                OutTimePeriod = "AM",
-                InTimeHour = 8,
-                InTimeMinute = 40,
-                InTimePeriod = "PM",
-                isVerified = false,
-            ),
-            HistoryCardUiState(
-                month = "May",
-                year = 25,
-                date = "09",
-                OutTimeHour = 7,
-                OutTimeMinute = 15,
-                OutTimePeriod = "AM",
-                InTimeHour = 6,
-                InTimeMinute = 30,
-                InTimePeriod = "PM",
-                isVerified = true,
-            ),
-            HistoryCardUiState(
-                month = "May",
-                year = 25,
-                date = "25",
-                OutTimeHour = 11,
-                OutTimeMinute = 35,
-                OutTimePeriod = "AM",
-                InTimeHour = 8,
-                InTimeMinute = 15,
-                InTimePeriod = "PM",
-                isVerified = false,
+fun HistoryScreen(viewModel: HistoryViewModel = hiltViewModel()) {
+    val uiState = viewModel.historyUiState.collectAsState().value
+    val MonthData = uiState.historyItems
+        .sortedWith(
+            compareBy(
+                { MonthOrder.indexOf(it.month.uppercase()) },
+                { it.monthData.first().date.toInt() }
             )
         )
-    }
-
-    val MonthData = HistoryItems
-        .sortedWith(compareBy({ MonthOrder.indexOf(it.month.uppercase()) }, { it.date.toInt() }))
-        .groupBy { it.month }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -150,13 +76,13 @@ fun HistoryScreen(modifier: Modifier = Modifier) {
             modifier = Modifier,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            MonthData.entries.forEachIndexed { index, (month, data) ->
+            MonthData.forEachIndexed { index, data ->
                 item {
                     Box(
                         modifier = Modifier.fillMaxWidth(0.9f),
                     ) {
                         Text(
-                            text = month,
+                            text = data.month,
                             style = MaterialTheme.typography.headlineMedium.copy(
                                 fontWeight = FontWeight.Bold
                             ),
@@ -177,8 +103,11 @@ fun HistoryScreen(modifier: Modifier = Modifier) {
                     }
                     Spacer(modifier = Modifier.height(8.dp))
                 }
-                items(data) { item ->
-                    EntryCard(info = item)
+                items(data.monthData) { item ->
+                    EntryCard(
+                        month = data.month,
+                        info = item
+                    )
                     Spacer(modifier = Modifier.height(20.dp))
                 }
             }
@@ -188,7 +117,8 @@ fun HistoryScreen(modifier: Modifier = Modifier) {
 
 @Composable
 fun EntryCard(
-    info: HistoryCardUiState,
+    month: String,
+    info: HistoryMonthUiState,
 ) {
     Card(
         modifier = Modifier
@@ -220,7 +150,7 @@ fun EntryCard(
                     ),
                 )
                 Text(
-                    text = "${info.month.toString().uppercase()} '${info.year}",
+                    text = "${month.toString().uppercase()} '${info.year}",
                     color = Color.Black,
                     style = MaterialTheme.typography.titleMedium.copy(
                         fontWeight = FontWeight.Bold
@@ -337,12 +267,13 @@ fun LineAndDotImage() {
 fun EntryCardPreview() {
     DigiGateTheme {
         Box(
-            modifier = Modifier.fillMaxWidth().height(140.dp)
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(140.dp)
         ) {
             EntryCard(
-                HistoryCardUiState(
-                    month = "MAY",
-                    year = 25,
+                month = "June",
+                info = HistoryMonthUiState(
                     date = "09",
                     OutTimeHour = 7,
                     OutTimeMinute = 15,
@@ -351,7 +282,8 @@ fun EntryCardPreview() {
                     InTimeMinute = 30,
                     InTimePeriod = "PM",
                     isVerified = true,
-                ),
+                    year = 2025
+                )
             )
         }
     }
