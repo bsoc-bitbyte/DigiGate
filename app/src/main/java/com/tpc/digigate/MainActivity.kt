@@ -4,11 +4,11 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import com.google.firebase.auth.FirebaseAuth
 import com.tpc.digigate.ui.navigation.AppNavDisplay
+import com.tpc.digigate.ui.navigation.AuthNavDisplay
 import com.tpc.digigate.ui.theme.DigiGateTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -17,26 +17,17 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
         setContent {
+            val firebaseAuth = FirebaseAuth.getInstance()
+            val isUserAuthenticated =
+                firebaseAuth.currentUser != null && firebaseAuth.currentUser!!.isEmailVerified == true
+            val isMainApp = remember { mutableStateOf(isUserAuthenticated) }
             DigiGateTheme {
-                AppNavDisplay()
+                if (isMainApp.value)
+                    AppNavDisplay(onSignOut = { isMainApp.value = false })
+                else AuthNavDisplay(goToMainApp = { isMainApp.value = true }, context = this)
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    DigiGateTheme {
-        Greeting("Android")
     }
 }

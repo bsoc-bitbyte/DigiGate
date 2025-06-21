@@ -1,15 +1,19 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.google.gms.google.services)
 }
-
+val localPropertiesFile = rootProject.file("local.properties")
 android {
     namespace = "com.tpc.digigate"
     compileSdk = 36
-
+//
     defaultConfig {
         applicationId = "com.tpc.digigate"
         minSdk = 24
@@ -18,6 +22,14 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        val localProperties = Properties()
+                .takeIf { localPropertiesFile.exists() }
+            ?.apply { load(FileInputStream(localPropertiesFile))}
+
+        fun addStringResource(name: String) = resValue("string", name, localProperties?.getProperty(name).toString())
+
+        addStringResource("WEB_CLIENT_ID")
     }
 
     buildTypes {
@@ -85,4 +97,12 @@ dependencies {
     ksp(libs.hilt.android.compiler)
     ksp(libs.androidx.hilt.compiler)
     implementation(libs.hilt.navigation.compose)
+
+    // Firebase
+    implementation(libs.firebase.auth)
+    implementation(libs.androidx.credentials)
+    implementation(libs.androidx.credentials.play.services.auth)
+    implementation(libs.googleid)
+    implementation(libs.firebase.firestore)
+    implementation(libs.firebase.database)
 }

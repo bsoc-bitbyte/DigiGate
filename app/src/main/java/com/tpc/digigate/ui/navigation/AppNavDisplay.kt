@@ -5,7 +5,6 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.togetherWith
-import androidx.compose.animation.with
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -19,13 +18,26 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation3.runtime.entry
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
+import com.google.firebase.auth.FirebaseAuth
+import com.tpc.digigate.domain.model.User
 import com.tpc.digigate.ui.components.BottomNavigationBar
 import com.tpc.digigate.ui.screens.history.HistoryScreen
 import com.tpc.digigate.ui.screens.home.HomeScreenLayout
 import com.tpc.digigate.ui.screens.profile.ProfileScreen
 
 @Composable
-fun AppNavDisplay() {
+fun AppNavDisplay(onSignOut: () -> Unit) {
+
+    val firebaseUser = FirebaseAuth.getInstance().currentUser
+    val user = User(
+        uid = firebaseUser!!.uid,
+        email = firebaseUser.email.toString(),
+        displayName = firebaseUser.displayName.toString(),
+        isEmailVerified = true,
+        photoUrl = firebaseUser.photoUrl.toString()
+    )
+
+    println(user)
 
     val backStack = remember { mutableStateListOf<Screen>(Screen.Home) }
 
@@ -79,7 +91,7 @@ fun AppNavDisplay() {
                 }
 
                 entry<Screen.Profile> {
-                    ProfileScreen()
+                    ProfileScreen(onSignOut = onSignOut)
                 }
 
             },
@@ -92,6 +104,6 @@ fun AppNavDisplay() {
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
 fun AppNavDisplayPreview() {
-    AppNavDisplay()
+    AppNavDisplay(onSignOut = {})
 }
 

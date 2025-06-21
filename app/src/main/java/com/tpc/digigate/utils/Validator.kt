@@ -1,7 +1,7 @@
 package com.tpc.digigate.utils
 
 object Validator {
-    fun isValidEmail(email: String, onSuccess:(String?)->Unit, onFailure:(String)->Unit) {
+    fun isValidEmail(email: String, onSuccess:()->Unit, onFailure:(String)->Unit) {
         val emailSplit = email.split("@")
         if (emailSplit.size < 2 || emailSplit[1].isBlank()) {
             onFailure("Invalid Email")
@@ -14,7 +14,7 @@ object Validator {
         }
 
         else {
-            onSuccess("Success!")
+            onSuccess()
             return
         }
     }
