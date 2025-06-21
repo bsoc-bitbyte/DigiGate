@@ -1,5 +1,6 @@
 package com.tpc.digigate.ui.screens.authentication.login
 
+import android.content.Context
 import android.content.res.Configuration
 import android.widget.Toast
 import androidx.compose.foundation.Image
@@ -26,7 +27,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -38,6 +38,7 @@ import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -46,34 +47,30 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.tpc.digigate.ui.theme.DigiGateTheme
 import com.tpc.digigate.R
 import com.tpc.digigate.ui.components.AppPasswordField
 import com.tpc.digigate.ui.components.AppTextField
+import com.tpc.digigate.ui.theme.DigiGateTheme
 import com.tpc.digigate.ui.theme.PureWhite
 
 @Composable
 fun LoginScreenLayout(
-    onLoginClicked: () -> Unit,
-    onGoogleClicked: () -> Unit,
+    goToMainApp: () -> Unit,
     onCreateAccount: () -> Unit,
-    viewModel: LoginViewModel = hiltViewModel()
+    viewModel: LoginViewModel = hiltViewModel(),
+    context: Context? = null
 ) {
     val uiState by viewModel.loginUiState.collectAsState()
-    val context = LocalContext.current
 
     var isPasswordVisible by remember { mutableStateOf(false) }
     val focusManager = LocalFocusManager.current
 
-    LaunchedEffect(uiState.toastMessage) {
-        if (uiState.toastMessage?.isNotBlank() == true) {
-            Toast.makeText(context, uiState.toastMessage, Toast.LENGTH_SHORT).show()
-            viewModel.toastMessageShown()
-        }
-
+    if (uiState.toastMessage != null && uiState.toastMessage?.isNotBlank() == true) {
+        Toast.makeText(context, uiState.toastMessage, Toast.LENGTH_SHORT).show()
+        viewModel.toastMessageShown()
     }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -136,7 +133,7 @@ fun LoginScreenLayout(
                 )
                 Spacer(modifier = Modifier.height(35.dp))
                 Button(
-                    onClick = onLoginClicked,
+                    onClick = { viewModel.onClickLogin(goToMainApp = goToMainApp) },
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 20.dp)
@@ -155,7 +152,7 @@ fun LoginScreenLayout(
                 }
                 Spacer(modifier = Modifier.height(14.dp))
                 Button(
-                    onClick = onGoogleClicked,
+                    onClick = { viewModel.googleSignIn(context!!, goToMainApp = goToMainApp) },
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 20.dp)
@@ -198,7 +195,7 @@ fun LoginScreenLayout(
             )
             Spacer(modifier = Modifier.padding(horizontal = 2.dp))
             Text(
-                text  = stringResource(R.string.register),
+                text = stringResource(R.string.register),
                 style = MaterialTheme.typography.labelLarge.copy(
                     fontWeight = FontWeight.Bold
                 ),
@@ -209,24 +206,27 @@ fun LoginScreenLayout(
             )
         }
     }
-    if (uiState.isLoading){
+    if (uiState.isLoading) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color(0x11FFFFFF)),
+                .background(Color.Black.copy(alpha = 0.3f)),
             contentAlignment = Alignment.Center
         ) {
-            Card(
-                shape = RoundedCornerShape(20),
-                modifier = Modifier.size(200.dp),
-
-                ) {
+            Surface(
+                shape = RoundedCornerShape(16.dp),
+                color = Color.White.copy(alpha = 0.95f),
+                shadowElevation = 8.dp,
+                modifier = Modifier.size(100.dp)
+            ) {
                 Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
-                ){
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier.fillMaxSize()
+                ) {
                     CircularProgressIndicator(
-                        Modifier.size(60.dp)
+                        modifier = Modifier.size(50.dp),
+                        color = colorResource(R.color.SageDark),
+                        strokeWidth = 6.dp
                     )
                 }
             }
@@ -241,10 +241,9 @@ fun LoginScreenPreview() {
     DigiGateTheme {
         val viewModel = viewModel<LoginViewModel>()
         LoginScreenLayout(
-            onLoginClicked = {viewModel.onClickLogin()},
             onCreateAccount = {},
-            onGoogleClicked = {},
-            viewModel = viewModel
+            viewModel = viewModel,
+            goToMainApp = {}
         )
     }
 }

@@ -1,16 +1,21 @@
 package com.tpc.digigate.ui.screens.authentication.register
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.tpc.digigate.domain.model.AuthResult
+import com.tpc.digigate.domain.repository.AuthRepository
 import com.tpc.digigate.utils.Validator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class RegisterViewModel @Inject constructor(): ViewModel() {
+class RegisterViewModel @Inject constructor(val authRepository: AuthRepository) : ViewModel() {
     private val _registerUiState = MutableStateFlow(RegisterUIState())
     val registerUiState: StateFlow<RegisterUIState> = _registerUiState.asStateFlow()
 
@@ -36,11 +41,9 @@ class RegisterViewModel @Inject constructor(): ViewModel() {
 
         if (email.isBlank() || password.isBlank()) {
             return false
-        }
-        else
+        } else
             return true
     }
-
 
 
     fun toastMessageShown() {
@@ -50,6 +53,7 @@ class RegisterViewModel @Inject constructor(): ViewModel() {
             )
         }
     }
+
     fun onClickRegister() {
         val email = _registerUiState.value.email
         val password = _registerUiState.value.password
@@ -64,22 +68,70 @@ class RegisterViewModel @Inject constructor(): ViewModel() {
             }
         }
 
-        Validator.isValidEmail(email,onSuccess= {message->
-            if (passwordValid){
+        Validator.isValidEmail(email, onSuccess = {
+            if (passwordValid) {
                 _registerUiState.update {
                     it.copy(
-                        toastMessage = message,
                         isLoading = true
                     )
                 }
+                viewModelScope.launch {
+                    authRepository.createUserWithEmailAndPassword(
+                        _registerUiState.value.email,
+                        _registerUiState.value.password
+                    ).collect { authResult ->
+                        _registerUiState.update {
+                            it.copy(
+                                isLoading = false,
+                                toastMessage = authResult.message
+                            )
+                        }
+                        when (authResult) {
+                            is AuthResult.VerificationNeeded -> {
+
+                            }
+
+                            else -> {
+
+                            }
+                        }
+
+                    }
+                }
+
             }
-        }, onFailure = {error->
-                _registerUiState.update {
-                    it.copy(
-                        toastMessage = error
-                    )
+        }, onFailure = { error ->
+            _registerUiState.update {
+                it.copy(
+                    toastMessage = error
+                )
+            }
+        }
+        )
+    }
+
+    fun googleSignIn(context: Context, goToMainApp: () -> Unit) {
+        _registerUiState.update { it.copy(isLoading = true) }
+        viewModelScope.launch {
+            authRepository.signInWithGoogle(context).collect { authResult ->
+                _registerUiState.update { it.copy(isLoading = false) }
+                println(authResult.message)
+                _registerUiState.update { it.copy(toastMessage = authResult.message) }
+                when (authResult) {
+                    is AuthResult.Success -> {
+                        _registerUiState.update { it.copy(toastMessage = null) }
+                        goToMainApp()
+                    }
+
+                    is AuthResult.VerificationNeeded -> {
+
+                    }
+
+                    else -> {
+
+                    }
                 }
             }
-        )
+        }
     }
 }

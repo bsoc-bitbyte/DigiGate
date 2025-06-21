@@ -1,17 +1,22 @@
 package com.tpc.digigate.ui.screens.authentication.login
 
 import android.R
+import android.content.Context
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.tpc.digigate.domain.model.AuthResult
+import com.tpc.digigate.domain.repository.AuthRepository
 import com.tpc.digigate.utils.Validator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class LoginViewModel @Inject constructor(): ViewModel() {
+class LoginViewModel @Inject constructor(val authRepository: AuthRepository) : ViewModel() {
     private val _loginUiState = MutableStateFlow(LoginUIState())
     val loginUiState: StateFlow<LoginUIState> = _loginUiState.asStateFlow()
 
@@ -43,15 +48,11 @@ class LoginViewModel @Inject constructor(): ViewModel() {
         val email = _loginUiState.value.email
         val password = _loginUiState.value.password
 
-        if (email.isBlank() || password.isBlank()) {
-            return false
-        }
-        else
-            return true
+        return !(email.isBlank() || password.isBlank())
     }
 
 
-    fun onClickLogin() {
+    fun onClickLogin(goToMainApp: () -> Unit) {
         val email = _loginUiState.value.email
         val password = _loginUiState.value.password
 
@@ -64,16 +65,44 @@ class LoginViewModel @Inject constructor(): ViewModel() {
                 )
             }
         }
-        Validator.isValidEmail(email,onSuccess= {message->
-            if (passwordValid){
+        Validator.isValidEmail(email, onSuccess = {
+            if (passwordValid) {
                 _loginUiState.update {
                     it.copy(
-                        toastMessage = message,
                         isLoading = true
                     )
                 }
+                viewModelScope.launch {
+                    authRepository.signInWithEmailAndPassword(
+                        _loginUiState.value.email,
+                        _loginUiState.value.password
+                    ).collect { authResult ->
+                        _loginUiState.update {
+                            it.copy(
+                                isLoading = false,
+                                toastMessage = authResult.message
+                            )
+                        }
+                        when (authResult) {
+
+                            is AuthResult.Success -> {
+                                toastMessageShown()
+                                goToMainApp()
+                            }
+
+                            is AuthResult.VerificationNeeded -> {
+
+                            }
+
+                            else -> {
+
+                            }
+                        }
+                    }
+                }
+
             }
-        }, onFailure = {error->
+        }, onFailure = { error ->
             _loginUiState.update {
                 it.copy(
                     toastMessage = error
@@ -82,5 +111,29 @@ class LoginViewModel @Inject constructor(): ViewModel() {
         }
         )
 
+    }
+
+    fun googleSignIn(context: Context, goToMainApp: () -> Unit) {
+        _loginUiState.update { it.copy(isLoading = true) }
+        viewModelScope.launch {
+            authRepository.signInWithGoogle(context).collect { authResult ->
+                _loginUiState.update { it.copy(isLoading = false) }
+                println(authResult.message)
+                _loginUiState.update { it.copy(toastMessage = authResult.message) }
+                when (authResult) {
+                    is AuthResult.Success -> {
+                        goToMainApp()
+                    }
+
+                    is AuthResult.VerificationNeeded -> {
+
+                    }
+
+                    else -> {
+
+                    }
+                }
+            }
+        }
     }
 }
