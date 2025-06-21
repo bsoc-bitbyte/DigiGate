@@ -17,4 +17,10 @@
     <string name="branch">Branch</string>
     <string name="utilities">Utilities</string>
     <string name="view_id_card">View ID Card</string>
+    <string name="calender_today">Calender Today</string>
+    <string name="history">History</string>
+    <string name="verified">VERIFIED</string>
+    <string name="not_verified">NOT VERIFIED</string>
+    <string name="out_time">Out-time</string>
+    <string name="in_time">In-time</string>
 </resources>
