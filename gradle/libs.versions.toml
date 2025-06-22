@@ -1,5 +1,7 @@
 [versions]
+accompanistSystemuicontroller = "0.36.0"
 agp = "8.9.3"
+datastorePreferences = "1.1.7"
 hiltCompiler = "1.2.0"
 kotlin = "2.1.0"
 coreKtx = "1.16.0"
@@ -37,8 +39,10 @@ firebaseFirestore = "25.1.4"
 firebaseDatabase = "21.0.0"
 
 [libraries]
+accompanist-systemuicontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanistSystemuicontroller" }
 androidx-adaptive = { module = "androidx.compose.material3.adaptive:adaptive-navigation", version.ref = "material3AdaptiveNav3" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
 androidx-hilt-compiler = { module = "androidx.hilt:hilt-compiler",name = "hilt-compiler", version.ref = "hiltCompiler" }
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
