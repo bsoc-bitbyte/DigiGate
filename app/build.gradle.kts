@@ -24,10 +24,11 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         val localProperties = Properties()
-                .takeIf { localPropertiesFile.exists() }
-            ?.apply { load(FileInputStream(localPropertiesFile))}
+            .takeIf { localPropertiesFile.exists() }
+            ?.apply { load(FileInputStream(localPropertiesFile)) }
 
-        fun addStringResource(name: String) = resValue("string", name, localProperties?.getProperty(name).toString())
+        fun addStringResource(name: String) =
+            resValue("string", name, localProperties?.getProperty(name).toString())
 
         addStringResource("WEB_CLIENT_ID")
     }
@@ -105,4 +106,8 @@ dependencies {
     implementation(libs.googleid)
     implementation(libs.firebase.firestore)
     implementation(libs.firebase.database)
+
+    //DataStore dependency
+    implementation(libs.androidx.datastore.preferences)
+    implementation(libs.accompanist.systemuicontroller)
 }

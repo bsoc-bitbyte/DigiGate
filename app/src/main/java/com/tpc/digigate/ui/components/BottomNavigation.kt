@@ -20,6 +20,13 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.History
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.outlined.History
+import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
@@ -37,6 +44,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Density
@@ -45,10 +53,17 @@ import androidx.compose.ui.unit.sp
 import com.tpc.digigate.ui.navigation.Screen
 import com.tpc.digigate.ui.theme.DigiGateTheme
 
-val destinationList = listOf<Screen>(
-    Screen.History,
-    Screen.Home,
-    Screen.Profile
+data class Item(
+    val title: String,
+    val iconFilled: ImageVector,
+    val iconOut: ImageVector,
+    val screen: Screen
+)
+
+val destinationList = listOf<Item>(
+    Item("History", Icons.Filled.History, Icons.Outlined.History, Screen.History),
+    Item("Home", Icons.Filled.Home, Icons.Outlined.Home, Screen.Home),
+    Item("Profile", Icons.Filled.Person, Icons.Outlined.Person, Screen.Profile)
 )
 
 @Composable
@@ -56,7 +71,10 @@ fun BottomNavigationBar(
     selected: Screen,
     onItemClick: (Screen) -> Unit
 ) {
-    var selectedIndex = destinationList.indexOf(selected)
+    var selectedIndex = 0
+    destinationList.forEachIndexed { index, item ->
+        if (selected == item.screen) selectedIndex = index
+    }
 
     Box(
         modifier = Modifier
@@ -118,13 +136,13 @@ fun BottomNavigationBar(
                                     verticalAlignment = Alignment.CenterVertically,
                                     modifier = Modifier.clickable(
                                         enabled = true,
-                                        onClick = { onItemClick(screen) },
+                                        onClick = { onItemClick(screen.screen) },
                                         interactionSource = null,
                                         indication = null
                                     )
                                 ) {
                                     Icon(
-                                        imageVector = if (isSelected) screen.iconFilled else screen.iconOut,
+                                        imageVector = if (isSelected) screen.iconFilled else screen.iconOut!!,
                                         contentDescription = screen.title,
                                         modifier = Modifier.size(24.dp)
                                     )
