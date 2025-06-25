@@ -13,11 +13,6 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -26,36 +21,33 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.tpc.digigate.data.firebase.auth.FirebaseServices
-import com.tpc.digigate.domain.model.AuthResult
-import kotlinx.coroutines.delay
 
 @SuppressLint("UnrememberedMutableState")
 @Composable
-fun EmailVerificationScreen(viewModel: EmailVerificationViewModel, modifier: Modifier = Modifier) {
+fun EmailVerificationScreen(
+    viewModel: EmailVerificationViewModel,
+    onNavigate: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
     val context = LocalContext.current
-    var canResend by remember { mutableStateOf(false) }
-    var countdown by remember { mutableStateOf(30) }
-    var trigger by remember { mutableStateOf(0) }
+    val uiState = viewModel.uiState
 
-    LaunchedEffect(trigger) {
-        canResend = false
-        countdown = 30
-        while (countdown > 0) {
-            delay(1000)
-            countdown--
+    androidx.compose.runtime.LaunchedEffect(uiState.emailSent, uiState.errorMessage) {
+        if (uiState.emailSent) {
+            Toast.makeText(context, "Email Sent Successfully", Toast.LENGTH_SHORT).show()
         }
-        canResend = true
+        if (uiState.errorMessage != null) {
+            Toast.makeText(context, "Error: ${uiState.errorMessage} ", Toast.LENGTH_SHORT).show()
+        }
     }
 
     Box(modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Image(
                 painter = painterResource(id = com.tpc.digigate.R.drawable.emailverification),
-                contentDescription = "",
+                contentDescription = "email verification Page",
                 modifier = Modifier.size(300.dp)
             )
             Text(
@@ -70,52 +62,27 @@ fun EmailVerificationScreen(viewModel: EmailVerificationViewModel, modifier: Mod
                 fontWeight = FontWeight.Thin,
                 color = Color.Gray
             )
-
-            if (viewModel.isloading) {
+            if (uiState.isloading) {
                 CircularProgressIndicator()
             } else {
                 Button(
-                    modifier = Modifier.clip(RoundedCornerShape(24.dp)),
+                    modifier = Modifier.clip(RoundedCornerShape(29.dp)),
                     onClick = {
-                        viewModel.sendVerificationEmail {
-                            when (it) {
-                                is AuthResult.Success -> {
-                                    Toast.makeText(
-                                        context,
-                                        "Email Sent Successfully",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                }
-
-                                is AuthResult.Error -> {
-                                    Toast.makeText(
-                                        context,
-                                        "Error: ${it.message}",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                }
-
-                                else -> Unit
-                            }
-                        }
-
-                        trigger++
+                        viewModel.sendVerificationEmail()
                     },
-                    enabled = canResend
+                    enabled = uiState.canresend
                 ) {
-                    Text(text = if (canResend) "Resend Email" else "Resend in $countdown")
+                    Text(
+                        text = if (uiState.canresend) "Resend Email" else "Resend in ${uiState.countdown}"
+                    )
                 }
             }
-
-            Button(onClick = {
-                openGmailApp(context)
-            }) {
+            Button(onClick = { openGmailApp(context) }) {
                 Text(text = "Open Gmail")
             }
         }
     }
 }
-
 
 private fun openGmailApp(context: android.content.Context) {
     try {
@@ -130,10 +97,3 @@ private fun openGmailApp(context: android.content.Context) {
 }
 
 
-@SuppressLint("ViewModelConstructorInComposable")
-@Preview(showSystemUi = true, showBackground = true)
-@Composable
-fun EmailVerificationpreview() {
-    val fakeviewModel = EmailVerificationViewModel(object : FirebaseServices() {})
-    EmailVerificationScreen(viewModel = fakeviewModel)
-}
