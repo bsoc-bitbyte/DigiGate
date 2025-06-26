@@ -51,6 +51,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.tpc.digigate.ui.theme.DigiGateTheme
 import com.tpc.digigate.R
 import com.tpc.digigate.ui.components.AppPasswordField
@@ -62,12 +63,20 @@ fun RegisterScreenLayout(
     goToMainApp: () -> Unit,
     onHaveAccount: () -> Unit,
     viewModel: RegisterViewModel = hiltViewModel(),
-    context : Context? = null
+    context : Context? = null,
+    navController: NavController
 ) {
     val uiState by viewModel.registerUiState.collectAsState()
 
     var isPasswordVisible by remember { mutableStateOf(false) }
     val focusManager = LocalFocusManager.current
+    LaunchedEffect(uiState.needsVerification) {
+        if (uiState.needsVerification) {
+            navController.navigate("email_verification_route") {
+                launchSingleTop = true
+            }
+        }
+    }
 
     if (uiState.toastMessage != null && uiState.toastMessage?.isNotBlank() == true) {
         Toast.makeText(context, uiState.toastMessage, Toast.LENGTH_SHORT).show()

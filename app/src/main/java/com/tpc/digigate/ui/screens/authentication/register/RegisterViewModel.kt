@@ -88,7 +88,9 @@ class RegisterViewModel @Inject constructor(val authRepository: AuthRepository) 
                         }
                         when (authResult) {
                             is AuthResult.VerificationNeeded -> {
-
+                                _registerUiState.update {
+                                    it.copy(isLoading = false, needsVerification = true)
+                                }
                             }
 
                             else -> {
@@ -124,7 +126,9 @@ class RegisterViewModel @Inject constructor(val authRepository: AuthRepository) 
                     }
 
                     is AuthResult.VerificationNeeded -> {
-
+                        _registerUiState.update {
+                            it.copy(isLoading = false, needsVerification = true)
+                        }
                     }
 
                     else -> {
