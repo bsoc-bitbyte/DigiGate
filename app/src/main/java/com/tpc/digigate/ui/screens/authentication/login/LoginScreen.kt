@@ -60,16 +60,9 @@ fun LoginScreenLayout(
     onCreateAccount: () -> Unit,
     viewModel: LoginViewModel = hiltViewModel(),
     context: Context? = null,
-    navController: NavController,
+    goToEmailVerificationScreen: () -> Unit
 ) {
     val uiState by viewModel.loginUiState.collectAsState()
-    LaunchedEffect(uiState.needsVerification) {
-        if (uiState.needsVerification) {
-            navController.navigate("email_verification_route") {
-                launchSingleTop = true
-            }
-        }
-    }
 
 
     var isPasswordVisible by remember { mutableStateOf(false) }
@@ -142,7 +135,12 @@ fun LoginScreenLayout(
                 )
                 Spacer(modifier = Modifier.height(35.dp))
                 Button(
-                    onClick = { viewModel.onClickLogin(goToMainApp = goToMainApp) },
+                    onClick = {
+                        viewModel.onClickLogin(
+                            goToMainApp = goToMainApp,
+                            goToEmailVerificationScreen = goToEmailVerificationScreen
+                        )
+                    },
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 20.dp)
@@ -161,7 +159,13 @@ fun LoginScreenLayout(
                 }
                 Spacer(modifier = Modifier.height(14.dp))
                 Button(
-                    onClick = { viewModel.googleSignIn(context!!, goToMainApp = goToMainApp) },
+                    onClick = {
+                        viewModel.googleSignIn(
+                            context!!,
+                            goToMainApp = goToMainApp,
+                            goToEmailVerificationScreen = goToEmailVerificationScreen
+                        )
+                    },
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 20.dp)
@@ -252,7 +256,8 @@ fun LoginScreenPreview() {
         LoginScreenLayout(
             onCreateAccount = {},
             viewModel = viewModel,
-            goToMainApp = {}
+            goToMainApp = {},
+            goToEmailVerificationScreen = {}
         )
     }
 }

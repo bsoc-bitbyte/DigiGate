@@ -29,11 +29,7 @@ class FirebaseServices @Inject constructor(private val firebaseAuth: FirebaseAut
 
             if (firebaseUser != null) {
                 if (firebaseUser.isEmailVerified) {
-                    emit(
-                        AuthResult.Success(
-                            "Success"
-                        )
-                    )
+                    emit(AuthResult.Success("Success"))
                 } else {
                     emit(AuthResult.VerificationNeeded(email, "Email Verification Needed"))
                 }
@@ -73,9 +69,6 @@ class FirebaseServices @Inject constructor(private val firebaseAuth: FirebaseAut
             val firebaseUser = result.user
 
             if (firebaseUser != null) {
-
-                firebaseUser.sendEmailVerification().await()
-
                 emit(AuthResult.VerificationNeeded(email, "Verification Needed"))
             } else {
                 emit(AuthResult.Error("User creation failed"))

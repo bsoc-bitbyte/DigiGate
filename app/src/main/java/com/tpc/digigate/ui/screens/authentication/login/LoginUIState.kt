@@ -7,5 +7,5 @@ data class LoginUIState(
     val password: String = "",
     val toastMessage: String? = null,
     val errorMessage: String = "",
-    val needsVerification : Boolean = false
+
 )
