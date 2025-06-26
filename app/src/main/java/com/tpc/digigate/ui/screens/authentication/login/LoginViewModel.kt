@@ -1,6 +1,5 @@
 package com.tpc.digigate.ui.screens.authentication.login
 
-import android.R
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -91,7 +90,12 @@ class LoginViewModel @Inject constructor(val authRepository: AuthRepository) : V
                             }
 
                             is AuthResult.VerificationNeeded -> {
-
+                                _loginUiState.update {
+                                    it.copy(
+                                        isLoading = false,
+                                        needsVerification = true
+                                    )
+                                }
                             }
 
                             else -> {
@@ -126,8 +130,14 @@ class LoginViewModel @Inject constructor(val authRepository: AuthRepository) : V
                     }
 
                     is AuthResult.VerificationNeeded -> {
-
+                        _loginUiState.update {
+                            it.copy(
+                                isLoading = false,
+                                needsVerification = true
+                            )
+                        }
                     }
+
 
                     else -> {
 
