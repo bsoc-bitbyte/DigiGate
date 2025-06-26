@@ -39,10 +39,7 @@ class RegisterViewModel @Inject constructor(val authRepository: AuthRepository) 
         val email = _registerUiState.value.email
         val password = _registerUiState.value.password
 
-        if (email.isBlank() || password.isBlank()) {
-            return false
-        } else
-            return true
+        return !(email.isBlank() || password.isBlank())
     }
 
 
@@ -54,7 +51,7 @@ class RegisterViewModel @Inject constructor(val authRepository: AuthRepository) 
         }
     }
 
-    fun onClickRegister() {
+    fun onClickRegister(goToEmailVerificationScreen: () -> Unit) {
         val email = _registerUiState.value.email
         val password = _registerUiState.value.password
 
@@ -80,27 +77,25 @@ class RegisterViewModel @Inject constructor(val authRepository: AuthRepository) 
                         _registerUiState.value.email,
                         _registerUiState.value.password
                     ).collect { authResult ->
+
                         _registerUiState.update {
                             it.copy(
                                 isLoading = false,
                                 toastMessage = authResult.message
                             )
                         }
+
                         when (authResult) {
                             is AuthResult.VerificationNeeded -> {
-                                _registerUiState.update {
-                                    it.copy(isLoading = false, needsVerification = true)
-                                }
+                                goToEmailVerificationScreen()
                             }
 
                             else -> {
-
                             }
                         }
 
                     }
                 }
-
             }
         }, onFailure = { error ->
             _registerUiState.update {
@@ -112,23 +107,31 @@ class RegisterViewModel @Inject constructor(val authRepository: AuthRepository) 
         )
     }
 
-    fun googleSignIn(context: Context, goToMainApp: () -> Unit) {
+    fun googleSignIn(
+        context: Context,
+        goToMainApp: () -> Unit,
+        goToEmailVerificationScreen: () -> Unit
+    ) {
         _registerUiState.update { it.copy(isLoading = true) }
         viewModelScope.launch {
             authRepository.signInWithGoogle(context).collect { authResult ->
-                _registerUiState.update { it.copy(isLoading = false) }
-                println(authResult.message)
-                _registerUiState.update { it.copy(toastMessage = authResult.message) }
+
+                _registerUiState.update {
+                    it.copy(
+                        isLoading = false,
+                        toastMessage = authResult.message
+                    )
+                }
+
                 when (authResult) {
+
                     is AuthResult.Success -> {
                         _registerUiState.update { it.copy(toastMessage = null) }
                         goToMainApp()
                     }
 
                     is AuthResult.VerificationNeeded -> {
-                        _registerUiState.update {
-                            it.copy(isLoading = false, needsVerification = true)
-                        }
+                        goToEmailVerificationScreen()
                     }
 
                     else -> {

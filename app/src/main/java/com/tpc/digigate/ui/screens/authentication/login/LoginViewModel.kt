@@ -51,7 +51,7 @@ class LoginViewModel @Inject constructor(val authRepository: AuthRepository) : V
     }
 
 
-    fun onClickLogin(goToMainApp: () -> Unit) {
+    fun onClickLogin(goToMainApp: () -> Unit, goToEmailVerificationScreen: () -> Unit) {
         val email = _loginUiState.value.email
         val password = _loginUiState.value.password
 
@@ -90,12 +90,7 @@ class LoginViewModel @Inject constructor(val authRepository: AuthRepository) : V
                             }
 
                             is AuthResult.VerificationNeeded -> {
-                                _loginUiState.update {
-                                    it.copy(
-                                        isLoading = false,
-                                        needsVerification = true
-                                    )
-                                }
+                                goToEmailVerificationScreen()
                             }
 
                             else -> {
@@ -117,7 +112,11 @@ class LoginViewModel @Inject constructor(val authRepository: AuthRepository) : V
 
     }
 
-    fun googleSignIn(context: Context, goToMainApp: () -> Unit) {
+    fun googleSignIn(
+        context: Context,
+        goToMainApp: () -> Unit,
+        goToEmailVerificationScreen: () -> Unit
+    ) {
         _loginUiState.update { it.copy(isLoading = true) }
         viewModelScope.launch {
             authRepository.signInWithGoogle(context).collect { authResult ->
@@ -130,14 +129,8 @@ class LoginViewModel @Inject constructor(val authRepository: AuthRepository) : V
                     }
 
                     is AuthResult.VerificationNeeded -> {
-                        _loginUiState.update {
-                            it.copy(
-                                isLoading = false,
-                                needsVerification = true
-                            )
-                        }
+                        goToEmailVerificationScreen()
                     }
-
 
                     else -> {
 

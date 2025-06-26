@@ -7,4 +7,6 @@ sealed class AuthScreen {
     object OnBoarding : AuthScreen()
 
     object Register : AuthScreen()
+
+    object EmailVerification: AuthScreen()
 }

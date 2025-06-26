@@ -1,6 +1,5 @@
-package com.tpc.digigate.ui.screens.authentication.EmailVerification
+package com.tpc.digigate.ui.screens.authentication.emailVerification
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.widget.Toast
 import androidx.compose.foundation.Image
@@ -13,6 +12,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -25,26 +25,19 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 
-@SuppressLint("UnrememberedMutableState")
 @Composable
 fun EmailVerificationScreen(
     viewModel: EmailVerificationViewModel = hiltViewModel(),
-    onNavigate: () -> Unit,
-    @SuppressLint("ModifierParameter") modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
-    val uiState = viewModel.uiState
+    val uiState = viewModel.uiState.collectAsState().value
 
-    androidx.compose.runtime.LaunchedEffect(uiState.emailSent, uiState.errorMessage) {
-        if (uiState.emailSent) {
-            Toast.makeText(context, "Email Sent Successfully", Toast.LENGTH_SHORT).show()
-        }
-        if (uiState.errorMessage != null) {
-            Toast.makeText(context, "Error: ${uiState.errorMessage} ", Toast.LENGTH_SHORT).show()
-        }
+    if (uiState.message != null) {
+        Toast.makeText(context, uiState.message, Toast.LENGTH_SHORT).show()
     }
 
-    Box(modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+
+    Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Image(
                 painter = painterResource(id = com.tpc.digigate.R.drawable.emailverification),
@@ -63,7 +56,7 @@ fun EmailVerificationScreen(
                 fontWeight = FontWeight.Thin,
                 color = Color.Gray
             )
-            if (uiState.isloading) {
+            if (uiState.isLoading) {
                 CircularProgressIndicator()
             } else {
                 Button(
@@ -71,10 +64,10 @@ fun EmailVerificationScreen(
                     onClick = {
                         viewModel.sendVerificationEmail()
                     },
-                    enabled = uiState.canresend
+                    enabled = uiState.canResend
                 ) {
                     Text(
-                        text = if (uiState.canresend) "Resend Email" else "Resend in ${uiState.countdown}"
+                        text = if (uiState.canResend) "Resend Email" else "Resend in ${uiState.countdown}"
                     )
                 }
             }

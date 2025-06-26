@@ -63,20 +63,13 @@ fun RegisterScreenLayout(
     goToMainApp: () -> Unit,
     onHaveAccount: () -> Unit,
     viewModel: RegisterViewModel = hiltViewModel(),
-    context : Context? = null,
-    navController: NavController
+    context: Context? = null,
+    goToEmailVerificationScreen: () -> Unit
 ) {
     val uiState by viewModel.registerUiState.collectAsState()
 
     var isPasswordVisible by remember { mutableStateOf(false) }
     val focusManager = LocalFocusManager.current
-    LaunchedEffect(uiState.needsVerification) {
-        if (uiState.needsVerification) {
-            navController.navigate("email_verification_route") {
-                launchSingleTop = true
-            }
-        }
-    }
 
     if (uiState.toastMessage != null && uiState.toastMessage?.isNotBlank() == true) {
         Toast.makeText(context, uiState.toastMessage, Toast.LENGTH_SHORT).show()
@@ -146,7 +139,7 @@ fun RegisterScreenLayout(
                 )
                 Spacer(modifier = Modifier.height(35.dp))
                 Button(
-                    onClick = { viewModel.onClickRegister() },
+                    onClick = { viewModel.onClickRegister(goToEmailVerificationScreen = goToEmailVerificationScreen) },
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 20.dp)
@@ -165,7 +158,13 @@ fun RegisterScreenLayout(
                 }
                 Spacer(modifier = Modifier.height(14.dp))
                 Button(
-                    onClick = { viewModel.googleSignIn(context!!, goToMainApp) },
+                    onClick = {
+                        viewModel.googleSignIn(
+                            context!!,
+                            goToMainApp,
+                            goToEmailVerificationScreen = goToEmailVerificationScreen
+                        )
+                    },
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 20.dp)
@@ -257,7 +256,8 @@ fun RegisterScreenPreview() {
         RegisterScreenLayout(
             goToMainApp = {},
             onHaveAccount = {},
-            viewModel = viewModel
+            viewModel = viewModel,
+            goToEmailVerificationScreen = {}
         )
     }
 }
