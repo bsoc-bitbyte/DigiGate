@@ -23,4 +23,9 @@
     <string name="not_verified">NOT VERIFIED</string>
     <string name="out_time">Out-time</string>
     <string name="in_time">In-time</string>
+    <string name="forget_password">Forget Password</string>
+    <string name="enter_email">Enter your email</string>
+    <string name="send_reset_link">Send Reset Link</string>
+    <string name="email_confirmation">Email confirmation</string>
+    <string name="resend">Resend Mail</string>
 </resources>

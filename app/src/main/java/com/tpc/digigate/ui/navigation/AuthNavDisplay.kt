@@ -12,7 +12,9 @@ import androidx.compose.ui.Modifier
 import androidx.navigation3.runtime.entry
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
+import com.tpc.digigate.ui.screens.authentication.emailSentConfirmation.EmailSentConfirmationLayout
 import com.tpc.digigate.ui.screens.authentication.emailVerification.EmailVerificationScreen
+import com.tpc.digigate.ui.screens.authentication.forgetPassword.ForgetPasswordScreenLayout
 import com.tpc.digigate.ui.screens.authentication.login.LoginScreenLayout
 import com.tpc.digigate.ui.screens.authentication.register.RegisterScreenLayout
 import com.tpc.digigate.ui.screens.onboarding.OnboardingPagerScreen
@@ -66,10 +68,26 @@ fun AuthNavDisplay(goToMainApp: () -> Unit, context: Context) {
                             context = context,
                             goToEmailVerificationScreen = {
                                 backStack.add(AuthScreen.EmailVerification)
+                            },
+                            onForgetPasswordClicked = {
+                                backStack.add(AuthScreen.ForgetPasswordScreen)
                             }
                         )
                     }
-
+                    entry<AuthScreen.ForgetPasswordScreen> {
+                        ForgetPasswordScreenLayout(
+                            onBackClicked = { backStack.removeLastOrNull() },
+                            onResetLinkSendClicked = { email ->
+                                backStack += AuthScreen.EmailSentConfirmation(email)
+                            }
+                        )
+                    }
+                    entry<AuthScreen.EmailSentConfirmation> { tempEmail ->
+                        EmailSentConfirmationLayout(
+                            email = tempEmail.email,
+                            onBackClicked = { backStack.removeLastOrNull() }
+                        )
+                    }
                     entry<AuthScreen.EmailVerification> {
                         EmailVerificationScreen()
                     }
