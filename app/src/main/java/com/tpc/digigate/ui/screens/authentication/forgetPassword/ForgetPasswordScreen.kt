@@ -24,7 +24,6 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -83,24 +82,24 @@ fun ForgetPasswordScreenContent(
 ) {
     val focusManager = LocalFocusManager.current
 
-    Scaffold(
-        topBar = {
-            TopBar(
-                onBackClicked = { onBack() }
-            )
-        }
-    ) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background),
+
+        ) {
+        TopBar(
+            onBackClicked = { onBack() }
+        )
         Box(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(bottom = it.calculateBottomPadding()),
+                .fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(horizontal = 16.dp)
-                    .background(MaterialTheme.colorScheme.background),
+                    .padding(horizontal = 16.dp),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
@@ -220,6 +219,7 @@ fun TopBar(
             style = MaterialTheme.typography.bodyLarge.copy(
                 fontWeight = FontWeight.Bold
             ),
+            color = MaterialTheme.colorScheme.onBackground,
             modifier = Modifier.align(Alignment.Center)
         )
         IconButton(
@@ -228,6 +228,7 @@ fun TopBar(
             Icon(
                 imageVector = Icons.Default.ArrowBack,
                 contentDescription = "Navigate back",
+                tint = MaterialTheme.colorScheme.onBackground,
             )
         }
     }

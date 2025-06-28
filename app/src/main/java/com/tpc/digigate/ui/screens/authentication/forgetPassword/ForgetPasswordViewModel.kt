@@ -64,24 +64,15 @@ class ForgetPasswordViewModel @Inject constructor(
             email, onSuccess = {
                 viewModelScope.launch {
                     authRepository.sendPasswordResetEmail(email).collect { result ->
+                        _forgetPasswordUiState.update {
+                            it.copy(
+                                isLoading = false,
+                                toastMessage = result.message
+                            )
+                        }
                         when (result) {
                             is AuthResult.Success -> {
-                                _forgetPasswordUiState.update {
-                                    it.copy(
-                                        isLoading = false,
-                                        toastMessage = result.message
-                                    )
-                                }
                                 toEmailConfirmationPage(email)
-                            }
-
-                            is AuthResult.Error -> {
-                                _forgetPasswordUiState.update {
-                                    it.copy(
-                                        isLoading = false,
-                                        toastMessage = result.message
-                                    )
-                                }
                             }
 
                             else -> Unit

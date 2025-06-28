@@ -77,27 +77,16 @@ class EmailConfirmationViewModel @Inject constructor(
         if (email != null) {
             viewModelScope.launch {
                 authRepository.sendPasswordResetEmail(email).collect { result ->
+                    _emailConfirmationUiState.update {
+                        it.copy(
+                            isLoading = false,
+                            toastMessage = result.message,
+                        )
+                    }
                     when (result) {
                         is AuthResult.Success -> {
-                            delay(1000)
-                            _emailConfirmationUiState.update {
-                                it.copy(
-                                    isLoading = false,
-                                    toastMessage = result.message,
-                                )
-                            }
                             countDownStart()
                         }
-
-                        is AuthResult.Error -> {
-                            _emailConfirmationUiState.update {
-                                it.copy(
-                                    isLoading = false,
-                                    toastMessage = result.message
-                                )
-                            }
-                        }
-
                         else -> Unit
                     }
                 }

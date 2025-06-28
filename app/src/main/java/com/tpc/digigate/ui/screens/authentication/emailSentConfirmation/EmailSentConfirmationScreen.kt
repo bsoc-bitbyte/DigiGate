@@ -1,6 +1,7 @@
 package com.tpc.digigate.ui.screens.authentication.emailSentConfirmation
 
 import android.content.Intent
+import android.content.res.Configuration
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -22,7 +23,6 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.getValue
@@ -76,20 +76,23 @@ fun EmailSentConfirmationContent(
     onResendClicked: () -> Unit,
 ) {
     val context = LocalContext.current
-    Scaffold(
-        topBar = { TopBar(onBackClicked = { onBack() }) }
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background)
     ) {
+        TopBar(
+            onBackClicked =  { onBack() }
+        )
         Box(
             contentAlignment = Alignment.Center,
             modifier = Modifier
                 .fillMaxSize()
-                .padding(bottom = it.calculateBottomPadding()),
         )
         {
             Column(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .background(MaterialTheme.colorScheme.background),
+                    .fillMaxSize(),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
@@ -211,12 +214,14 @@ fun TopBar(
             Icon(
                 imageVector = Icons.Default.ArrowBack,
                 contentDescription = "Navigate back",
+                tint = MaterialTheme.colorScheme.onBackground
             )
         }
     }
 }
 
 @Preview
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 fun EmailSentConfirmationPreview() {
     DigiGateTheme {
