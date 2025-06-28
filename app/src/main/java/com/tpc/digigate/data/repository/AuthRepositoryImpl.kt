@@ -32,7 +32,7 @@ class AuthRepositoryImpl @Inject constructor(val firebaseServices: FirebaseServi
         if (idToken == null) {
             emit(AuthResult.Error("Google Sign-In failed"))
         } else {
-            firebaseServices.signInWithGoogle(idToken).collect { it->
+            firebaseServices.signInWithGoogle(idToken).collect { it ->
                 emit(it)
             }
         }
@@ -52,6 +52,17 @@ class AuthRepositoryImpl @Inject constructor(val firebaseServices: FirebaseServi
 
     override fun sendEmailVerificationMail(): Flow<AuthResult> {
         return firebaseServices.sendEmailVerificationMail()
+    }
+
+    override fun verifyEmail(code: String): Flow<AuthResult> {
+        return firebaseServices.verifyEmail(code)
+    }
+
+    override fun updatePassword(
+        code: String,
+        newPassword: String
+    ): Flow<AuthResult> {
+        return firebaseServices.updatePassword(code, newPassword)
     }
 
     override fun signOut() {

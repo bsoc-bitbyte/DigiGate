@@ -1,14 +1,9 @@
 package com.tpc.digigate.data.firebase.auth
 
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
-import com.google.firebase.auth.UserProfileChangeRequest
 import com.tpc.digigate.domain.model.AuthResult
-import com.tpc.digigate.domain.model.User
-import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
@@ -99,6 +94,24 @@ class FirebaseServices @Inject constructor(private val firebaseAuth: FirebaseAut
             }
         } catch (e: Exception) {
             emit(AuthResult.Error(e.message ?: "Failed to send email verification"))
+        }
+    }
+
+    fun updatePassword(code: String, newPassword: String): Flow<AuthResult> = flow {
+        try {
+            firebaseAuth.confirmPasswordReset(code, newPassword).await()
+            emit(AuthResult.Success("Password updated successfully"))
+        } catch (e: Exception) {
+            emit(AuthResult.Error(e.message ?: "Failed to update password"))
+        }
+    }
+
+    fun verifyEmail(code: String): Flow<AuthResult> = flow {
+        try {
+            firebaseAuth.applyActionCode(code).await()
+            emit(AuthResult.Success("Email Verified"))
+        } catch (e: Exception) {
+            emit(AuthResult.Error(e.message ?: "Email verification failed"))
         }
     }
 
