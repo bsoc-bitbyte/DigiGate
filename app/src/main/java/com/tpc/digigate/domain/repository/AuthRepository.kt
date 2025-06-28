@@ -24,5 +24,9 @@ interface AuthRepository {
 
     fun sendEmailVerificationMail(): Flow<AuthResult>
 
+    fun verifyEmail(code: String): Flow<AuthResult>
+
+    fun updatePassword(code: String, newPassword: String): Flow<AuthResult>
+
     fun signOut()
 }

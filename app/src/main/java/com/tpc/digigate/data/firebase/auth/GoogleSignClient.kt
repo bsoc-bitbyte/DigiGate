@@ -24,7 +24,6 @@ class GoogleSignInClient(
             Log.i("GoogleSignInClient", "Error during Google sign-in: ${e.message}")
             null
         }
-        return null
     }
 
     private suspend fun getCredentialResponse(): GetCredentialResponse {
