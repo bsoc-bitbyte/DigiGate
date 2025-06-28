@@ -25,6 +25,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -60,11 +61,10 @@ fun LoginScreenLayout(
     onCreateAccount: () -> Unit,
     viewModel: LoginViewModel = hiltViewModel(),
     context: Context? = null,
+    onForgetPasswordClicked: () -> Unit,
     goToEmailVerificationScreen: () -> Unit
 ) {
     val uiState by viewModel.loginUiState.collectAsState()
-
-
     var isPasswordVisible by remember { mutableStateOf(false) }
     val focusManager = LocalFocusManager.current
 
@@ -133,7 +133,24 @@ fun LoginScreenLayout(
                     onImeAction = { focusManager.clearFocus() },
                     modifier = Modifier.padding(horizontal = 20.dp)
                 )
-                Spacer(modifier = Modifier.height(35.dp))
+                Spacer(modifier = Modifier.height(8.dp))
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 20.dp)
+                ) {
+                    Text(
+                        text = "${stringResource(R.string.forget_password)}?",
+                        style = MaterialTheme.typography.bodySmall.copy(
+                            fontWeight = FontWeight.SemiBold
+                        ),
+                        color = Color.Black,
+                        modifier = Modifier
+                            .align(Alignment.CenterEnd)
+                            .clickable { onForgetPasswordClicked() }
+                    )
+                }
+                Spacer(modifier = Modifier.height(26.dp))
                 Button(
                     onClick = {
                         viewModel.onClickLogin(
@@ -257,7 +274,8 @@ fun LoginScreenPreview() {
             onCreateAccount = {},
             viewModel = viewModel,
             goToMainApp = {},
-            goToEmailVerificationScreen = {}
+            goToEmailVerificationScreen = {},
+            onForgetPasswordClicked = {}
         )
     }
 }

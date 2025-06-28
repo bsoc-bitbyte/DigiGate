@@ -8,5 +8,9 @@ sealed class AuthScreen {
 
     object Register : AuthScreen()
 
-    object EmailVerification: AuthScreen()
+    object EmailVerification : AuthScreen()
+
+    object ForgetPasswordScreen : AuthScreen()
+
+    data class EmailSentConfirmation(val email: String) : AuthScreen()
 }
