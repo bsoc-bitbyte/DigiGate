@@ -1,0 +1,31 @@
+# Android build files
+/build/
+**/build/
+.gradle/
+local.properties
+
+# IDE
+.idea/
+*.iml
+
+# APKs and AABs
+*.apk
+*.ap_
+*.aab
+
+# Logs
+*.log
+
+# Keystore files
+*.jks
+*.keystore
+
+# NDK/Native
+obj/
+.externalNativeBuild/
+
+# Misc
+captures/
+output.json
+.DS_Store
+Thumbs.db
