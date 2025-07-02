@@ -6,4 +6,6 @@ sealed class Screen() {
     data object History : Screen()
 
     data object Profile : Screen()
+
+    data object Settings : Screen()
 }
