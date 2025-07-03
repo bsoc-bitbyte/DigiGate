@@ -34,7 +34,7 @@ private val DarkColorScheme = darkColorScheme(
     onSurface = PureWhite,
     error = ErrorRed,
     surfaceVariant = MidGray,
-    onSurfaceVariant = PrimaryText,
+    onSurfaceVariant = LightGray,
     onSecondary = TextTypeDark
 )
 

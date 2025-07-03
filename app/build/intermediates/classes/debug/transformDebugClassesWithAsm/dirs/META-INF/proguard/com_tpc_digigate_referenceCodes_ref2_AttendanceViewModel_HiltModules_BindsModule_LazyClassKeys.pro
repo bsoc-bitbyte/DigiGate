@@ -1,0 +1,1 @@
+-keep,allowobfuscation,allowshrinking class com.tpc.digigate.referenceCodes.ref2.AttendanceViewModel

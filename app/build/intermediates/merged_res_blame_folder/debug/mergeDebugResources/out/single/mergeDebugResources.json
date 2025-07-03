@@ -1,0 +1,170 @@
+[
+    {
+        "merged": "/Users/techsavvy185/.gradle/daemon/8.11.1/com.tpc.digigate.app-debug-81:/drawable_email.xml.flat",
+        "source": "/Users/techsavvy185/.gradle/daemon/8.11.1/com.tpc.digigate.app-main-83:/drawable/email.xml"
+    },
+    {
+        "merged": "/Users/techsavvy185/.gradle/daemon/8.11.1/com.tpc.digigate.app-debug-81:/drawable_forgot_password_pana_1.png.flat",
+        "source": "/Users/techsavvy185/.gradle/daemon/8.11.1/com.tpc.digigate.app-main-83:/drawable/forgot_password_pana_1.png"
+    },
+    {
+        "merged": "/Users/techsavvy185/.gradle/daemon/8.11.1/com.tpc.digigate.app-debug-81:/mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "/Users/techsavvy185/.gradle/daemon/8.11.1/com.tpc.digigate.app-main-83:/mipmap-anydpi-v26/ic_launcher_round.xml"
+    },
+    {
+        "merged": "/Users/techsavvy185/.gradle/daemon/8.11.1/com.tpc.digigate.app-debug-81:/drawable_emailverification.png.flat",
+        "source": "/Users/techsavvy185/.gradle/daemon/8.11.1/com.tpc.digigate.app-main-83:/drawable/emailverification.png"
+    },
+    {
+        "merged": "/Users/techsavvy185/.gradle/daemon/8.11.1/com.tpc.digigate.app-debug-81:/mipmap-mdpi_ic_launcher_round.webp.flat",
+        "source": "/Users/techsavvy185/.gradle/daemon/8.11.1/com.tpc.digigate.app-main-83:/mipmap-mdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "/Users/techsavvy185/.gradle/daemon/8.11.1/com.tpc.digigate.app-debug-81:/mipmap-xxxhdpi_ic_launcher.webp.flat",
+        "source": "/Users/techsavvy185/.gradle/daemon/8.11.1/com.tpc.digigate.app-main-83:/mipmap-xxxhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "/Users/techsavvy185/.gradle/daemon/8.11.1/com.tpc.digigate.app-debug-81:/drawable_leave_image.png.flat",
+        "source": "/Users/techsavvy185/.gradle/daemon/8.11.1/com.tpc.digigate.app-main-83:/drawable/leave_image.png"
+    },
+    {
+        "merged": "/Users/techsavvy185/.gradle/daemon/8.11.1/com.tpc.digigate.app-debug-81:/drawable_tablet_login_cuate_2.png.flat",
+        "source": "/Users/techsavvy185/.gradle/daemon/8.11.1/com.tpc.digigate.app-main-83:/drawable/tablet_login_cuate_2.png"
+    },
+    {
+        "merged": "/Users/techsavvy185/.gradle/daemon/8.11.1/com.tpc.digigate.app-debug-81:/font_inter_regular.ttf.flat",
+        "source": "/Users/techsavvy185/.gradle/daemon/8.11.1/com.tpc.digigate.app-main-83:/font/inter_regular.ttf"
+    },
+    {
+        "merged": "com.tpc.digigate.app-debug-81:/drawable_close.png.flat",
+        "source": "com.tpc.digigate.app-main-83:/drawable/close.png"
+    },
+    {
+        "merged": "/Users/techsavvy185/.gradle/daemon/8.11.1/com.tpc.digigate.app-debug-81:/drawable_frame1.png.flat",
+        "source": "/Users/techsavvy185/.gradle/daemon/8.11.1/com.tpc.digigate.app-main-83:/drawable/frame1.png"
+    },
+    {
+        "merged": "/Users/techsavvy185/.gradle/daemon/8.11.1/com.tpc.digigate.app-debug-81:/drawable_page2.png.flat",
+        "source": "/Users/techsavvy185/.gradle/daemon/8.11.1/com.tpc.digigate.app-main-83:/drawable/page2.png"
+    },
+    {
+        "merged": "/Users/techsavvy185/.gradle/daemon/8.11.1/com.tpc.digigate.app-debug-81:/drawable_hostel.xml.flat",
+        "source": "/Users/techsavvy185/.gradle/daemon/8.11.1/com.tpc.digigate.app-main-83:/drawable/hostel.xml"
+    },
+    {
+        "merged": "/Users/techsavvy185/.gradle/daemon/8.11.1/com.tpc.digigate.app-debug-81:/font_inter_bold.ttf.flat",
+        "source": "/Users/techsavvy185/.gradle/daemon/8.11.1/com.tpc.digigate.app-main-83:/font/inter_bold.ttf"
+    },
+    {
+        "merged": "/Users/techsavvy185/.gradle/daemon/8.11.1/com.tpc.digigate.app-debug-81:/mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "/Users/techsavvy185/.gradle/daemon/8.11.1/com.tpc.digigate.app-main-83:/mipmap-anydpi-v26/ic_launcher.xml"
+    },
+    {
+        "merged": "/Users/techsavvy185/.gradle/daemon/8.11.1/com.tpc.digigate.app-debug-81:/mipmap-xxhdpi_ic_launcher.webp.flat",
+        "source": "/Users/techsavvy185/.gradle/daemon/8.11.1/com.tpc.digigate.app-main-83:/mipmap-xxhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "/Users/techsavvy185/.gradle/daemon/8.11.1/com.tpc.digigate.app-debug-81:/xml_backup_rules.xml.flat",
+        "source": "/Users/techsavvy185/.gradle/daemon/8.11.1/com.tpc.digigate.app-main-83:/xml/backup_rules.xml"
+    },
+    {
+        "merged": "/Users/techsavvy185/.gradle/daemon/8.11.1/com.tpc.digigate.app-debug-81:/mipmap-mdpi_ic_launcher.webp.flat",
+        "source": "/Users/techsavvy185/.gradle/daemon/8.11.1/com.tpc.digigate.app-main-83:/mipmap-mdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "/Users/techsavvy185/.gradle/daemon/8.11.1/com.tpc.digigate.app-debug-81:/drawable_id.xml.flat",
+        "source": "/Users/techsavvy185/.gradle/daemon/8.11.1/com.tpc.digigate.app-main-83:/drawable/id.xml"
+    },
+    {
+        "merged": "/Users/techsavvy185/.gradle/daemon/8.11.1/com.tpc.digigate.app-debug-81:/xml_data_extraction_rules.xml.flat",
+        "source": "/Users/techsavvy185/.gradle/daemon/8.11.1/com.tpc.digigate.app-main-83:/xml/data_extraction_rules.xml"
+    },
+    {
+        "merged": "/Users/techsavvy185/.gradle/daemon/8.11.1/com.tpc.digigate.app-debug-81:/drawable_ic_launcher_foreground.xml.flat",
+        "source": "/Users/techsavvy185/.gradle/daemon/8.11.1/com.tpc.digigate.app-main-83:/drawable/ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "/Users/techsavvy185/.gradle/daemon/8.11.1/com.tpc.digigate.app-debug-81:/mipmap-xxxhdpi_ic_launcher_round.webp.flat",
+        "source": "/Users/techsavvy185/.gradle/daemon/8.11.1/com.tpc.digigate.app-main-83:/mipmap-xxxhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "/Users/techsavvy185/.gradle/daemon/8.11.1/com.tpc.digigate.app-debug-81:/mipmap-hdpi_ic_launcher_round.webp.flat",
+        "source": "/Users/techsavvy185/.gradle/daemon/8.11.1/com.tpc.digigate.app-main-83:/mipmap-hdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "/Users/techsavvy185/.gradle/daemon/8.11.1/com.tpc.digigate.app-debug-81:/drawable_google_icon.xml.flat",
+        "source": "/Users/techsavvy185/.gradle/daemon/8.11.1/com.tpc.digigate.app-main-83:/drawable/google_icon.xml"
+    },
+    {
+        "merged": "/Users/techsavvy185/.gradle/daemon/8.11.1/com.tpc.digigate.app-debug-81:/drawable_mail_sent_rafiki_1.png.flat",
+        "source": "/Users/techsavvy185/.gradle/daemon/8.11.1/com.tpc.digigate.app-main-83:/drawable/mail_sent_rafiki_1.png"
+    },
+    {
+        "merged": "/Users/techsavvy185/.gradle/daemon/8.11.1/com.tpc.digigate.app-debug-81:/drawable_mess_rebate_image.png.flat",
+        "source": "/Users/techsavvy185/.gradle/daemon/8.11.1/com.tpc.digigate.app-main-83:/drawable/mess_rebate_image.png"
+    },
+    {
+        "merged": "/Users/techsavvy185/.gradle/daemon/8.11.1/com.tpc.digigate.app-debug-81:/font_inter_medium.ttf.flat",
+        "source": "/Users/techsavvy185/.gradle/daemon/8.11.1/com.tpc.digigate.app-main-83:/font/inter_medium.ttf"
+    },
+    {
+        "merged": "/Users/techsavvy185/.gradle/daemon/8.11.1/com.tpc.digigate.app-debug-81:/font_afacad_regular.ttf.flat",
+        "source": "/Users/techsavvy185/.gradle/daemon/8.11.1/com.tpc.digigate.app-main-83:/font/afacad_regular.ttf"
+    },
+    {
+        "merged": "/Users/techsavvy185/.gradle/daemon/8.11.1/com.tpc.digigate.app-debug-81:/drawable_library_image.png.flat",
+        "source": "/Users/techsavvy185/.gradle/daemon/8.11.1/com.tpc.digigate.app-main-83:/drawable/library_image.png"
+    },
+    {
+        "merged": "/Users/techsavvy185/.gradle/daemon/8.11.1/com.tpc.digigate.app-debug-81:/drawable_image_5.png.flat",
+        "source": "/Users/techsavvy185/.gradle/daemon/8.11.1/com.tpc.digigate.app-main-83:/drawable/image_5.png"
+    },
+    {
+        "merged": "/Users/techsavvy185/.gradle/daemon/8.11.1/com.tpc.digigate.app-debug-81:/drawable_page3.png.flat",
+        "source": "/Users/techsavvy185/.gradle/daemon/8.11.1/com.tpc.digigate.app-main-83:/drawable/page3.png"
+    },
+    {
+        "merged": "/Users/techsavvy185/.gradle/daemon/8.11.1/com.tpc.digigate.app-debug-81:/drawable_profile.png.flat",
+        "source": "/Users/techsavvy185/.gradle/daemon/8.11.1/com.tpc.digigate.app-main-83:/drawable/profile.png"
+    },
+    {
+        "merged": "/Users/techsavvy185/.gradle/daemon/8.11.1/com.tpc.digigate.app-debug-81:/drawable_phone.xml.flat",
+        "source": "/Users/techsavvy185/.gradle/daemon/8.11.1/com.tpc.digigate.app-main-83:/drawable/phone.xml"
+    },
+    {
+        "merged": "/Users/techsavvy185/.gradle/daemon/8.11.1/com.tpc.digigate.app-debug-81:/drawable_ic_launcher_background.xml.flat",
+        "source": "/Users/techsavvy185/.gradle/daemon/8.11.1/com.tpc.digigate.app-main-83:/drawable/ic_launcher_background.xml"
+    },
+    {
+        "merged": "/Users/techsavvy185/.gradle/daemon/8.11.1/com.tpc.digigate.app-debug-81:/drawable_sac_image.png.flat",
+        "source": "/Users/techsavvy185/.gradle/daemon/8.11.1/com.tpc.digigate.app-main-83:/drawable/sac_image.png"
+    },
+    {
+        "merged": "/Users/techsavvy185/.gradle/daemon/8.11.1/com.tpc.digigate.app-debug-81:/mipmap-xhdpi_ic_launcher_round.webp.flat",
+        "source": "/Users/techsavvy185/.gradle/daemon/8.11.1/com.tpc.digigate.app-main-83:/mipmap-xhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "/Users/techsavvy185/.gradle/daemon/8.11.1/com.tpc.digigate.app-debug-81:/drawable_page1.png.flat",
+        "source": "/Users/techsavvy185/.gradle/daemon/8.11.1/com.tpc.digigate.app-main-83:/drawable/page1.png"
+    },
+    {
+        "merged": "/Users/techsavvy185/.gradle/daemon/8.11.1/com.tpc.digigate.app-debug-81:/mipmap-xxhdpi_ic_launcher_round.webp.flat",
+        "source": "/Users/techsavvy185/.gradle/daemon/8.11.1/com.tpc.digigate.app-main-83:/mipmap-xxhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "/Users/techsavvy185/.gradle/daemon/8.11.1/com.tpc.digigate.app-debug-81:/drawable_branch.xml.flat",
+        "source": "/Users/techsavvy185/.gradle/daemon/8.11.1/com.tpc.digigate.app-main-83:/drawable/branch.xml"
+    },
+    {
+        "merged": "/Users/techsavvy185/.gradle/daemon/8.11.1/com.tpc.digigate.app-debug-81:/mipmap-xhdpi_ic_launcher.webp.flat",
+        "source": "/Users/techsavvy185/.gradle/daemon/8.11.1/com.tpc.digigate.app-main-83:/mipmap-xhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "/Users/techsavvy185/.gradle/daemon/8.11.1/com.tpc.digigate.app-debug-81:/mipmap-hdpi_ic_launcher.webp.flat",
+        "source": "/Users/techsavvy185/.gradle/daemon/8.11.1/com.tpc.digigate.app-main-83:/mipmap-hdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "/Users/techsavvy185/.gradle/daemon/8.11.1/com.tpc.digigate.app-debug-81:/drawable_frame2.png.flat",
+        "source": "/Users/techsavvy185/.gradle/daemon/8.11.1/com.tpc.digigate.app-main-83:/drawable/frame2.png"
+    }
+]

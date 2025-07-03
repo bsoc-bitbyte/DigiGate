@@ -1,0 +1,1 @@
+-keep,allowobfuscation,allowshrinking class com.tpc.digigate.ui.screens.history.HistoryViewModel

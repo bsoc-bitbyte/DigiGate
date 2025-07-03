@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="SageDark">#FF99B2AE</color>
+    <color name="black">#FF000000</color>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="white">#FFFFFFFF</color>
+    <string name="WEB_CLIENT_ID" translatable="false">null</string>
+    <string name="app_name">DigiGate</string>
+    <string name="branch">Branch</string>
+    <string name="calender_today">Calender Today</string>
+    <string name="default_web_client_id" translatable="false">545160768716-0ksou15i7ecf56v5rmeg42icn527ncj0.apps.googleusercontent.com</string>
+    <string name="edit">Edit</string>
+    <string name="email">Email</string>
+    <string name="email_confirmation">Email confirmation</string>
+    <string name="enter_email">Enter your email</string>
+    <string name="firebase_database_url" translatable="false">https://digigate-95b51-default-rtdb.asia-southeast1.firebasedatabase.app</string>
+    <string name="forget_password">Forget Password</string>
+    <string name="gcm_defaultSenderId" translatable="false">545160768716</string>
+    <string name="google">Google</string>
+    <string name="google_api_key" translatable="false">AIzaSyAoxzY07kKeup61h0lWbxPKtwODXVucz5Y</string>
+    <string name="google_app_id" translatable="false">1:545160768716:android:4d3445f2b86c351a402669</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyAoxzY07kKeup61h0lWbxPKtwODXVucz5Y</string>
+    <string name="google_storage_bucket" translatable="false">digigate-95b51.firebasestorage.app</string>
+    <string name="history">History</string>
+    <string name="hostel">Hostel</string>
+    <string name="in_time">In-time</string>
+    <string name="leave_form">Leave Form</string>
+    <string name="library_entry">Library Entry</string>
+    <string name="login">Login</string>
+    <string name="login_image">Login Image</string>
+    <string name="mess_rebate">Mess Rebate Form</string>
+    <string name="not_verified">NOT VERIFIED</string>
+    <string name="out_time">Out-time</string>
+    <string name="phone">Phone</string>
+    <string name="profile_info_header">Personal Information</string>
+    <string name="project_id" translatable="false">digigate-95b51</string>
+    <string name="register">Register</string>
+    <string name="register_image">Register Image</string>
+    <string name="resend">Resend Mail</string>
+    <string name="sac_entry">SAC Entry</string>
+    <string name="send_reset_link">Send Reset Link</string>
+    <string name="utilities">Utilities</string>
+    <string name="verified">VERIFIED</string>
+    <string name="view_id_card">View ID Card</string>
+    <style name="Theme.DigiGate" parent="android:Theme.Material.Light.NoActionBar"/>
+</resources>

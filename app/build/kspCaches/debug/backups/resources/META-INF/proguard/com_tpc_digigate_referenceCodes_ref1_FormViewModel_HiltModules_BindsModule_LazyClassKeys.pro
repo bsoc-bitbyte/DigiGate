@@ -1,0 +1,1 @@
+-keep,allowobfuscation,allowshrinking class com.tpc.digigate.referenceCodes.ref1.FormViewModel
