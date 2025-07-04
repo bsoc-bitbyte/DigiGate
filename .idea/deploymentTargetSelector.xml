@@ -8,15 +8,6 @@
       <SelectionState runConfigName="AppDropDownPreview">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="CreateProfile1Screen">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
-      <SelectionState runConfigName="CreateProfileScreen1Preview">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
-      <SelectionState runConfigName="CreateProfileScreen3Preview">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
       <SelectionState runConfigName="CreateProfilePagerPreview">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
