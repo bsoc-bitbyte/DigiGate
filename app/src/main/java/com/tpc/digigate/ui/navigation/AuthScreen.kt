@@ -13,4 +13,6 @@ sealed class AuthScreen {
     object ForgetPasswordScreen : AuthScreen()
 
     data class EmailSentConfirmation(val email: String) : AuthScreen()
+
+    data class EmailVerified(val title: String, val message: String) : AuthScreen()
 }

@@ -1,5 +1,6 @@
 package com.tpc.digigate
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -18,16 +19,34 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
+        val intentData = intent?.data
+        val mode = intentData?.getQueryParameter("mode")
+        val oobCode = intentData?.getQueryParameter("oobCode")
+
         setContent {
             val firebaseAuth = FirebaseAuth.getInstance()
             val isUserAuthenticated =
                 firebaseAuth.currentUser != null && firebaseAuth.currentUser!!.isEmailVerified == true
             val isMainApp = remember { mutableStateOf(isUserAuthenticated) }
+
             DigiGateTheme {
-                if (isMainApp.value)
+                if (isMainApp.value) {
                     AppNavDisplay(onSignOut = { isMainApp.value = false })
-                else AuthNavDisplay(goToMainApp = { isMainApp.value = true }, context = this)
+                } else {
+                    AuthNavDisplay(
+                        goToMainApp = { isMainApp.value = true },
+                        context = this,
+                        mode = mode,
+                        oobCode = oobCode
+                    )
+                }
             }
         }
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        setIntent(intent)
+        recreate()
     }
 }
