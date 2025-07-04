@@ -132,7 +132,7 @@ fun AppTextFieldPreview() {
 
         MaterialTheme {
             AppTextField(
-                label = "Email",
+                label = "Email ",
                 value = "",
                 onValueChange = {},
                 placeholder = "",

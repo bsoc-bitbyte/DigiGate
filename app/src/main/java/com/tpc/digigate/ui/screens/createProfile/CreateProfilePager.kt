@@ -38,9 +38,9 @@ import kotlinx.coroutines.launch
 import org.intellij.lang.annotations.JdkConstants
 
 @Composable
-fun CreateProfilePager() {
+fun CreateProfilePager( ) {
     val pagerState = rememberPagerState( pageCount = { 3 })
-    val coroutineScope = rememberCoroutineScope()
+    val coroutineScope  = rememberCoroutineScope()
     HorizontalPager(pagerState) { page->
         Column (
             modifier = Modifier.fillMaxSize()

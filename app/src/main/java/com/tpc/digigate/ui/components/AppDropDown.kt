@@ -92,7 +92,7 @@ fun AppDropDown(
         if (showBottomSheet) {
             ModalBottomSheet(
                 onDismissRequest = {
-                    showBottomSheet = false
+                    showBottomSheet  =  false
                 },
                 sheetState =  sheetState
             ) {

@@ -72,9 +72,11 @@ fun CreateProfile2Screen() {
                 AppDropDown(
                     label = "Hostel",
                     value = "",
-                    onValueChange = {},
+                    onValueChange = {
+
+                    },
                     errorMessage = "Please enter a valid email id",
-                    list = listOf("H1", "H4", "H3", "Panini", "Maa Saraswati", "Nagarjuna"),
+                    list = listOf ("H1", "H4", "H3", "Panini", "Maa Saraswati", "Nagarjuna"),
                 )
                 Spacer(Modifier.height(30.dp))
 

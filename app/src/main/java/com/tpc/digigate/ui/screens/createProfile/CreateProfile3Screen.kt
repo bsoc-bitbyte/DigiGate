@@ -60,7 +60,7 @@ fun CreateProfile3Screen() {
         }
     )
 
-    val pickImage2Launcher = rememberLauncherForActivityResult(
+    val pickImage2Launcher  =  rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia(),
         onResult = { uri ->
             imageUri2 = uri

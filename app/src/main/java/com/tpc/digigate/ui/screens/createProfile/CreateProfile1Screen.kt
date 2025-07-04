@@ -54,7 +54,9 @@ fun CreateProfile1Screen() {
                 AppTextField(
                     label = "Name",
                     value = "",
-                    onValueChange = {},
+                    onValueChange = {
+
+                    },
                     placeholder = "",
                     errorMessage = "Please enter your name",
                 )
