@@ -94,7 +94,7 @@ fun AppDropDown(
                 onDismissRequest = {
                     showBottomSheet = false
                 },
-                sheetState = sheetState
+                sheetState =  sheetState
             ) {
                 list.forEachIndexed { index, item ->
                     val isSelected = (itemPosition == index)

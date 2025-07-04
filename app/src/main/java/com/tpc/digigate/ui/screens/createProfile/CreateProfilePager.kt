@@ -54,7 +54,7 @@ fun CreateProfilePager() {
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.onBackground
             )
-            when (page) {
+            when ( page ) {
                 0 -> {
                     CreateProfile1Screen()
                 }

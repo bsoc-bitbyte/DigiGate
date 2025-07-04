@@ -73,7 +73,7 @@ fun CreateProfile3Screen() {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Text(
+        Text (
             text = "Personal Information",
             style = MaterialTheme.typography.bodyLarge,
             fontWeight = FontWeight.Bold,

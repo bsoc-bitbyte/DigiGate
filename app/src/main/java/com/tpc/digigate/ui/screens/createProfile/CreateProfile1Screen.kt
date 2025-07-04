@@ -80,7 +80,7 @@ fun CreateProfile1Screen() {
 
                 AppDropDown(
                     label = "Branch",
-                    value = "",
+                    value  = "",
                     onValueChange = {},
                     errorMessage = "Please enter a valid email id",
                     list = listOf("CSE", "ECE", "Design", "Mech", "SM"),

@@ -88,7 +88,7 @@ fun CreateProfile2Screen() {
                 Spacer(Modifier.height(30.dp))
 
                 AppTextField(
-                    label = "Permanent Address",
+                    label =  "Permanent Address",
                     value = "",
                     onValueChange = {},
                     placeholder = "",
