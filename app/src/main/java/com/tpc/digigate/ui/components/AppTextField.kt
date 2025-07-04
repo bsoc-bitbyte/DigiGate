@@ -1,5 +1,6 @@
 package com.tpc.digigate.ui.components
 
+import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -78,6 +79,9 @@ fun AppTextField(
                 unfocusedContainerColor = PureWhite,
                 errorContainerColor = PureWhite,
 
+                disabledContainerColor = PureWhite,
+                disabledIndicatorColor = PureWhite,
+
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
                 errorIndicatorColor = Color.Transparent,
@@ -85,10 +89,12 @@ fun AppTextField(
                 focusedLabelColor = if (showError) Color.Red else MaterialTheme.colorScheme.primary,
                 unfocusedLabelColor = if (showError) Color.Red else Color.Gray,
                 errorLabelColor = Color.Red,
+                disabledLabelColor = Color.Gray,
 
                 focusedTextColor = PrimaryText,
                 unfocusedTextColor = PrimaryText,
                 errorTextColor = PrimaryText,
+                disabledTextColor = PrimaryText,
 
                 focusedPlaceholderColor = Color.Gray,
                 unfocusedPlaceholderColor = Color.Gray,
@@ -114,6 +120,7 @@ fun AppTextField(
 
 
 @Preview(showBackground = true, showSystemUi = true)
+@Preview(showBackground = true, showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 fun AppTextFieldPreview() {
     Box(
