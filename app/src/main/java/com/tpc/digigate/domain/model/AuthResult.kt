@@ -1,7 +1,5 @@
 package com.tpc.digigate.domain.model
 
-import com.google.firebase.auth.FirebaseAuth
-
 sealed class AuthResult(val message: String) {
 
     data class Success( val msg: String) : AuthResult( msg)

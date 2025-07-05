@@ -47,7 +47,7 @@ data class OptionItem(
     @DrawableRes val images: Int,
 )
 
-val recentRequests = listOf<String>("", "", "", "")
+val recentRequests = listOf("", "", "", "")
 
 @Composable
 fun HomeScreenLayout(onSettingsClicked: () -> Unit) {

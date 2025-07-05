@@ -23,8 +23,8 @@ class SettingsViewModel @Inject constructor(private val appPreferences: AppPrefe
 
     init{
         viewModelScope.launch{
-            appPreferences.appTheme.getFlow().collectLatest { SupportedThemes ->
-                _currentTheme.value= SupportedThemes
+            appPreferences.appTheme.getFlow().collectLatest { supportedThemes ->
+                _currentTheme.value= supportedThemes
                 showThemeDialogBox(show = false)
             }
         }

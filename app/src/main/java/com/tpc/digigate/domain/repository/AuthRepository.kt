@@ -2,7 +2,6 @@ package com.tpc.digigate.domain.repository
 
 import android.content.Context
 import com.tpc.digigate.domain.model.AuthResult
-import com.tpc.digigate.domain.model.User
 import kotlinx.coroutines.flow.Flow
 
 interface AuthRepository {

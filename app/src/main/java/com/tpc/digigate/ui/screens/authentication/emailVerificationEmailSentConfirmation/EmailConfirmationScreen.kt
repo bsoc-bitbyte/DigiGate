@@ -1,4 +1,4 @@
-package com.tpc.digigate.ui.screens.authentication.emailVerification
+package com.tpc.digigate.ui.screens.authentication.emailVerificationEmailSentConfirmation
 
 import android.content.Intent
 import android.widget.Toast
@@ -26,14 +26,15 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 
 @Composable
-fun EmailVerificationScreen(
-    viewModel: EmailVerificationViewModel = hiltViewModel(),
+fun EmailConfirmationScreen(
+    viewModel: EmailConfirmationViewModel = hiltViewModel(),
 ) {
     val context = LocalContext.current
     val uiState = viewModel.uiState.collectAsState().value
 
     if (uiState.message != null) {
         Toast.makeText(context, uiState.message, Toast.LENGTH_SHORT).show()
+        viewModel.toastMessageShown()
     }
 
 
@@ -85,7 +86,7 @@ private fun openGmailApp(context: android.content.Context) {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK
         }
         context.startActivity(intent)
-    } catch (e: Exception) {
+    } catch (_: Exception) {
         Toast.makeText(context, "No Email app found on this device.", Toast.LENGTH_SHORT).show()
     }
 }

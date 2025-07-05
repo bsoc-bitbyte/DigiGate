@@ -1,7 +1,6 @@
 package com.tpc.digigate.ui.screens.history
 
 import android.content.res.Configuration
-import com.tpc.digigate.R
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -18,7 +17,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.CalendarToday
@@ -29,7 +27,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -42,6 +39,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.tpc.digigate.R
 import com.tpc.digigate.ui.theme.DigiGateTheme
 
 
@@ -162,7 +160,7 @@ fun EntryCard(
                     style = MaterialTheme.typography.titleMedium.copy(
                         fontWeight = FontWeight.Bold
                     ),
-                    modifier = Modifier.offset(y = -8.dp)
+                    modifier = Modifier.offset(y = (-8).dp)
                 )
             }
             Spacer(modifier = Modifier.width(16.dp))
@@ -178,13 +176,13 @@ fun EntryCard(
                 ) {
                     TimeData(
                         label = stringResource(R.string.out_time),
-                        time = info.OutTime,
+                        time = info.outTime,
                         isVerified = info.isOutVerified,
                     )
                     Spacer(modifier = Modifier.height(6.dp))
                     TimeData(
                         label = stringResource(R.string.in_time),
-                        time = info.InTime,
+                        time = info.inTime,
                         isVerified = info.isInVerified
                     )
                 }
@@ -211,7 +209,7 @@ fun TimeData(
                         fontWeight = FontWeight.ExtraBold
                     )
                 ) {
-                    append("${label}: ${timeValue}")
+                    append("${label}: $timeValue")
                 }
                 withStyle(
                     style = SpanStyle(
@@ -232,7 +230,7 @@ fun TimeData(
             style = MaterialTheme.typography.labelSmall.copy(
                 fontWeight = FontWeight.SemiBold,
             ),
-            modifier = Modifier.offset(y = -3.dp)
+            modifier = Modifier.offset(y = (-3).dp)
         )
     }
 }
@@ -242,7 +240,7 @@ fun TimeData(
 fun LineAndDotImage() {
 
     Column(
-        modifier = Modifier.offset(y = -4.dp),
+        modifier = Modifier.offset(y = (-4).dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Box(
@@ -279,8 +277,8 @@ fun EntryCardPreview() {
                 month = 6,
                 info = DayEntry(
                     day = 9,
-                    OutTime = "7:15 AM",
-                    InTime = "6:30 PM",
+                    outTime = "7:15 AM",
+                    inTime = "6:30 PM",
                     isInVerified = true,
                     isOutVerified = true,
                 ),

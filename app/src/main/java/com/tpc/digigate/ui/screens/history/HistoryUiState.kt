@@ -2,23 +2,23 @@ package com.tpc.digigate.ui.screens.history
 
 data class HistoryUiState(
     val isLoading:Boolean = false,
-    val yearData: List<Year> = emptyList<Year>()
+    val yearData: List<Year> = emptyList()
 )
 
 data class Year(
     val year: Int,
-    val monthData: List<Month> = emptyList<Month>()
+    val monthData: List<Month> = emptyList()
 )
 
 data class Month(
     val month: Int,
-    val dayEntries: List<DayEntry> = emptyList<DayEntry>()
+    val dayEntries: List<DayEntry> = emptyList()
 )
 
 data class DayEntry(
     val day: Int,
-    val InTime: String = "",
-    val OutTime: String = "",
+    val inTime: String = "",
+    val outTime: String = "",
     val isInVerified: Boolean = false,
     val isOutVerified: Boolean = false
 )

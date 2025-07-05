@@ -1,4 +1,4 @@
-package com.tpc.digigate.ui.screens.authentication.emailSentConfirmation
+package com.tpc.digigate.ui.screens.authentication.passwordResetEmailSentConfirmation
 
 import android.content.Intent
 import android.content.res.Configuration
@@ -17,7 +17,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
@@ -25,10 +25,10 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -41,8 +41,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.tpc.digigate.ui.theme.DigiGateTheme
 import com.tpc.digigate.R
+import com.tpc.digigate.ui.theme.DigiGateTheme
 
 @Composable
 fun EmailSentConfirmationLayout(
@@ -152,7 +152,7 @@ fun EmailSentConfirmationContent(
                                 flags = Intent.FLAG_ACTIVITY_NEW_TASK
                             }
                             context.startActivity(intent)
-                        } catch (e: Exception) {
+                        } catch (_: Exception) {
                             Toast.makeText(
                                 context,
                                 "No Email app found on this device.",
@@ -212,7 +212,7 @@ fun TopBar(
             onClick = onBackClicked
         ) {
             Icon(
-                imageVector = Icons.Default.ArrowBack,
+                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                 contentDescription = "Navigate back",
                 tint = MaterialTheme.colorScheme.onBackground
             )
