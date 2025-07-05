@@ -24,6 +24,7 @@ import com.tpc.digigate.ui.components.BottomNavigationBar
 import com.tpc.digigate.ui.screens.history.HistoryScreen
 import com.tpc.digigate.ui.screens.home.HomeScreenLayout
 import com.tpc.digigate.ui.screens.profile.ProfileScreen
+import com.tpc.digigate.ui.screens.settings.Settings
 
 @Composable
 fun AppNavDisplay(onSignOut: () -> Unit) {
@@ -44,16 +45,18 @@ fun AppNavDisplay(onSignOut: () -> Unit) {
     var previousScreen by remember { mutableStateOf<Screen?>(null) }
     Scaffold(
         bottomBar = {
-            BottomNavigationBar(
-                selected = backStack.last(),
-                onItemClick = {
-                    previousScreen = backStack.lastOrNull()
-                    if (it != previousScreen) {
-                        if (backStack.size > 1) backStack.removeLastOrNull()
-                        backStack.add(it)
+            if(backStack.last() != Screen.Settings){
+                BottomNavigationBar(
+                    selected = backStack.last(),
+                    onItemClick = {
+                        previousScreen = backStack.lastOrNull()
+                        if (it != previousScreen) {
+                            if (backStack.size > 1) backStack.removeLastOrNull()
+                            backStack.add(it)
+                        }
                     }
-                }
-            )
+                )
+            }
         }
     ) { paddingValues ->
         NavDisplay(
@@ -83,7 +86,7 @@ fun AppNavDisplay(onSignOut: () -> Unit) {
             entryProvider = entryProvider {
 
                 entry<Screen.Home> {
-                    HomeScreenLayout()
+                    HomeScreenLayout(onSettingsClicked = {backStack.add(Screen.Settings)})
                 }
 
                 entry<Screen.History> {
@@ -92,6 +95,10 @@ fun AppNavDisplay(onSignOut: () -> Unit) {
 
                 entry<Screen.Profile> {
                     ProfileScreen(onSignOut = onSignOut)
+                }
+
+                entry<Screen.Settings>{
+                    Settings(onBackClick = {backStack.removeLastOrNull()})
                 }
 
             },

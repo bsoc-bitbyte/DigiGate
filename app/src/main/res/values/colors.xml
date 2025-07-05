@@ -8,4 +8,6 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="SageDark">#FF99B2AE</color>
+    <color name="LightGray">#EEEEEE</color>
+    <color name="LightBlack">#4C4C4C</color>
 </resources>
