@@ -1,4 +1,4 @@
-package com.tpc.digigate.ui.screens.authentication.emailVerification
+package com.tpc.digigate.ui.screens.authentication.emailVerificationEmailSentConfirmation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -14,12 +14,12 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 @HiltViewModel
-class EmailVerificationViewModel @Inject constructor(
+class EmailConfirmationViewModel @Inject constructor(
     private val authRepository: FirebaseServices,
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(EmailVerificationUiState())
-    val uiState: StateFlow<EmailVerificationUiState> = _uiState.asStateFlow()
+    private val _uiState = MutableStateFlow(EmailConfirmationUIState())
+    val uiState: StateFlow<EmailConfirmationUIState> = _uiState.asStateFlow()
 
     init {
         sendVerificationEmail()
@@ -31,7 +31,7 @@ class EmailVerificationViewModel @Inject constructor(
 
     private fun startCountdown() {
         viewModelScope.launch {
-            for (i in 30 downTo 1) {
+            for (i in 60 downTo 1) {
                 _uiState.update { it.copy(canResend = false, countdown = i) }
                 delay(1000)
             }
@@ -39,13 +39,13 @@ class EmailVerificationViewModel @Inject constructor(
         }
     }
 
-    fun sendVerificationEmail(onResult: ((AuthResult) -> Unit)? = null) {
+    fun sendVerificationEmail() {
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true) }
 
-            authRepository.sendEmailVerificationMail().collect {
-                _uiState.update { it.copy(isLoading = false, message = it.message, canResend = false) }
-                when (it) {
+            authRepository.sendEmailVerificationMail().collect {authResult ->
+                _uiState.update { it.copy(isLoading = false, message = authResult.message, canResend = false) }
+                when (authResult) {
                     is AuthResult.Success -> {
                         startCountdown()
                     }

@@ -17,7 +17,6 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:label="@string/app_name"
             android:launchMode="singleTask"
             android:theme="@style/Theme.DigiGate">
             <intent-filter>
@@ -33,6 +32,7 @@
 
                 <data
                     android:host="digigate-95b51.firebaseapp.com"
+                    android:pathPrefix="/__/auth"
                     android:scheme="https" />
             </intent-filter>
         </activity>

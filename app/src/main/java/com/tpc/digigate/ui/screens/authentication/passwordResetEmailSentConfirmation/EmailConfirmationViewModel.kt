@@ -1,10 +1,9 @@
-package com.tpc.digigate.ui.screens.authentication.emailSentConfirmation
+package com.tpc.digigate.ui.screens.authentication.passwordResetEmailSentConfirmation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.tpc.digigate.domain.model.AuthResult
 import com.tpc.digigate.domain.repository.AuthRepository
-import com.tpc.digigate.ui.screens.authentication.forgetPassword.ForgetScreenUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -47,7 +46,7 @@ class EmailConfirmationViewModel @Inject constructor(
     fun countDownStart() {
         resetTimer?.cancel()
         resetTimer = viewModelScope.launch {
-            for (i in 30 downTo 1) {
+            for (i in 60 downTo 1) {
                 _emailConfirmationUiState.update {
                     it.copy(
                         canResend = false,
