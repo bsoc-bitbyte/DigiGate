@@ -1,5 +1,6 @@
 package com.tpc.digigate.ui.screens.settings
 
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -120,9 +121,10 @@ fun Settings(
         TopBar(onBackClick)
         Spacer(modifier = Modifier.padding(20.dp))
         if (currentTheme == SupportedThemes.SYSTEM_DEFAULT)
-            if (isSystemInDarkTheme()) DarkThemeButton() else LightThemeButton()
-        else if (currentTheme == SupportedThemes.LIGHT) LightThemeButton()
-        else DarkThemeButton()
+            if (isSystemInDarkTheme()) ThemeButton(image = R.drawable.dark, theme = "Dark")
+            else ThemeButton(image = R.drawable.sun, theme = "Light")
+        else if (currentTheme == SupportedThemes.LIGHT) ThemeButton(image = R.drawable.sun, theme = "Light")
+        else ThemeButton(image = R.drawable.dark, theme ="Dark")
     }
 }
 @Composable
@@ -156,7 +158,11 @@ fun TopBar (onBackClick: ()-> Unit){
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LightThemeButton(viewModel: SettingsViewModel = hiltViewModel()){
+fun ThemeButton(
+    viewModel: SettingsViewModel = hiltViewModel(),
+    @DrawableRes image: Int,
+    theme: String
+    ){
     Button(
         onClick = {viewModel.showThemeDialogBox(true)},
         colors = ButtonDefaults.buttonColors(
@@ -174,58 +180,7 @@ fun LightThemeButton(viewModel: SettingsViewModel = hiltViewModel()){
             horizontalArrangement = Arrangement.Start,
         ){
             Image(
-                painter = painterResource(R.drawable.sun),
-                contentDescription = "LightThemeLogo",
-                modifier = Modifier.aspectRatio(0.6f)
-            )
-            Spacer(modifier = Modifier.padding(horizontal = 10.dp))
-            Text(
-                text = "Theme",
-                color = MaterialTheme.colorScheme.onBackground,
-                style = MaterialTheme.typography.titleMedium.copy(
-                    fontWeight = FontWeight.W400,
-                    fontFamily = FontFamily.Default
-                )
-            )
-            Spacer(modifier = Modifier.padding(horizontal = 70.dp))
-            Text(
-                text = "Light",
-                color = colorResource(R.color.LightBlack),
-                style = MaterialTheme.typography.titleSmall.copy(
-                    fontWeight = FontWeight.W400,
-                    fontFamily = FontFamily.Default
-                )
-            )
-            Spacer(modifier = Modifier.padding(horizontal = 10.dp))
-            Icon(
-                imageVector = Icons.Default.ArrowForwardIos,
-                contentDescription = "",
-                tint = MaterialTheme.colorScheme.onBackground,
-            )
-        }
-    }
-}
-
-@Composable
-fun DarkThemeButton(viewModel: SettingsViewModel = hiltViewModel()){
-    Button(
-        onClick = {viewModel.showThemeDialogBox(true)},
-        colors = ButtonDefaults.buttonColors(
-            containerColor = colorResource(R.color.LightGray)
-        ),
-        shape = RoundedCornerShape(30.dp),
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(55.dp)
-            .padding(horizontal = 20.dp),
-    ){
-        Row (
-            modifier = Modifier.fillMaxSize(),
-            verticalAlignment =Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Start,
-        ){
-            Image(
-                painter = painterResource(R.drawable.dark),
+                painter = painterResource(image),
                 contentDescription = "LightThemeLogo",
                 modifier = Modifier.aspectRatio(0.6f)
             )
@@ -240,7 +195,7 @@ fun DarkThemeButton(viewModel: SettingsViewModel = hiltViewModel()){
             )
             Spacer(modifier = Modifier.padding(horizontal = 70.dp))
             Text(
-                text = "Dark",
+                text = theme,
                 color = colorResource(R.color.LightBlack),
                 style = MaterialTheme.typography.titleSmall.copy(
                     fontWeight = FontWeight.W400,
@@ -251,7 +206,7 @@ fun DarkThemeButton(viewModel: SettingsViewModel = hiltViewModel()){
             Icon(
                 imageVector = Icons.Default.ArrowForwardIos,
                 contentDescription = "",
-                tint = Color.Black,
+                tint = colorResource(R.color.black),
             )
         }
     }
