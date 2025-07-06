@@ -67,6 +67,10 @@ dependencies {
     implementation(libs.androidx.material3.android)
     implementation(libs.androidx.material.icons.extended.android)
 
+    //Coil
+    implementation("io.coil-kt:coil-compose:2.6.0") 
+
+
 
     //ViewModel
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
