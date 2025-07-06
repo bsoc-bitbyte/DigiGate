@@ -1,6 +1,7 @@
 package com.tpc.digigate.ui.screens.createProfile
 
 import android.content.res.Configuration
+import android.view.Window
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
@@ -9,9 +10,12 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -32,6 +36,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.window.embedding.EmbeddingBounds
 import com.tpc.digigate.ui.theme.DigiGateTheme
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
@@ -41,31 +46,48 @@ import org.intellij.lang.annotations.JdkConstants
 fun CreateProfilePager() {
     val pagerState = rememberPagerState( pageCount = { 3 })
     val coroutineScope = rememberCoroutineScope()
-    HorizontalPager(pagerState) { page->
-        Column (
-            modifier = Modifier.fillMaxSize()
-                .background(MaterialTheme.colorScheme.background),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.SpaceEvenly
-        ) {
-            Text(
-                text = "Create Profile",
-                style = MaterialTheme.typography.bodyLarge,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onBackground
-            )
-            when (page) {
-                0 -> {
-                    CreateProfile1Screen()
-                }
-                1 -> {
-                    CreateProfile2Screen()
-                }
-                else -> {
-                    CreateProfile3Screen()
+    Column(
+        Modifier.fillMaxSize()
+            .background(MaterialTheme.colorScheme.background)
+    ) {
+        HorizontalPager(pagerState,
+            modifier = Modifier.weight(5f)) { page ->
+            Column(
+                modifier = Modifier
+                    .fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.SpaceEvenly
+            ) {
+                Text(
+                    text = "Create Profile",
+                    style = MaterialTheme.typography.bodyLarge,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onBackground
+                )
+                when (page) {
+                    0 -> {
+                        CreateProfile1Screen()
+                    }
+
+                    1 -> {
+                        CreateProfile2Screen()
+                    }
+
+                    else -> {
+                        CreateProfile3Screen()
+                    }
                 }
             }
-            if (page==2) {
+        }
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center,
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f)
+                .padding(WindowInsets.navigationBars.asPaddingValues())
+        ) {
+            if (pagerState.currentPage == 2) {
                 Button(
                     onClick = {},
                     colors = ButtonDefaults.buttonColors(containerColor = Color.Black),
@@ -80,8 +102,7 @@ fun CreateProfilePager() {
                         color = Color.White
                     )
                 }
-            }
-            else{
+            } else {
                 Button(
                     onClick = {
                         coroutineScope.launch {
@@ -103,6 +124,7 @@ fun CreateProfilePager() {
                     )
                 }
             }
+            Spacer(modifier = Modifier.height(20.dp))
             Row(
                 modifier = Modifier.height(16.dp)
 

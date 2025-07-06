@@ -73,7 +73,6 @@ fun CreateProfile1Screen() {
                     label = "Programme",
                     value = "",
                     onValueChange = {},
-                    errorMessage = "Please select a valid programme.",
                     list = listOf("B.Tech", "M.Tech", "B.Des", "M.Des", "PhD"),
                 )
                 Spacer(Modifier.height(30.dp))
@@ -82,7 +81,6 @@ fun CreateProfile1Screen() {
                     label = "Branch",
                     value = "",
                     onValueChange = {},
-                    errorMessage = "Please enter a valid email id",
                     list = listOf("CSE", "ECE", "Design", "Mech", "SM"),
                 )
                 Spacer(Modifier.height(30.dp))
@@ -91,7 +89,6 @@ fun CreateProfile1Screen() {
                     label = "Year",
                     value = "",
                     onValueChange = {},
-                    errorMessage = "Please select a valid year.",
                     list = listOf("1", "2", "3", "4", "5"),
 
                 )

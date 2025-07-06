@@ -35,18 +35,10 @@ fun AppDropDown(
     value: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
-    errorMessage: String? = null,
-    isError: Boolean = false,
-    isSingleLine: Boolean = true,
-    keyboardType: KeyboardType = KeyboardType.Text,
-    imeAction: ImeAction = ImeAction.Done,
-    onImeAction: () -> Unit = {},
     leadingIcon: (@Composable (() -> Unit))? = null,
     trailingIcon: (@Composable (() -> Unit))? = null,
     list: List<String>
 ) {
-    val showError = isError && !errorMessage.isNullOrEmpty()
-
     var showBottomSheet by remember {
         mutableStateOf(false)
     }
@@ -74,7 +66,6 @@ fun AppDropDown(
                 value = if (itemPosition>=0) list[itemPosition] else "",
                 onValueChange = onValueChange,
                 placeholder = "",
-                errorMessage = errorMessage,
                 enabled = false,
             )
 
@@ -138,14 +129,6 @@ fun AppDropDown(
                 }
             }
         }
-        if (showError) {
-            Text(
-                text = errorMessage,
-                color = Color.Red,
-                style = MaterialTheme.typography.bodySmall,
-                modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp)
-            )
-        }
     }
 }
 
@@ -166,7 +149,6 @@ fun AppDropDownPreview() {
                 label = "Email",
                 value = "",
                 onValueChange = {},
-                errorMessage = "Please enter a valid email id",
                 list = listOf("abc", "def")
             )
         }
