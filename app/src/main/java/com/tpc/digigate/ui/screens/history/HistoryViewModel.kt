@@ -24,15 +24,15 @@ class HistoryViewModel @Inject constructor() : ViewModel() {
                         dayEntries = listOf(
                             DayEntry(
                                 day = 9,
-                                OutTime = "7:15 AM",
-                                InTime = "6:30 PM",
+                                outTime = "7:15 AM",
+                                inTime = "6:30 PM",
                                 isInVerified = true,
                                 isOutVerified = true,
                             ),
                             DayEntry(
                                 day = 25,
-                                OutTime = "11:35 AM",
-                                InTime = "8:15 PM",
+                                outTime = "11:35 AM",
+                                inTime = "8:15 PM",
                                 isInVerified = false,
                                 isOutVerified = true,
                             ),
@@ -43,22 +43,22 @@ class HistoryViewModel @Inject constructor() : ViewModel() {
                         dayEntries = listOf(
                             DayEntry(
                                 day = 15,
-                                OutTime = "8:30 AM",
-                                InTime = "10:40 PM",
+                                outTime = "8:30 AM",
+                                inTime = "10:40 PM",
                                 isInVerified = true,
                                 isOutVerified = true,
                             ),
                             DayEntry(
                                 day = 13,
-                                OutTime = "10:30 AM",
-                                InTime = "8:40 PM",
+                                outTime = "10:30 AM",
+                                inTime = "8:40 PM",
                                 isInVerified = true,
                                 isOutVerified = false,
                             ),
                             DayEntry(
                                 day = 20,
-                                OutTime = "9:00 AM",
-                                InTime = "7:30 PM",
+                                outTime = "9:00 AM",
+                                inTime = "7:30 PM",
                                 isInVerified = false,
                                 isOutVerified = false,
                             ),
@@ -74,15 +74,15 @@ class HistoryViewModel @Inject constructor() : ViewModel() {
                         dayEntries = listOf(
                             DayEntry(
                                 day = 9,
-                                OutTime = "7:15 AM",
-                                InTime = "6:30 PM",
+                                outTime = "7:15 AM",
+                                inTime = "6:30 PM",
                                 isInVerified = true,
                                 isOutVerified = true,
                             ),
                             DayEntry(
                                 day = 25,
-                                OutTime = "11:35 AM",
-                                InTime = "8:15 PM",
+                                outTime = "11:35 AM",
+                                inTime = "8:15 PM",
                                 isInVerified = false,
                                 isOutVerified = true,
                             ),
@@ -93,15 +93,15 @@ class HistoryViewModel @Inject constructor() : ViewModel() {
                         dayEntries = listOf(
                             DayEntry(
                                 day = 15,
-                                OutTime = "8:30 AM",
-                                InTime = "10:40 PM",
+                                outTime = "8:30 AM",
+                                inTime = "10:40 PM",
                                 isInVerified = true,
                                 isOutVerified = true,
                             ),
                             DayEntry(
                                 day = 13,
-                                OutTime = "10:30 AM",
-                                InTime = "8:40 PM",
+                                outTime = "10:30 AM",
+                                inTime = "8:40 PM",
                                 isInVerified = true,
                                 isOutVerified = false,
                             ),

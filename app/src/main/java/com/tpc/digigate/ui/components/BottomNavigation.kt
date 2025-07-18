@@ -60,7 +60,7 @@ data class Item(
     val screen: Screen
 )
 
-val destinationList = listOf<Item>(
+val destinationList = listOf(
     Item("History", Icons.Filled.History, Icons.Outlined.History, Screen.History),
     Item("Home", Icons.Filled.Home, Icons.Outlined.Home, Screen.Home),
     Item("Profile", Icons.Filled.Person, Icons.Outlined.Person, Screen.Profile)
@@ -142,7 +142,7 @@ fun BottomNavigationBar(
                                     )
                                 ) {
                                     Icon(
-                                        imageVector = if (isSelected) screen.iconFilled else screen.iconOut!!,
+                                        imageVector = if (isSelected) screen.iconFilled else screen.iconOut,
                                         contentDescription = screen.title,
                                         modifier = Modifier.size(24.dp)
                                     )

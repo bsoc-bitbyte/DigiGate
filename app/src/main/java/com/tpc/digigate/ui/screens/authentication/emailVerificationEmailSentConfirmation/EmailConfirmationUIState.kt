@@ -1,6 +1,6 @@
-package com.tpc.digigate.ui.screens.authentication.emailVerification
+package com.tpc.digigate.ui.screens.authentication.emailVerificationEmailSentConfirmation
 
-data class EmailVerificationUiState(
+data class EmailConfirmationUIState(
     val isLoading: Boolean = false,
     val canResend: Boolean = false,
     val countdown: Int = 30,

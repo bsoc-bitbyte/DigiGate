@@ -5,7 +5,6 @@ import android.util.Log
 import com.tpc.digigate.data.firebase.auth.FirebaseServices
 import com.tpc.digigate.data.firebase.auth.GoogleSignInClient
 import com.tpc.digigate.domain.model.AuthResult
-import com.tpc.digigate.domain.model.User
 import com.tpc.digigate.domain.repository.AuthRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

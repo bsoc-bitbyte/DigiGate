@@ -47,16 +47,16 @@ data class OptionItem(
     @DrawableRes val images: Int,
 )
 
-val recentRequests = listOf<String>("", "", "", "")
+val recentRequests = listOf("", "", "", "")
 
 @Composable
-fun HomeScreenLayout() {
+fun HomeScreenLayout(onSettingsClicked: () -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background),
     ) {
-        TopBar(onSettingsClicked = {})
+        TopBar(onSettingsClicked = onSettingsClicked)
         Spacer(modifier = Modifier.height(30.dp))
         OptionsGrid(onOptionsClicked = {})
         Spacer(modifier = Modifier.height(30.dp))
@@ -186,7 +186,7 @@ fun TopBar(
         )
 
         IconButton(
-            onClick = { onSettingsClicked },
+            onClick = onSettingsClicked,
             modifier = Modifier
                 .align(Alignment.CenterEnd)
                 .padding(end = 10.dp)
@@ -206,7 +206,7 @@ fun TopBar(
 @Composable
 fun DarkHomeScreenPreview() {
     DigiGateTheme(darkTheme = true) {
-        HomeScreenLayout()
+        HomeScreenLayout(onSettingsClicked = {})
     }
 }
 
@@ -214,6 +214,6 @@ fun DarkHomeScreenPreview() {
 @Composable
 fun LightHomeScreenPreview() {
     DigiGateTheme(darkTheme = false) {
-        HomeScreenLayout()
+        HomeScreenLayout(onSettingsClicked = {})
     }
 }
