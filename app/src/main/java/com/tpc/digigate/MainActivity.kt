@@ -1,5 +1,6 @@
 package com.tpc.digigate
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -28,24 +29,43 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
+        val intentData = intent?.data
+        val mode = intentData?.getQueryParameter("mode")
+        val oobCode = intentData?.getQueryParameter("oobCode")
+
         setContent {
             val firebaseAuth = FirebaseAuth.getInstance()
             val isUserAuthenticated =
-                firebaseAuth.currentUser != null && firebaseAuth.currentUser!!.isEmailVerified == true
+                firebaseAuth.currentUser != null && firebaseAuth.currentUser!!.isEmailVerified
             val isMainApp = remember { mutableStateOf(isUserAuthenticated) }
 
-            val themeFlow : SupportedThemes = appPreferences.appTheme.getFlow().collectAsState(initial = SupportedThemes.SYSTEM_DEFAULT).value
+            val themeFlow: SupportedThemes = appPreferences.appTheme.getFlow()
+                .collectAsState(initial = SupportedThemes.SYSTEM_DEFAULT).value
             val darkTheme = when (themeFlow) {
                 SupportedThemes.LIGHT -> false
                 SupportedThemes.DARK -> true
                 SupportedThemes.SYSTEM_DEFAULT -> isSystemInDarkTheme()
                 else -> false
             }
-            DigiGateTheme(darkTheme=darkTheme) {
-                if (isMainApp.value)
+
+            DigiGateTheme(darkTheme = darkTheme) {
+                if (isMainApp.value) {
                     AppNavDisplay(onSignOut = { isMainApp.value = false })
-                else AuthNavDisplay(goToMainApp = { isMainApp.value = true }, context = this)
+                } else {
+                    AuthNavDisplay(
+                        goToMainApp = { isMainApp.value = true },
+                        context = this,
+                        mode = mode,
+                        oobCode = oobCode
+                    )
+                }
             }
         }
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        setIntent(intent)
+        recreate()
     }
 }
