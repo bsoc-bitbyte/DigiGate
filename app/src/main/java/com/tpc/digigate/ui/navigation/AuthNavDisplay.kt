@@ -12,10 +12,8 @@ import androidx.navigation3.runtime.entry
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
 import com.google.firebase.auth.FirebaseAuth
-import com.tpc.digigate.ui.screens.authentication.emailSentConfirmation.EmailSentConfirmationLayout
-import com.tpc.digigate.ui.screens.authentication.emailVerification.EmailVerificationScreen
-import com.tpc.digigate.ui.screens.authentication.emailVerified.EmailVerifiedScreen
 import com.tpc.digigate.ui.screens.authentication.emailVerificationEmailSentConfirmation.EmailConfirmationScreen
+import com.tpc.digigate.ui.screens.authentication.emailVerified.EmailVerifiedScreen
 import com.tpc.digigate.ui.screens.authentication.passwordResetEmailSentConfirmation.EmailSentConfirmationLayout
 import com.tpc.digigate.ui.screens.authentication.forgetPassword.ForgetPasswordScreenLayout
 import com.tpc.digigate.ui.screens.authentication.login.LoginScreenLayout
@@ -152,12 +150,11 @@ fun AuthNavDisplay(
                         )
                     }
                     entry<AuthScreen.EmailVerification> {
-                        EmailVerificationScreen(
+                        EmailConfirmationScreen(
                             onBack = { backStack.removeLastOrNull() },
                             isLoading = verifyingPeriod.value,
                             isDone = isDone.value
                         )
-                        EmailConfirmationScreen()
                     }
                     entry<AuthScreen.EmailVerified> { data ->
                         EmailVerifiedScreen(

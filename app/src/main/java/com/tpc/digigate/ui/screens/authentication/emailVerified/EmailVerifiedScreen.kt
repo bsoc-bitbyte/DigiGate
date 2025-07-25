@@ -30,7 +30,6 @@ import com.google.firebase.auth.auth
 import com.tpc.digigate.ui.theme.DigiGateTheme
 import kotlinx.coroutines.delay
 import com.tpc.digigate.R
-import com.tpc.digigate.ui.screens.authentication.emailSentConfirmation.TopBar
 
 @Composable
 fun EmailVerifiedScreen(

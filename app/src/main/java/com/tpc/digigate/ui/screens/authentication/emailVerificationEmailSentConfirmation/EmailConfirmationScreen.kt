@@ -25,7 +25,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -39,24 +38,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.tpc.digigate.R
-import kotlinx.coroutines.delay
 
 @Composable
 
-fun EmailVerificationScreen(
-    viewModel: EmailVerificationViewModel = hiltViewModel(),
+fun EmailConfirmationScreen(
+    viewModel: EmailConfirmationViewModel = hiltViewModel(),
     isLoading: Boolean = false,
     onBack: () -> Unit,
     isDone: Boolean = false
-) {
-    val context = LocalContext.current
-    val uiState = viewModel.uiState.collectAsState().value
-    LaunchedEffect(uiState.message) {
-        if (uiState.message != null) {
-            Toast.makeText(context, uiState.message, Toast.LENGTH_SHORT).show()
-        }
-fun EmailConfirmationScreen(
-    viewModel: EmailConfirmationViewModel = hiltViewModel(),
 ) {
     val context = LocalContext.current
     val uiState = viewModel.uiState.collectAsState().value

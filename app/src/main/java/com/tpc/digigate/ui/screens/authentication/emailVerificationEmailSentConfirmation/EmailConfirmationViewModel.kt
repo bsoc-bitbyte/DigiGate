@@ -36,8 +36,6 @@ class EmailConfirmationViewModel @Inject constructor(
     private fun startCountdown() {
         resetTimer?.cancel()
         resetTimer = viewModelScope.launch {
-            for (i in 30 downTo 1) {
-        viewModelScope.launch {
             for (i in 60 downTo 1) {
                 _uiState.update { it.copy(canResend = false, countdown = i) }
                 delay(1000)
@@ -85,11 +83,6 @@ class EmailConfirmationViewModel @Inject constructor(
                         }
 
                         else -> Unit
-            authRepository.sendEmailVerificationMail().collect {authResult ->
-                _uiState.update { it.copy(isLoading = false, message = authResult.message, canResend = false) }
-                when (authResult) {
-                    is AuthResult.Success -> {
-                        startCountdown()
                     }
                 }
             } catch (e: Exception) {

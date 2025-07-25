@@ -36,20 +36,20 @@ class MainActivity : ComponentActivity() {
         setContent {
             val firebaseAuth = FirebaseAuth.getInstance()
             val isUserAuthenticated =
-                firebaseAuth.currentUser != null && firebaseAuth.currentUser!!.isEmailVerified == true
+                firebaseAuth.currentUser != null && firebaseAuth.currentUser!!.isEmailVerified
             val isMainApp = remember { mutableStateOf(isUserAuthenticated) }
 
-            DigiGateTheme {
-                if (isMainApp.value) {
-            val themeFlow : SupportedThemes = appPreferences.appTheme.getFlow().collectAsState(initial = SupportedThemes.SYSTEM_DEFAULT).value
+            val themeFlow: SupportedThemes = appPreferences.appTheme.getFlow()
+                .collectAsState(initial = SupportedThemes.SYSTEM_DEFAULT).value
             val darkTheme = when (themeFlow) {
                 SupportedThemes.LIGHT -> false
                 SupportedThemes.DARK -> true
                 SupportedThemes.SYSTEM_DEFAULT -> isSystemInDarkTheme()
                 else -> false
             }
-            DigiGateTheme(darkTheme=darkTheme) {
-                if (isMainApp.value)
+
+            DigiGateTheme(darkTheme = darkTheme) {
+                if (isMainApp.value) {
                     AppNavDisplay(onSignOut = { isMainApp.value = false })
                 } else {
                     AuthNavDisplay(
