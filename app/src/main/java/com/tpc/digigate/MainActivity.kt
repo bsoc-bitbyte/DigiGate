@@ -2,6 +2,7 @@ package com.tpc.digigate
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -14,7 +15,6 @@ import com.tpc.digigate.domain.model.SupportedThemes
 import com.tpc.digigate.domain.repository.appPreferences.AppPreferences
 import com.tpc.digigate.ui.navigation.AppNavDisplay
 import com.tpc.digigate.ui.navigation.AuthNavDisplay
-import com.tpc.digigate.ui.screens.settings.Settings
 import com.tpc.digigate.ui.theme.DigiGateTheme
 import dagger.hilt.android.AndroidEntryPoint
 import jakarta.inject.Inject
@@ -28,10 +28,6 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-
-        val intentData = intent?.data
-        val mode = intentData?.getQueryParameter("mode")
-        val oobCode = intentData?.getQueryParameter("oobCode")
 
         setContent {
             val firebaseAuth = FirebaseAuth.getInstance()
@@ -55,8 +51,6 @@ class MainActivity : ComponentActivity() {
                     AuthNavDisplay(
                         goToMainApp = { isMainApp.value = true },
                         context = this,
-                        mode = mode,
-                        oobCode = oobCode
                     )
                 }
             }
@@ -66,6 +60,18 @@ class MainActivity : ComponentActivity() {
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         setIntent(intent)
-        recreate()
+        val intentData = intent.data
+        val mode = intentData?.getQueryParameter("mode")
+        val oobCode = intentData?.getQueryParameter("oobCode")
+        if (!mode.isNullOrEmpty() && !oobCode.isNullOrEmpty()) {
+            EmailVerificationDetails.mode = mode
+            EmailVerificationDetails.oobCode = oobCode
+        }
     }
+}
+
+
+object EmailVerificationDetails{
+    var mode : String = ""
+    var oobCode :String = ""
 }

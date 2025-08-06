@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Done
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
@@ -25,6 +24,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -37,6 +37,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.tpc.digigate.EmailVerificationDetails
 import com.tpc.digigate.R
 
 @Composable
@@ -45,11 +46,17 @@ fun EmailConfirmationScreen(
     viewModel: EmailConfirmationViewModel = hiltViewModel(),
     isLoading: Boolean = false,
     onBack: () -> Unit,
-    isDone: Boolean = false
+    toEmailVerified:()->Unit,
 ) {
     val context = LocalContext.current
     val uiState = viewModel.uiState.collectAsState().value
-
+    val mode = EmailVerificationDetails.mode
+    val oobCode = EmailVerificationDetails.oobCode
+    LaunchedEffect(mode,oobCode) {
+        if(mode == "verifyEmail" && !oobCode.isNullOrEmpty()){
+            toEmailVerified()
+        }
+    }
     if (uiState.message != null) {
         Toast.makeText(context, uiState.message, Toast.LENGTH_SHORT).show()
         viewModel.toastMessageShown()
@@ -147,33 +154,6 @@ fun EmailConfirmationScreen(
                             modifier = Modifier.size(50.dp),
                             color = colorResource(R.color.SageDark),
                             strokeWidth = 6.dp
-                        )
-                    }
-                }
-            }
-        }
-        if (isDone) {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(Color.Black.copy(alpha = 0.3f)),
-                contentAlignment = Alignment.Center
-            ) {
-                Surface(
-                    shape = RoundedCornerShape(16.dp),
-                    color = Color.White.copy(alpha = 0.95f),
-                    shadowElevation = 8.dp,
-                    modifier = Modifier.size(100.dp)
-                ) {
-                    Box(
-                        contentAlignment = Alignment.Center,
-                        modifier = Modifier.fillMaxSize()
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Done,
-                            tint = Color.Green,
-                            contentDescription = "Done",
-                            modifier = Modifier.size(50.dp)
                         )
                     }
                 }
