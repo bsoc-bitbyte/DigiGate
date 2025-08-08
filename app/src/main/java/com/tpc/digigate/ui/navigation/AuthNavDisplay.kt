@@ -5,14 +5,13 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.navigation3.runtime.entry
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
 import com.tpc.digigate.ui.screens.authentication.emailVerificationEmailSentConfirmation.EmailConfirmationScreen
+import com.tpc.digigate.ui.screens.authentication.emailVerified.EmailVerifiedScreen
 import com.tpc.digigate.ui.screens.authentication.passwordResetEmailSentConfirmation.EmailSentConfirmationLayout
 import com.tpc.digigate.ui.screens.authentication.forgetPassword.ForgetPasswordScreenLayout
 import com.tpc.digigate.ui.screens.authentication.login.LoginScreenLayout
@@ -20,8 +19,12 @@ import com.tpc.digigate.ui.screens.authentication.register.RegisterScreenLayout
 import com.tpc.digigate.ui.screens.onboarding.OnboardingPagerScreen
 
 @Composable
-fun AuthNavDisplay(goToMainApp: () -> Unit, context: Context) {
+fun AuthNavDisplay(
+    goToMainApp: () -> Unit,
+    context: Context,
+) {
     val backStack = remember { mutableStateListOf<AuthScreen>(AuthScreen.OnBoarding) }
+
     Scaffold { innerPadding ->
         Column(
             Modifier
@@ -55,7 +58,6 @@ fun AuthNavDisplay(goToMainApp: () -> Unit, context: Context) {
                         )
                     }
                     entry<AuthScreen.Login> {
-
                         LoginScreenLayout(
                             onCreateAccount = {
                                 backStack.removeLastOrNull()
@@ -89,11 +91,26 @@ fun AuthNavDisplay(goToMainApp: () -> Unit, context: Context) {
                         )
                     }
                     entry<AuthScreen.EmailVerification> {
-                        EmailConfirmationScreen()
+                        EmailConfirmationScreen(
+                            onBack = { backStack.removeLastOrNull() },
+                            toEmailVerified = {
+                                backStack+= AuthScreen.EmailVerified
+                            }
+                        )
                     }
-                })
+                    entry<AuthScreen.EmailVerified> { data ->
+                        EmailVerifiedScreen(
+                            toMainApp = {
+                                backStack.clear()
+                                goToMainApp()
+                            },
+                            onBack = {
+                                backStack.removeLastOrNull()
+                            },
+                        )
+                    }
+                }
+            )
         }
-
     }
-
 }

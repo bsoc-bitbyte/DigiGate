@@ -6,6 +6,7 @@ import com.tpc.digigate.data.firebase.auth.FirebaseServices
 import com.tpc.digigate.domain.model.AuthResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jakarta.inject.Inject
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -21,16 +22,20 @@ class EmailConfirmationViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(EmailConfirmationUIState())
     val uiState: StateFlow<EmailConfirmationUIState> = _uiState.asStateFlow()
 
-    init {
-        sendVerificationEmail()
-    }
+    private var resetTimer: Job? = null
 
-    fun toastMessageShown(){
+    fun toastMessageShown() {
         _uiState.update { it.copy(message = null) }
     }
 
+    init {
+        resetTimer?.cancel()
+        sendVerificationEmail()
+    }
+
     private fun startCountdown() {
-        viewModelScope.launch {
+        resetTimer?.cancel()
+        resetTimer = viewModelScope.launch {
             for (i in 60 downTo 1) {
                 _uiState.update { it.copy(canResend = false, countdown = i) }
                 delay(1000)
@@ -40,17 +45,53 @@ class EmailConfirmationViewModel @Inject constructor(
     }
 
     fun sendVerificationEmail() {
+        _uiState.update {
+            it.copy(
+                isLoading = true,
+                message = null,
+                canResend = false
+            )
+        }
         viewModelScope.launch {
-            _uiState.update { it.copy(isLoading = true) }
+            try {
+                authRepository.sendEmailVerificationMail().collect { result ->
+                    when (result) {
+                        is AuthResult.Success -> {
+                            _uiState.update {
+                                it.copy(
+                                    isLoading = false,
+                                    message = result.message,
+                                    canResend = false
+                                )
+                            }
+                            startCountdown()
+                        }
 
-            authRepository.sendEmailVerificationMail().collect {authResult ->
-                _uiState.update { it.copy(isLoading = false, message = authResult.message, canResend = false) }
-                when (authResult) {
-                    is AuthResult.Success -> {
-                        startCountdown()
+                        is AuthResult.Error -> {
+                            val errorMessage = if (result.message.contains("blocked") == true) {
+                                "Please wait before requesting another email."
+                            } else {
+                                "Unable to send verification email. Please try again later."
+                            }
+                            _uiState.update {
+                                it.copy(
+                                    isLoading = false,
+                                    message = errorMessage,
+                                    canResend = true,
+                                )
+                            }
+                        }
+
+                        else -> Unit
                     }
-
-                    else -> Unit
+                }
+            } catch (e: Exception) {
+                _uiState.update {
+                    it.copy(
+                        isLoading = false,
+                        message = e.message,
+                        canResend = true
+                    )
                 }
             }
         }
